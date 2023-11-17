@@ -1,6 +1,12 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { FaSearch } from "react-icons/fa";
+import { FaMicrophone } from "react-icons/fa";
+import { GoHomeFill } from "react-icons/go";
+import { SiYoutubeshorts } from "react-icons/si";
+import { FiThumbsUp } from "react-icons/fi";
+import { MdAccessTime } from "react-icons/md";
 
 function App() {
   return (<div>
@@ -66,10 +72,10 @@ function App() {
     <div>
       <div className="flex flex-row gap-3">
         <div className="flex flex-row">
-          <div className="w-[500px] h-[25px] border-[1px] rounded-l-full border-zinc-500 text-zinc-500 px-3 items-center text-[13px]">검색</div>
-          <div className="w-[40px] h-[25px] bg-zinc-500 rounded-r-full text-zinc-100 grid justify-center">●</div>
+          <div className="w-[500px] h-[30px] border-[1px] rounded-l-full border-zinc-500 text-zinc-500 px-3 grid items-center text-[13px]">검색</div>
+          <div className="w-[40px] h-[30px] bg-zinc-500 rounded-r-full text-zinc-100 grid justify-center items-center"><FaSearch /></div>
         </div>
-        <div className="w-[25px] h-[25px] bg-zinc-500 rounded-full text-zinc-100 grid justify-center">★</div>
+        <div className="w-[30px] h-[30px] bg-zinc-500 rounded-full text-zinc-100 grid justify-center items-center"><FaMicrophone /></div>
       </div>
     </div>
     <div className="flex flex-row gap-4">
@@ -80,13 +86,13 @@ function App() {
   </div>
 
   <div className="flex flex-row p-2">
-  <div className="flex-col grid gap-y-1 py-3">
+  <div className="flex-col grid gap-y-3 py-3">
       <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
+        <div className="text-white"><GoHomeFill size="25" /></div>
         <div className="text-white">홈</div>
       </div>
       <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
+        <div className="text-white"><SiYoutubeshorts size="25" /></div>
         <div className="text-white">Shorts</div>
       </div>
       <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
@@ -103,16 +109,18 @@ function App() {
       </div>
       <div className="text-white flex flex-row gap-4 h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
         <div className="text-white">a</div>
+        
         <div className="text-white">시청기록</div>
       </div>
       <div className="text-white flex flex-row gap-4 h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
+        <div className="text-white"><MdAccessTime size="25"/></div>
         <div className="text-white">나중에 볼 동영상</div>
       </div>
       <div className="text-white flex flex-row gap-4  h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
+        <div className="text-white"><FiThumbsUp size="25" /></div>
         <div className="text-white">좋아요 표시한 동영상</div>
       </div>
+      <div className="h-[10px]"></div>
 
       <div className="text-white border-t-[1px] w-[200px] border-white"></div>
 
@@ -132,6 +140,7 @@ function App() {
         <div className="text-white border-white border-[1px] rounded-full w-6 h-6 grid justify-center">+</div>
         <div className="text-white">채널탐색</div>
       </div>
+      <div className="h-[10px]"></div>
 
       <div className="text-white border-t-[1px] w-[200px] border-white"></div>
 
