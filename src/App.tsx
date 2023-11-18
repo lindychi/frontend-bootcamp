@@ -7,6 +7,46 @@ import { GoHomeFill } from "react-icons/go";
 import { SiYoutubeshorts } from "react-icons/si";
 import { FiThumbsUp } from "react-icons/fi";
 import { MdAccessTime } from "react-icons/md";
+import { FaRegBell } from "react-icons/fa6";
+import { RxCountdownTimer } from "react-icons/rx";
+import { SiFireship } from "react-icons/si";
+import { FiShoppingBag } from "react-icons/fi";
+import { IoMdMusicalNote } from "react-icons/io";
+import { TbMovie } from "react-icons/tb";
+
+const list = [
+"전체",
+"음악",
+"실시간",
+"게임",
+"뉴스",
+"야구",
+"만화 영화",
+"요리",
+"액션 어드벤쳐 게임",
+"반려동물",
+"최근에 업로드된 동영상",
+"새로운 맞춤 동영상"
+]
+
+const mylist = [
+  {icon:"a", title:"시청기록"},
+  {icon:"b", title:"나중에 볼 동영상"},
+  {icon:"c", title:"좋아요 표시한 동영상"},
+]
+const Homelist = [
+  {icon:<GoHomeFill/>, title:"홈"},
+  {icon:<SiYoutubeshorts />, title:"Shorts"},
+  {icon:"c", title:"구독"},
+]
+const xkatorlist = [
+  {icon:<SiFireship size="25" color="red"  />, title:"인기 급상승"},
+  {icon:<FiShoppingBag size="25" />, title:"쇼핑"},
+  {icon:<IoMdMusicalNote size="25" />, title:"음악"},
+  {icon:<TbMovie size="25"/>, title:"영화"},
+  {icon:"e", title:"게임"},
+  {icon:"f", title:"스포츠"}
+]
 
 function App() {
   return (<div>
@@ -80,26 +120,20 @@ function App() {
     </div>
     <div className="flex flex-row gap-4">
       <div className="text-white">+</div>
-      <div className="text-white">종</div>
+      <div className="text-white"><FaRegBell size="25"/></div>
       <div className="w-[25px] h-[25px] bg-zinc-500 rounded-full text-zinc-100 grid justify-center">user</div>
     </div>
   </div>
 
   <div className="flex flex-row p-2">
   <div className="flex-col grid gap-y-3 py-3">
-      <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white"><GoHomeFill size="25" /></div>
-        <div className="text-white">홈</div>
+      {Homelist.map((item,index)=> <div key={index} 
+      className=" text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
+        <div className="text-white">{item.icon}</div>
+        <div className="text-white">{item.title}</div>
       </div>
-      <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white"><SiYoutubeshorts size="25" /></div>
-        <div className="text-white">Shorts</div>
-      </div>
-      <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
-        <div className="text-white">구독</div>
-      </div>
-      <div className="h-[10px]"></div>
+        )}  
+      
       
       <div className="text-white border-t-[1px] w-[200px] border-white"></div>
       
@@ -108,8 +142,7 @@ function App() {
         <div className="text-white"> - </div>
       </div>
       <div className="text-white flex flex-row gap-4 h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
-        
+        <div className="text-white"><RxCountdownTimer size="25"/></div>
         <div className="text-white">시청기록</div>
       </div>
       <div className="text-white flex flex-row gap-4 h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
@@ -147,51 +180,23 @@ function App() {
       <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
         <div className="text-white">탐색</div>
       </div>
-      <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
-        <div className="text-white">인기 급상승</div>
+
+      {xkatorlist.map((item,index)=> 
+      <div key={index} 
+      className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
+        <div className="text-white">{item.icon}  </div>
+        <div className="text-white">{item.title}</div>
       </div>
-      <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
-        <div className="text-white">쇼핑</div>
-      </div>
-      <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
-        <div className="text-white">음악</div>
-      </div>
-      <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
-        <div className="text-white">영화</div>
-      </div>
-      <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
-        <div className="text-white">실시간</div>
-      </div>
-      <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
-        <div className="text-white">게임</div>
-      </div>
-      <div className="text-white flex flex-row gap-4 w-[150px] h-[30px] rounded-md items-center active:bg-zinc-100/30 p-3">
-        <div className="text-white">a</div>
-        <div className="text-white">스포츠</div>
-      </div>    
+        )}  
+      
   </div>
 
   <div>
   <div className="flex flex-row gap-3 p-4">
-    <div className=" h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">전체</div>
-    <div className=" h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">음악</div>
-    <div className="h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">실시간</div>
-    <div className=" h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">게임</div>
-    <div className="h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">뉴스</div>
-    <div className="h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">야구</div>
-    <div className="h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">만화 영화</div>
-    <div className="h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">요리</div>
-    <div className="h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">액션 어드벤쳐 게임</div>
-    <div className="h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">반려동물</div>
-    <div className="h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">최근에 업로드된 동영상</div>
-    <div className="h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">새로운 맞춤 동영상</div>
+    
+  {list.map((item, index) => (<div key={index} className="h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">{item}</div>))}
   </div>
+
 
 
   <div className="px-5 py-2 flex flex-row gap-5">
