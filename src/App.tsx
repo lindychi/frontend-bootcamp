@@ -192,7 +192,7 @@ function App() {
   </div>
 
   <div>
-  <div className="flex flex-row gap-3 p-4">
+  <div className="flex flex-row gap-3 p-4 hhbhb">
     
   {list.map((item, index) => (<div key={index} className="h-8 items-center p-1 px-2 bg-zinc-500/80 text-white rounded-md active:bg-white active:text-black">{item}</div>))}
   </div>
