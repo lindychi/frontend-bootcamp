@@ -1,10 +1,19 @@
 import React from "react";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { RxHamburgerMenu, RxCounterClockwiseClock } from "react-icons/rx";
 import { FaYoutube, FaMicrophone } from "react-icons/fa";
-import { CiSearch } from "react-icons/ci";
+import { CiSearch, CiBellOn } from "react-icons/ci";
 import { MdOutlineVideoCall } from "react-icons/md";
-import { CiBellOn } from "react-icons/ci";
 import { IoPersonCircleOutline } from "react-icons/io5";
+import { GoHome } from "react-icons/go";
+import { SiYoutubeshorts, SiYoutubegaming } from "react-icons/si";
+import { BsCollectionPlay, BsTrophy, BsLightbulb } from "react-icons/bs";
+import { FiChevronRight, FiClock, FiRadio } from "react-icons/fi";
+import { BiLike, BiMovie } from "react-icons/bi";
+import { HiFire } from "react-icons/hi";
+import { RiShoppingBag2Fill } from "react-icons/ri";
+import { PiMusicNoteThin } from "react-icons/pi";
+import { IoIosAddCircleOutline } from "react-icons/io";
+
 import "./App.css";
 const list = [
   "전체",
@@ -19,6 +28,31 @@ const list = [
   "반려동물",
   "최근에 업로드된 동영상",
   "새로운 맞춤 동영상",
+];
+const asideflist = [
+  { icon: <GoHome />, title: "홈" },
+  { icon: <SiYoutubeshorts />, title: "Shorts" },
+  { icon: <BsCollectionPlay />, title: "구독" },
+];
+const asidemlist = [
+  { icon: <RxCounterClockwiseClock />, title: "시청  기록" },
+  { icon: <FiClock />, title: "나중에 볼 동영상" },
+  { icon: <BiLike />, title: "좋아요 표시한 동영상" },
+];
+const asidem2list = [
+  { icon: <RxCounterClockwiseClock />, title: "어조비" },
+  { icon: <FiClock />, title: "Jin Heui Hong" },
+  { icon: <IoIosAddCircleOutline />, title: "채널 탐색" },
+];
+const asidellist = [
+  { icon: <HiFire />, title: "인기 급상승" },
+  { icon: <RiShoppingBag2Fill />, title: "쇼핑" },
+  { icon: <PiMusicNoteThin />, title: "음악" },
+  { icon: <BiMovie />, title: "영화" },
+  { icon: <FiRadio />, title: "실시간" },
+  { icon: <SiYoutubegaming />, title: "게임" },
+  { icon: <BsTrophy />, title: "스포츠" },
+  { icon: <BsLightbulb />, title: "학습" },
 ];
 function App() {
   return (
@@ -55,11 +89,183 @@ function App() {
           <IoPersonCircleOutline size="35" />
         </div>
       </div>
-      <div className="flex flex-row p-3  bg-black "></div>
-      <div className="flex-col grid gap-y-3 w-[200px]">
-        {list.map((item) => (
-          <div className="w-[200px] h-[30px]">{item}</div>
-        ))}
+      <div className="flex flex-row">
+        <div className="flex-col grid gap-y-2  p-1">
+          {asideflist.map((item) => (
+            <div className=" text-white w-[200px] h-[40px] flex flex-row gap-2 p-1 ">
+              {item.icon}
+              {item.title}
+            </div>
+          ))}
+          <div className="flex flex-row text-white w-[200px] h-[40px] border-t-2 border-white py-1">
+            나 <FiChevronRight />
+          </div>
+          {asidemlist.map((item) => (
+            <div className=" text-white w-[200px] h-[40px] flex flex-row gap-2 p-1 ">
+              {item.icon}
+              {item.title}
+            </div>
+          ))}
+          <div className="flex flex-row text-white w-[200px] h-[40px] border-t-2 border-white py-1">
+            구독
+          </div>
+          {asidem2list.map((item) => (
+            <div className=" text-white w-[200px] h-[40px] flex flex-row gap-2 p-1 ">
+              {item.icon}
+              {item.title}
+            </div>
+          ))}
+          <div className="flex flex-row text-white w-[200px] h-[40px] border-t-2 border-white py-1">
+            탐색
+          </div>
+          {asidellist.map((item) => (
+            <div className=" text-white w-[200px] h-[40px] flex flex-row gap-2 p-1 ">
+              {item.icon}
+              {item.title}
+            </div>
+          ))}
+        </div>
+
+        <div className="gap-5 p-1 text-sm w-full ">
+          <div className="flex flex-row p-3 gap-3 bg-black ">
+            {list.map((item) => (
+              <div className="h-[40px] items-center p-2 px-3 bg-zinc-800 text-white rounded-md ">
+                {item}
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-row gap-5">
+            <div className="grid gap-y-2 ">
+              <div className="flex flex-col w-[300px] h-[200px] bg-zinc-800 rounded-md"></div>
+              <div className="flex flex-row w-[300px] h-[100px]">
+                <div className="w-[50px] h-[90px]">
+                  <div className="rounded-full w-11 h-11 bg-zinc-800"></div>
+                </div>
+                <div className="py-1 w-[250px] h-[100px] text-white">
+                  <div>
+                    오롯이 혼자인 방 안에서, 그리고 재즈ㅣWork and Study Jazz
+                  </div>
+                  <div className="text-zinc-500 text-sm">
+                    WRG 우리가 듣고 싶어서 연주한 playlist
+                  </div>
+                  <div className="text-zinc-500 text-sm">
+                    조회수 289만회 6개월전
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col w-[300px] h-[200px] bg-zinc-800 rounded-md"></div>
+              <div className="flex flex-row w-[300px] h-[100px]">
+                <div className="w-[50px] h-[90px]">
+                  <div className="rounded-full w-11 h-11 bg-zinc-800"></div>
+                </div>
+                <div className="py-1 w-[250px] h-[100px] text-white">
+                  <div>Daft punk-Touch(Official Audio) ft.Paul Williams</div>
+                  <div className="text-zinc-500 text-sm">Daft punk</div>
+                  <div className="text-zinc-500 text-sm">
+                    조회수 5093만회 3년전
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="grid gap-y-2">
+              <div className="flex flex-col w-[300px] h-[200px] bg-zinc-800 rounded-md"></div>
+              <div className="flex flex-row w-[300px] h-[100px]">
+                <div className="w-[50px] h-[90px]">
+                  <div className="rounded-full w-11 h-11 bg-zinc-800"></div>
+                </div>
+                <div className="py-1 w-[250px] h-[100px] text-white">
+                  <div>랄로 AI - 시대를 초월한 마음</div>
+                  <div className="text-zinc-500 text-sm">못생긴년이담배</div>
+                  <div className="text-zinc-500 text-sm">
+                    조회수 5.1만회 3개월전
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col w-[300px] h-[200px] bg-zinc-800 rounded-md"></div>
+              <div className="flex flex-row w-[300px] h-[100px]">
+                <div className="w-[50px] h-[90px]">
+                  <div className="rounded-full w-11 h-11 bg-zinc-800"></div>
+                </div>
+                <div className="py-1 w-[250px] h-[100px] text-white">
+                  <div>베이스 매력 모르는 사람 불쌍해</div>
+                  <div className="text-zinc-500 text-sm">때잉</div>
+                  <div className="text-zinc-500 text-sm">
+                    조회수 683만회 1년전
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-y-2">
+              <div className="flex flex-col w-[300px] h-[200px] bg-zinc-800 rounded-md"></div>
+              <div className="flex flex-row w-[300px] h-[100px]">
+                <div className="w-[50px] h-[90px]">
+                  <div className="rounded-full w-11 h-11 bg-zinc-800"></div>
+                </div>
+                <div className="py-1 w-[250px] h-[100px] text-white">
+                  <div>
+                    위켄드를 모르는 사람이 있어요? 중독성 강한 위켄드의 띵곡
+                    모음
+                  </div>
+                  <div className="text-zinc-500 text-sm">
+                    떼껄룩 TAKE A LOOK
+                  </div>
+                  <div className="text-zinc-500 text-sm">
+                    조회수 273만회 6개월전
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col w-[300px] h-[200px] bg-zinc-800 rounded-md"></div>
+              <div className="flex flex-row w-[300px] h-[100px]">
+                <div className="w-[50px] h-[90px]">
+                  <div className="rounded-full w-11 h-11 bg-zinc-800"></div>
+                </div>
+                <div className="py-1 w-[250px] h-[100px] text-white">
+                  <div>알 - 단편 소설</div>
+                  <div className="text-zinc-500 text-sm">
+                    한눈에 보는 세상 - Kurzgesagt
+                  </div>
+                  <div className="text-zinc-500 text-sm">
+                    조회수 21만회 4개월전
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="grid gap-y-2">
+              <div className="flex flex-col w-[300px] h-[200px] bg-zinc-800 rounded-md"></div>
+              <div className="flex flex-row w-[300px] h-[100px]">
+                <div className="w-[50px] h-[90px]">
+                  <div className="rounded-full w-11 h-11 bg-zinc-800"></div>
+                </div>
+                <div className="py-1 w-[250px] h-[100px] text-white">
+                  <div>
+                    David Gilmour - Comfortably Numb Live in Pompeii 2016
+                  </div>
+                  <div className="text-zinc-500 text-sm">David Gilmour</div>
+                  <div className="text-zinc-500 text-sm">
+                    조회수 1.6억회 5년전
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col w-[300px] h-[200px] bg-zinc-800 rounded-md"></div>
+              <div className="flex flex-row w-[300px] h-[100px]">
+                <div className="w-[50px] h-[90px]">
+                  <div className="rounded-full w-11 h-11 bg-zinc-800"></div>
+                </div>
+                <div className="py-1 w-[250px] h-[100px] text-white">
+                  <div>
+                    남탓을 할 수도 있다. 우리는 남이니까 사고하지 않기, 유연한
+                    남탓 무호흡 남탓 남탓 알파고
+                  </div>
+                  <div className="text-zinc-500 text-sm">랄로</div>
+                  <div className="text-zinc-500 text-sm">
+                    조회수 247만회 3년전
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
