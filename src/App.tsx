@@ -1,8 +1,13 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import { todoData } from "./consts/todoList";
 
 function App() {
+  const todoList = todoData.filter((item) => item.progress === "TODO");
+  const doneList = todoData.filter((item) => item.progress === "DONE");
+
+  return <div></div>;
+}
   return (
     <div className="App">
       <header className="App-header">
