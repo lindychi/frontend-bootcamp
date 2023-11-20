@@ -13,6 +13,7 @@ import { HiFire } from "react-icons/hi";
 import { RiShoppingBag2Fill } from "react-icons/ri";
 import { PiMusicNoteThin } from "react-icons/pi";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { GrClose } from "react-icons/gr";
 
 import "./App.css";
 const list = [
@@ -134,7 +135,8 @@ function App() {
               </div>
             ))}
           </div>
-          <div className="flex flex-row gap-5">
+
+          <div className="flex flex-row gap-5 p-3">
             <div className="grid gap-y-2 ">
               <div className="flex flex-col w-[300px] h-[200px] bg-zinc-800 rounded-md"></div>
               <div className="flex flex-row w-[300px] h-[100px]">
@@ -261,6 +263,58 @@ function App() {
                   <div className="text-zinc-500 text-sm">
                     조회수 247만회 3년전
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* 여기서 질문. 아이콘 색상바꾸고 싶음. bg를 red로 */}
+          <div className="flex items-center h-[50px] p-2 gap-2 bg-white text-black">
+            <div className="flex-none w-14">
+              <SiYoutubeshorts size={30} />
+            </div>
+            <div className="flex-none w-14">shorts</div>
+            <div className="grow"> </div>
+            <div className="flex-none w-14">
+              <div>
+                <GrClose />
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-row gap-5 gap-y-2">
+            <div className="flex flex-row gap-3">
+              <div className="grid gap-y-3">
+                <div className="w-[220px] h-[400px] bg-zinc-800 rounded-md "></div>
+                <div className="w-[220px] h-[100px] text-white text-base ">
+                  <div>아빠만 따르는 시베리안 허스키</div>
+                  <div className="text-zinc-500 text-sm">조회수 47만회</div>
+                </div>
+              </div>
+              <div className="grid gap-y-3">
+                <div className="w-[220px] h-[400px] bg-zinc-800 rounded-md "></div>
+                <div className="w-[220px] h-[100px] text-white text-base ">
+                  <div>치즈버거 50개 주문한 이유</div>
+                  <div className="text-zinc-500 text-sm">조회수 248만회</div>
+                </div>
+              </div>
+              <div className="grid gap-y-3">
+                <div className="w-[220px] h-[400px] bg-zinc-800 ropunded-md "></div>
+                <div className="w-[220px] h-[100px] text-white text-base ">
+                  <div>서러운 아기 해달</div>
+                  <div className="text-zinc-500 text-sm">서러운 아기 해달</div>
+                </div>
+              </div>
+              <div className="grid gap-y-3">
+                <div className="w-[220px] h-[400px] bg-zinc-800 ropunded-md "></div>
+                <div className="w-[220px] h-[100px] text-white text-base ">
+                  <div>서러운 아기 해달</div>
+                  <div className="text-zinc-500 text-sm"> 조회수 23만회</div>
+                </div>
+              </div>
+              <div className="grid gap-y-3">
+                <div className="w-[220px] h-[400px] bg-zinc-800 ropunded-md "></div>
+                <div className="w-[220px] h-[100px] text-white text-base ">
+                  <div>서러운 아기 해달</div>
+                  <div className="text-zinc-500 text-sm"> 조회수 23만회</div>
                 </div>
               </div>
             </div>
