@@ -1,171 +1,88 @@
-interface TodoItem {
-  progress: "TODO" | "DONE";
+export type Progress = "TODO" | "DONE";
+export type Priority = "high" | "medium" | "low";
+export type Date = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
+export type Level = 1 | 2 | 3;
+
+export interface TodoItem {
+  progress: Progress;
   title: string;
-  level: 1 | 2 | 3;
-  priority: "high" | "medium" | "low";
-  dueDate: "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
+  level: Level;
+  priority: Priority;
+  dueDate: Date;
   author: string;
 }
 
-const todoData: TodoItem[] = [
-  {
-    progress: "TODO",
-    title: "코드 리뷰",
-    level: 3,
-    priority: "medium",
-    dueDate: "Sun",
-    author: "최수연",
-  },
-  {
-    progress: "TODO",
-    title: "회의 준비",
-    level: 1,
-    priority: "high",
-    dueDate: "Tue",
-    author: "김철수",
-  },
-  {
-    progress: "TODO",
-    title: "프로젝트 검토",
-    level: 1,
-    priority: "low",
-    dueDate: "Sun",
-    author: "최수연",
-  },
+export const todoData: TodoItem[] = [
   {
     progress: "DONE",
-    title: "프로젝트 검토",
+    title: "3주차 과제 노티하기",
     level: 2,
+    priority: "medium",
+    dueDate: "Tue",
+    author: "한치",
+  },
+  {
+    progress: "TODO",
+    title: "3주차 과제",
+    level: 3,
     priority: "high",
     dueDate: "Sat",
-    author: "최수연",
+    author: "라라",
   },
   {
     progress: "TODO",
-    title: "회의 준비",
-    level: 2,
-    priority: "low",
-    dueDate: "Mon",
-    author: "이영희",
-  },
-  {
-    progress: "DONE",
-    title: "프로젝트 검토",
+    title: "3주차 과제",
     level: 3,
-    priority: "medium",
+    priority: "high",
     dueDate: "Sat",
-    author: "최수연",
+    author: "루나",
+  },
+  {
+    progress: "TODO",
+    title: "3주차 과제",
+    level: 3,
+    priority: "high",
+    dueDate: "Sat",
+    author: "김기혁",
   },
   {
     progress: "DONE",
-    title: "프로젝트 검토",
-    level: 2,
-    priority: "high",
-    dueDate: "Thu",
-    author: "이영희",
-  },
-  {
-    progress: "TODO",
-    title: "보고서 작성",
-    level: 3,
-    priority: "high",
-    dueDate: "Wed",
-    author: "최수연",
-  },
-  {
-    progress: "DONE",
-    title: "보고서 작성",
-    level: 3,
-    priority: "medium",
-    dueDate: "Wed",
-    author: "박지민",
-  },
-  {
-    progress: "TODO",
-    title: "코드 리뷰",
-    level: 1,
-    priority: "low",
-    dueDate: "Sun",
-    author: "최수연",
-  },
-  {
-    progress: "TODO",
-    title: "프로젝트 검토",
-    level: 3,
-    priority: "medium",
-    dueDate: "Tue",
-    author: "김철수",
-  },
-  {
-    progress: "TODO",
-    title: "코드 리뷰",
-    level: 2,
-    priority: "low",
-    dueDate: "Tue",
-    author: "박지민",
-  },
-  {
-    progress: "DONE",
-    title: "프로젝트 검토",
-    level: 3,
-    priority: "low",
-    dueDate: "Thu",
-    author: "김철수",
-  },
-  {
-    progress: "TODO",
-    title: "회의 준비",
-    level: 1,
-    priority: "medium",
-    dueDate: "Fri",
-    author: "이영희",
-  },
-  {
-    progress: "TODO",
-    title: "회의 준비",
-    level: 3,
-    priority: "high",
-    dueDate: "Mon",
-    author: "최수연",
-  },
-  {
-    progress: "TODO",
-    title: "회의 준비",
+    title: "투두 데이터 준비",
     level: 1,
     priority: "high",
     dueDate: "Mon",
-    author: "최수연",
+    author: "한치",
   },
   {
     progress: "DONE",
-    title: "회의 준비",
-    level: 1,
-    priority: "low",
-    dueDate: "Tue",
-    author: "이영희",
-  },
-  {
-    progress: "DONE",
-    title: "프로젝트 검토",
-    level: 2,
-    priority: "medium",
-    dueDate: "Sat",
-    author: "김철수",
-  },
-  {
-    progress: "DONE",
-    title: "보고서 작성",
+    title: "샘플 사이트 작성",
     level: 3,
-    priority: "low",
-    dueDate: "Sat",
-    author: "박지민",
+    priority: "high",
+    dueDate: "Mon",
+    author: "한치",
   },
   {
     progress: "TODO",
-    title: "회의 준비",
-    level: 3,
+    title: "강습생 별 브랜치 준비",
+    level: 2,
+    priority: "high",
+    dueDate: "Mon",
+    author: "한치",
+  },
+  {
+    progress: "TODO",
+    title: "피그마 개발자 모드 가이드",
+    level: 1,
     priority: "medium",
-    dueDate: "Tue",
-    author: "이영희",
+    dueDate: "Mon",
+    author: "한치",
+  },
+  {
+    progress: "TODO",
+    title: "VSCODE 새로고침 하는 법 가이드",
+    level: 1,
+    priority: "low",
+    dueDate: "Sat",
+    author: "한치",
   },
 ];
