@@ -129,7 +129,7 @@ function App() {
         <div className="gap-5 p-1 text-sm w-full ">
           <div className="flex flex-row p-3 gap-3 bg-black ">
             {list.map((item) => (
-              <div className="h-[40px] items-center p-2 px-3 bg-zinc-800 text-white rounded-md ">
+              <div className="h-[40px] items-center p-2 px-3  text-white rounded-md bg-zinc-800 active:bg-white active:text-black">
                 {item}
               </div>
             ))}
@@ -255,7 +255,7 @@ function App() {
                 <div className="py-1 w-[250px] h-[100px] text-white">
                   <div>
                     남탓을 할 수도 있다. 우리는 남이니까 사고하지 않기, 유연한
-                    남탓 무호흡 남탓 남탓 알파고
+                    남탓
                   </div>
                   <div className="text-zinc-500 text-sm">랄로</div>
                   <div className="text-zinc-500 text-sm">
