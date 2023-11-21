@@ -6,7 +6,85 @@ function App() {
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
 
-  return <div></div>;
+  const Doinglist = [
+    { title: '3주차 과제', day: 'Sat', who: '라라'},
+    { title: '3주차 과제', day: 'Sat', who: '루나' },
+    { title: '3주차 과제', day:'Sat', who: '김기혁'},
+    { title: '강습생 별 브랜치 준비', day:'Mon', who: '한치'},
+    { title: '피그마 개발자 모드 가이드', day:'Mon', who: '한치'},
+    { title: 'VSCODE 새로고침 하는 법 가이드', day:'Sat', who: '한치'}
+  ]
+  const Donelist = [
+    { title: '3주차 과제 노티하기', day: 'Tue', who: '한치'},
+    { title: '투두 데이터 준비', day: 'Mon', who: '한치'},
+    { title: '샘플 사이트 작성', day: 'Mon', who: '한치'}
+  ]
+
+  return <div className="bg-blue-900 flex flex-row justify-center items-cener gap-5">
+<div className="bg-blue-100 grid gap-5 w-[533px] p-[24px]  rounded-lg">
+  <div className="flex flex-row gap-2">
+    <div><TodoIcon/></div>
+    <div className="text-2xl text-blue-800 font-bold">To-Do</div>
+  </div>
+
+  
+  {Doinglist.map((item, index) => 
+  <div key={index} className="bg-white w-[465px] p-[24px] grid gap-2 rounded-lg">
+    <div className="font-bold text-lg"> {item.title}</div>
+    <div className="flex flex-row justify-between">
+      <div className="flex flex-row gap-3 items-center">
+        <div className="bg-priority-high text-white p-2 rounded-md">{item.day}</div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+          <path d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z" fill="#E42C5F"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+          <path d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z" fill="#E42C5F"/>
+        </svg> 
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+          <path d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z" fill="#E42C5F"/>
+        </svg>       
+      </div>      
+      <div>{item.who}</div>
+    </div>
+  </div>
+)}
+
+</div>
+
+
+
+
+<div className="bg-blue-100 w-[533px] p-[24px]  rounded-lg flex flex-col gap-5 items-start">
+  <div className="flex flex-row gap-2">
+    <div><DoneIcon/></div>
+    <div className="text-2xl text-blue-800 font-bold">Done</div>
+  </div>
+  
+  {Donelist.map((item, index) => 
+  <div key={index} className="bg-white w-[465px] p-[24px] grid gap-2 rounded-lg ">
+    <div className="font-bold text-lg"> {item.title}</div>
+    <div className="flex flex-row justify-between">
+      <div className="flex flex-row gap-3 items-center">
+        <div className="bg-priority-high text-white p-2 rounded-md">{item.day}</div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+          <path d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z" fill="#E42C5F"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+          <path d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z" fill="#E42C5F"/>
+        </svg> 
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+          <path d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z" fill="#E42C5F"/>
+        </svg>       
+      </div>      
+      <div>{item.who}</div>
+    </div>
+  </div>
+  )}
+
+</div>
+
+
+  </div>;
 }
 
 export const TodoIcon = () => {
