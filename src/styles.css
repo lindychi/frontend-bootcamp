@@ -1,0 +1,39 @@
+.styled-head {
+    color: var(--blue-blue-800, #2B1887);
+    font-family: DM Sans;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.styled-title {
+    color: var(--light-mode-wireframe-black, #000);
+    font-family: DM Sans;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;        
+}
+
+.styled-name {
+    color: var(--blue-blue-800, #2B1887);
+    text-align: right;
+    font-family: DM Sans;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;        
+}
+
+:root {
+    --light-mode-wireframe-white: #FFF;
+}
+.styled-Date {
+    color: var(--light-mode-wireframe-white, #FFF);
+font-family: SF Pro Display;
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}

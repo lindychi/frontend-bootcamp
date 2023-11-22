@@ -1,12 +1,146 @@
 import React from "react";
-import "./App.css";
+import "./App.css"; 
 import { todoData } from "./consts/todoList";
+import "./styles.css";  // styles.css 파일 불러온다
+
+
+
+
 
 function App() {
+  const todoDate=[
+    {
+      progress: "DONE",
+      title: "3주차 과제 노티하기",
+      level: 2,
+      priority: "medium",
+      dueDate: "Tue",
+      author: "한치",
+    },
+    {
+      progress: "TODO",
+      title: "3주차 과제",
+      level: 3,
+      priority: "high",
+      dueDate: "Sat",
+      author: "라라",
+    },
+    {
+      progress: "TODO",
+      title: "3주차 과제",
+      level: 3,
+      priority: "high",
+      dueDate: "Sat",
+      author: "루나",
+    },
+    {
+      progress: "TODO",
+      title: "3주차 과제",
+      level: 3,
+      priority: "high",
+      dueDate: "Sat",
+      author: "김기혁",
+    },
+    {
+      progress: "DONE",
+      title: "투두 데이터 준비",
+      level: 1,
+      priority: "high",
+      dueDate: "Mon",
+      author: "한치",
+    },
+    {
+      progress: "DONE",
+      title: "샘플 사이트 작성",
+      level: 3,
+      priority: "high",
+      dueDate: "Mon",
+      author: "한치",
+    },
+    {
+      progress: "TODO",
+      title: "강습생 별 브랜치 준비",
+      level: 2,
+      priority: "high",
+      dueDate: "Mon",
+      author: "한치",
+    },
+    {
+      progress: "TODO",
+      title: "피그마 개발자 모드 가이드",
+      level: 1,
+      priority: "medium",
+      dueDate: "Mon",
+      author: "한치",
+    },
+    {
+      progress: "TODO",
+      title: "VSCODE 새로고침 하는 법 가이드",
+      level: 1,
+      priority: "low",
+      dueDate: "Sat",
+      author: "한치",
+    },
+  ]
+
+// TODO 상태인 항목들만 필터링
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
 
-  return <div></div>;
+  const MySVGIcon = () => (
+    <div style={{ width: 24, height: 24 }}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 55" fill="none" width="100%" height="100%">
+        <path d="M0.737061 14.2498H45.856C50.8397 14.2498 54.8797 18.2898 54.8797 23.2735V33.5864C54.8797 37.8582 51.4168 41.3211 47.1451 41.3211H27.8084C12.8573 41.3211 0.737061 29.2008 0.737061 14.2498Z" fill="#D9D9D9"/>
+      </svg>
+    </div>
+  );
+
+  // TODO 리스트를 렌더링하는 React 컴포넌트
+// const TodoList = () => {
+//   return (
+//     <div>
+//       <h2>TODO List</h2>
+//       <ul>
+//         {todoList.map((todoItem, index) => (
+//           <li key={index}>{todoItem.title}</li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// };
+
+  
+
+  
+
+  
+
+  return (
+    <div className="FRAME flex justify-center gap-10 bg-blue-800">
+      <div className="w-[481px] h-screen bg-blue-100 rounded-lg p-6">
+        <div className="To-Do flex justify-auto mb-6"> 
+          <div className="pr-4"><TodoIcon /></div>
+          <div className="styled-head">To-Do</div>
+        </div>
+        <div className="Task p-6 bg-white rounded-lg">
+          <div className="frame1 styled-title pb-8">Iam task</div>
+          <div className="frame2 flex justify-start w=[156px] space-x-3 items-center">
+            <div className="bg-[#E42C5F] styled-Date p-2 rounded-lg">Mon</div>
+            <div className="Priority"><MySVGIcon /></div>
+            <div className="Priority"><MySVGIcon /></div>
+            <div className="Priority"><MySVGIcon /></div>
+            <div className="frame3 styled-name justify-end">name</div>
+          </div>  
+          
+            
+        </div>
+      </div>
+
+      <div className="w-[528.5px] h-screen bg-blue-100 rounded-lg"></div>
+    </div>  
+
+
+  );
 }
 
 export const TodoIcon = () => {
@@ -47,6 +181,9 @@ export const DoneIcon = () => {
       />
     </svg>
   );
+
 };
+
+
 
 export default App;
