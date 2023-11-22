@@ -124,8 +124,106 @@ function App() {
     </div>
   </div>
 )}
-  
+</div>
 
+<div className="bg-blue-100 w-[533px] h-fit p-[24px]  rounded-lg flex flex-col gap-5 items-start">
+  <div className="flex flex-row gap-2">
+    <div><DoneIcon/></div>
+    <div className="text-2xl text-blue-800 font-bold">Done</div>
+  </div>
+  {todoList.map((item, index) => 
+  <div key={index} className="bg-white w-[465px] p-[24px] grid gap-2 rounded-lg">
+    <div className="font-bold text-lg"> {item.title}</div>
+    <div className="flex flex-row justify-between">
+      <div className="flex flex-row gap-2">
+        <div className={clsx('p-2 rounded-md', {
+        'bg-priority-high': item.priority.toLowerCase() === 'high',
+        'bg-priority-medium': item.priority.toLowerCase() === 'medium',
+        'bg-priority-low': item.priority.toLowerCase() === 'low',
+        })}>{item.dueDate}</div>
+        <div className="flex flex-row gap-2" >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
+          className={clsx({
+            'fill-priority-high': item.priority.toLowerCase() === 'high',
+            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
+            'fill-priority-low': item.priority.toLowerCase() === 'low',                       
+            })}/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
+          className={clsx({
+            'fill-priority-high': item.priority.toLowerCase() === 'high',
+            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
+            'fill-priority-low': item.priority.toLowerCase() === 'low',
+            'fill-priority-inactive': item.level === 1          
+            })}/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
+          className={clsx({
+            'fill-priority-high': item.priority.toLowerCase() === 'high',
+            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
+            'fill-priority-low': item.priority.toLowerCase() === 'low',
+            'fill-priority-inactive': item.level === 1 || item.level === 2,            
+            })}/>
+          </svg>
+        </div>
+      </div>  
+      <div>{item.author}</div>
+    </div>
+  </div>
+  )}
+</div>
+
+<div className="bg-blue-100 w-[533px] h-fit p-[24px]  rounded-lg flex flex-col gap-5 items-start">
+  <div className="flex flex-row gap-2">
+    <div><DoneIcon/></div>
+    <div className="text-2xl text-blue-800 font-bold">Done</div>
+  </div>
+  {doneList.map((item, index) => 
+  <div key={index} className="bg-white w-[465px] p-[24px] grid gap-2 rounded-lg">
+    <div className="font-bold text-lg"> {item.title}</div>
+    <div className="flex flex-row justify-between">
+      <div className="flex flex-row gap-2">
+        <div className={clsx('p-2 rounded-md', {
+        'bg-priority-high': item.priority.toLowerCase() === 'high',
+        'bg-priority-medium': item.priority.toLowerCase() === 'medium',
+        'bg-priority-low': item.priority.toLowerCase() === 'low',
+        })}>{item.dueDate}</div>
+        <div className="flex flex-row gap-2" >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
+          className={clsx({
+            'fill-priority-high': item.priority.toLowerCase() === 'high',
+            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
+            'fill-priority-low': item.priority.toLowerCase() === 'low',                       
+            })}/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
+          className={clsx({
+            'fill-priority-high': item.priority.toLowerCase() === 'high',
+            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
+            'fill-priority-low': item.priority.toLowerCase() === 'low',
+            'fill-priority-inactive': item.level === 1          
+            })}/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
+          className={clsx({
+            'fill-priority-high': item.priority.toLowerCase() === 'high',
+            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
+            'fill-priority-low': item.priority.toLowerCase() === 'low',
+            'fill-priority-inactive': item.level === 1 || item.level === 2,            
+            })}/>
+          </svg>
+        </div>
+      </div>  
+      <div>{item.author}</div>
+    </div>
+  </div>
+  )}
 </div>
 
 
