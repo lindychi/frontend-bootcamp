@@ -20,6 +20,15 @@ function App() {
     </div>
   );
 
+    const priorityColor = {
+      high: "#E42C5F",
+      medium: "#ECB800",
+      low: "#2D41A7",
+      default: "#D9D9D9",
+    };
+  
+
+
 
   
   return (
@@ -32,6 +41,31 @@ function App() {
         
         
           {todoList.map((item, index)=> 
+            <div key={index} className="Task p-6 bg-white rounded-lg mt-6 mb-6">
+              <div className="frame1 styled-title pb-8">{item.title}</div>
+              <div className="frame2-1 flex w=[156px] space-x-3 items-center ">
+                  <div className="styled-Date p-2 rounded-lg">{item.dueDate}</div>
+                  <div className="frame2-2 flex gap-2">
+                    <div className="priority"><MySVGIcon /></div>
+                    <div className="Priority"><MySVGIcon /></div>
+                    <div className="Priority"><MySVGIcon /></div>
+              </div>
+                  <div className="frame2-3 styled-name w-[291.5px] ">
+                  <div className="text-right">{item.author}</div>
+                </div>
+              </div>
+            </div>  
+          )}
+      </div>
+
+      <div className="w-[481px] h-screen bg-blue-100 rounded-lg p-6">
+        <div className="To-Do flex justify-auto"> 
+          <div className="pr-4"><DoneIcon /></div>
+          <div className="styled-head">Done</div>
+        </div>
+        
+        
+          {doneList.map((item, index)=> 
             <div key={index} className="Task p-6 bg-white rounded-lg mt-6 mb-6">
               <div className="frame1 styled-title pb-8">{item.title}</div>
               <div className="frame2-1 flex w=[156px] space-x-3 items-center ">
