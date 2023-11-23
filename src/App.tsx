@@ -12,7 +12,7 @@ function App() {
         <div className="felx flex-row ">
           <div className="flex flex-row justify-center items-center gap-10 py-20">
             <div className="bg-blue-100 rounded-xl p-6">
-              <div className="w-[500px] h-[900px] flex flex-col gap-6">
+              <div className="w-[500px] h-[1000px] flex flex-col gap-6">
                 <div className="flex gap-4 text-4xl text-blue-800">
                   <svg
                     width="40"
@@ -35,10 +35,48 @@ function App() {
                 {todoList.map((item) => (
                   <div className="w-full h-[130px] flex flex-col gap-6 p-6 bg-white rounded-xl">
                     <div>{item.title}</div>
-                    {item.dueDate}
-                    {item.level}
-                    {item.priority}
-                    {item.author}
+                    <div className="flex gap-4">
+                      <div className="rounded-xl text-black px-3 py-2 bg-${item.level}">
+                        {item.dueDate}
+                      </div>
+
+                      {[...Array(item.level)].map((_, index) => {
+                        let color = "";
+                        switch (item.level) {
+                          case 1:
+                            color = "blue";
+                            break;
+                          case 2:
+                            color = "yellow";
+                            break;
+                          case 3:
+                            color = "pink";
+                            break;
+                          default:
+                            color = "gray";
+                        }
+
+                        return (
+                          <svg
+                            key={index}
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="25"
+                            height="25"
+                            viewBox="0 0 25 25"
+                            fill="none"
+                            stroke={`#${color.toUpperCase()}`}
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className={`text-${item.priority}`}
+                          >
+                            <path d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z" />
+                          </svg>
+                        );
+                      })}
+                      {item.priority}
+                      {item.author}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -66,7 +104,7 @@ function App() {
                 </div>
                 {doneList.map((item) => (
                   <div className="items-center w-full h-[120px] gap-6 p-6 bg-white rounded-xl">
-                    {item.title}
+                    <div>{item.title}</div>
                   </div>
                 ))}
               </div>
