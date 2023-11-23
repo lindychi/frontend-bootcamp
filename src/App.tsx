@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { todoData } from "./consts/todoList";
+import { HighlightSpanKind } from "typescript";
 
 function App() {
   const todoList = todoData.filter((item) => item.progress === "TODO");
@@ -43,13 +44,13 @@ function App() {
                       {[...Array(item.level)].map((_, index) => {
                         let color = "";
                         switch (item.level) {
-                          case 1:
+                          case High:
                             color = "blue";
                             break;
-                          case 2:
+                          case Medium:
                             color = "yellow";
                             break;
-                          case 3:
+                          case Low:
                             color = "pink";
                             break;
                           default:
@@ -105,6 +106,14 @@ function App() {
                 {doneList.map((item) => (
                   <div className="items-center w-full h-[120px] gap-6 p-6 bg-white rounded-xl">
                     <div>{item.title}</div>
+
+                    <div
+                      className={`rounded-xl text-black bg-{item.priority} px-3 py-2`}
+                    >
+                      {item.dueDate}
+                    </div>
+                    {item.priority}
+                    {item.author}
                   </div>
                 ))}
               </div>
