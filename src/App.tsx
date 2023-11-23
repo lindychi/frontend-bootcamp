@@ -33,51 +33,81 @@ function App() {
                   To-Do
                 </div>
 
-                {todoList.map((item) => (
-                  <div className="w-full h-[130px] flex flex-col gap-6 p-6 bg-white rounded-xl">
-                    <div>{item.title}</div>
-                    <div className="flex gap-4">
-                      <div className="rounded-xl text-black px-3 py-2 bg-${item.level}">
-                        {item.dueDate}
+                {todoList.map((item, index) => (
+                  <div
+                    key={index}
+                    className=" h-[130px] flex flex-col gap-6 p-6 bg-white rounded-xl"
+                  >
+                    <div className="text-2xl">{item.title}</div>
+                    <div className="flex justify-between gap-4">
+                      <div className="flex flex-row gap-4">
+                        <div
+                          className={`rounded-xl text-white ${
+                            item.priority === "high"
+                              ? "bg-priority-high"
+                              : item.priority === "medium"
+                              ? "bg-priority-medium"
+                              : item.priority === "low"
+                              ? "bg-priority-low"
+                              : ""
+                          } px-3 py-2`}
+                        >
+                          {item.dueDate}
+                        </div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 25 25"
+                          fill={
+                            item.priority === "high"
+                              ? "#E42C5F"
+                              : item.priority === "medium"
+                              ? "#ECB800"
+                              : item.priority === "low"
+                              ? "#E42C5F"
+                              : ""
+                          }
+                        >
+                          <path
+                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
+                            fill="#E42C5F"
+                          />
+                        </svg>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 25 25"
+                          fill="none"
+                        >
+                          <path
+                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
+                            fill="#E42C5F"
+                          />
+                        </svg>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 25 25"
+                          fill="none"
+                        >
+                          <path
+                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
+                            fill="#E42C5F"
+                          />
+                        </svg>
                       </div>
-
-                      {[...Array(item.level)].map((_, index) => {
-                        let color = "";
-                        switch (item.level) {
-                          case High:
-                            color = "blue";
-                            break;
-                          case Medium:
-                            color = "yellow";
-                            break;
-                          case Low:
-                            color = "pink";
-                            break;
-                          default:
-                            color = "gray";
-                        }
-
-                        return (
-                          <svg
-                            key={index}
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="25"
-                            height="25"
-                            viewBox="0 0 25 25"
-                            fill="none"
-                            stroke={`#${color.toUpperCase()}`}
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className={`text-${item.priority}`}
-                          >
-                            <path d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z" />
-                          </svg>
-                        );
-                      })}
-                      {item.priority}
-                      {item.author}
+                      <div
+                        className="text-blue-800
+                      text-xl"
+                      >
+                        {item.author}
+                      </div>
                     </div>
+
+                    <div className="hidden">{item.priority}</div>
                   </div>
                 ))}
               </div>
@@ -103,17 +133,81 @@ function App() {
                   </svg>
                   Done
                 </div>
-                {doneList.map((item) => (
-                  <div className="items-center w-full h-[120px] gap-6 p-6 bg-white rounded-xl">
+                {doneList.map((item, index) => (
+                  <div
+                    key={index}
+                    className=" h-[130px] flex flex-col gap-6 p-6 bg-white rounded-xl"
+                  >
                     <div>{item.title}</div>
-
-                    <div
-                      className={`rounded-xl text-black bg-{item.priority} px-3 py-2`}
-                    >
-                      {item.dueDate}
+                    <div className="flex justify-between gap-4">
+                      <div className="flex flex-row gap-4">
+                        <div
+                          className={`rounded-xl text-white ${
+                            item.priority === "high"
+                              ? "bg-priority-high"
+                              : item.priority === "medium"
+                              ? "bg-priority-medium"
+                              : item.priority === "low"
+                              ? "bg-priority-low"
+                              : ""
+                          } px-3 py-2`}
+                        >
+                          {item.dueDate}
+                        </div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 25 25"
+                          fill={
+                            item.priority === "high"
+                              ? "#E42C5F"
+                              : item.priority === "medium"
+                              ? "#ECB800"
+                              : item.priority === "low"
+                              ? "#E42C5F"
+                              : ""
+                          }
+                        >
+                          <path
+                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
+                            fill="#E42C5F"
+                          />
+                        </svg>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 25 25"
+                          fill="none"
+                        >
+                          <path
+                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
+                            fill="#E42C5F"
+                          />
+                        </svg>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 25 25"
+                          fill="none"
+                        >
+                          <path
+                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
+                            fill="#E42C5F"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        className="text-blue-800
+                      text-xl"
+                      >
+                        {item.author}
+                      </div>
                     </div>
-                    {item.priority}
-                    {item.author}
+
+                    <div className="hidden">{item.priority}</div>
                   </div>
                 ))}
               </div>
