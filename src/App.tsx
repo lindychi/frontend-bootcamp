@@ -31,15 +31,19 @@ function App() {
                   </svg>
                   To-Do
                 </div>
-                {todoList.map((item) => (
-                  <div className="items-center w-full h-[130px] gap-6 p-6 bg-white rounded-xl">
-                    {item.title}
-                    {item.dueDate}
-                    {item.level}
-                    {item.priority}
-                    {item.author}
-                  </div>
-                ))}
+                <div>
+                  {todoList.map((item) => (
+                    <div className="w-full h-[130px] flex flex-col gap-6 p-6 bg-white rounded-xl">
+                      {item.title}
+                    </div>
+                    <div>                  
+                      {item.dueDate}
+                      {item.level}
+                      {item.priority}
+                      {item.author}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
