@@ -6,84 +6,9 @@ import "./styles.css";  // styles.css 파일 불러온다
 
 
 
-
 function App() {
-  const todoDate=[
-    {
-      progress: "DONE",
-      title: "3주차 과제 노티하기",
-      level: 2,
-      priority: "medium",
-      dueDate: "Tue",
-      author: "한치",
-    },
-    {
-      progress: "TODO",
-      title: "3주차 과제",
-      level: 3,
-      priority: "high",
-      dueDate: "Sat",
-      author: "라라",
-    },
-    {
-      progress: "TODO",
-      title: "3주차 과제",
-      level: 3,
-      priority: "high",
-      dueDate: "Sat",
-      author: "루나",
-    },
-    {
-      progress: "TODO",
-      title: "3주차 과제",
-      level: 3,
-      priority: "high",
-      dueDate: "Sat",
-      author: "김기혁",
-    },
-    {
-      progress: "DONE",
-      title: "투두 데이터 준비",
-      level: 1,
-      priority: "high",
-      dueDate: "Mon",
-      author: "한치",
-    },
-    {
-      progress: "DONE",
-      title: "샘플 사이트 작성",
-      level: 3,
-      priority: "high",
-      dueDate: "Mon",
-      author: "한치",
-    },
-    {
-      progress: "TODO",
-      title: "강습생 별 브랜치 준비",
-      level: 2,
-      priority: "high",
-      dueDate: "Mon",
-      author: "한치",
-    },
-    {
-      progress: "TODO",
-      title: "피그마 개발자 모드 가이드",
-      level: 1,
-      priority: "medium",
-      dueDate: "Mon",
-      author: "한치",
-    },
-    {
-      progress: "TODO",
-      title: "VSCODE 새로고침 하는 법 가이드",
-      level: 1,
-      priority: "low",
-      dueDate: "Sat",
-      author: "한치",
-    },
-  ]
-
-// TODO 상태인 항목들만 필터링
+ 
+  // TODO 상태인 항목들만 필터링
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
 
@@ -95,53 +20,43 @@ function App() {
     </div>
   );
 
-  // TODO 리스트를 렌더링하는 React 컴포넌트
-// const TodoList = () => {
-//   return (
-//     <div>
-//       <h2>TODO List</h2>
-//       <ul>
-//         {todoList.map((todoItem, index) => (
-//           <li key={index}>{todoItem.title}</li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
 
   
-
-  
-
-  
-
   return (
     <div className="FRAME flex justify-center gap-10 bg-blue-800">
       <div className="w-[481px] h-screen bg-blue-100 rounded-lg p-6">
-        <div className="To-Do flex justify-auto mb-6"> 
+        <div className="To-Do flex justify-auto"> 
           <div className="pr-4"><TodoIcon /></div>
-          <div className="styled-head">To-Do</div>
+          <div className="styled-head">to-do</div>
         </div>
-        <div className="Task p-6 bg-white rounded-lg">
-          <div className="frame1 styled-title pb-8">Iam task</div>
-          <div className="frame2 flex justify-start w=[156px] space-x-3 items-center">
-            <div className="bg-[#E42C5F] styled-Date p-2 rounded-lg">Mon</div>
-            <div className="Priority"><MySVGIcon /></div>
-            <div className="Priority"><MySVGIcon /></div>
-            <div className="Priority"><MySVGIcon /></div>
-            <div className="frame3 styled-name justify-end">name</div>
-          </div>  
-          
-            
-        </div>
+        
+        
+          {todoList.map((item, index)=> 
+            <div key={index} className="Task p-6 bg-white rounded-lg mt-6 mb-6">
+              <div className="frame1 styled-title pb-8">{item.title}</div>
+              <div className="frame2-1 flex w=[156px] space-x-3 items-center ">
+                  <div className="bg-[#E42C5F] styled-Date p-2 rounded-lg">{item.dueDate}</div>
+                  <div className="frame2-2 flex gap-2">
+                    <div className="Priority"><MySVGIcon /></div>
+                    <div className="Priority"><MySVGIcon /></div>
+                    <div className="Priority"><MySVGIcon /></div>
+              </div>
+                  <div className="frame2-3 styled-name w-[291.5px] ">
+                  <div className="text-right">{item.author}</div>
+                </div>
+              </div>
+            </div>  
+          )}
       </div>
-
-      <div className="w-[528.5px] h-screen bg-blue-100 rounded-lg"></div>
     </div>  
+
+            
+
+
 
 
   );
-}
+};
 
 export const TodoIcon = () => {
   return (
