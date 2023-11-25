@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css"; 
-import { todoData } from "./consts/todoList";
+import { todoData as originTodoData } from "./consts/todoList";
 import "./styles.css";  // styles.css 파일 불러온다
 
 
 
 
+
 function App() {
+
+
+  const [todoData, setTodoData] = useState(originTodoData);
  
   // TODO 상태인 항목들만 필터링
-  const todoList = todoData.filter((item) => item.progress === "TODO");
+  // const todoList = todoData.filter((item) => item.priority === "medium"); 
+  const todoList = todoData.filter((item) => item.progress === "TODO"); 
+  // 프리오리티가 미디엄으로 비교 참일때 투두리스트로 들어간다.
   const doneList = todoData.filter((item) => item.progress === "DONE");
 
   const MySVGIcon = () => (
@@ -27,27 +33,95 @@ function App() {
   //   { Priority: "high",color:"#E42C5F" }
   // ];
   
-  const priorityMap = {
+  const priorityMap:{[key:string]:string} = {
     high: "bg-priority-high",
     medium: "bg-priority-medium",
     low: "bg-priority-low"
   };
   //  #컬러값은 안먹히나용..?
 
-
+  const [value, setValue] = useState("");
+  const [author, setAuthor] = useState("");
 
 
   
   return (
-    <div className="FRAME flex justify-center gap-10 bg-blue-800">
-      <div className="w-[481px] h-screen bg-blue-100 rounded-lg p-6">
+
+
+
+    <div className="FRAME min-h-screen h-full flex items-center justify-center gap-10 bg-blue-800">
+      <div className="w-[481px] h-fit bg-blue-100 rounded-lg p-6">
+        제목{""}
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          />
+        <button
+            onClick={() => {
+              setTodoData ([
+                ...todoData,
+                {
+                  title: value,
+                  progress: "TODO",
+                  level: 1,
+                  priority: "high",
+                  dueDate: "Mon",
+                  author: "한치",
+                },
+              ]);
+              setValue("");
+            }}
+          >
+          
+            </button>            
+
+
+
+
+          작성자{""}
+        <input
+          type="text"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+          />  
+
+          <button
+            onClick={() => {
+              setTodoData ([
+                ...todoData,
+                {
+                  title: value,
+                  progress: "TODO",
+                  level: 1,
+                  priority: "high",
+                  dueDate: "Mon",
+                  author: author,  
+                  // 같은거면:이후 생략가능 ex author
+
+                },
+              ]);
+              setValue("");
+              setAuthor("");  
+              // 빈칸으로 돌아가기
+            }}
+          >
+            추가
+            </button>  
+
+
+
+
+
+
+
         <div className="To-Do flex justify-auto"> 
           <div className="pr-4"><TodoIcon /></div>
           <div className="styled-head">to-do</div>
         </div>
         
         
-          {todoList.map((item, index)=> 
+          {todoList.map((item:any, index:any)=> 
             <div key={index} className="Task p-6 bg-white rounded-lg mt-6 mb-6">
               <div className="frame1 styled-title pb-8">{item.title}</div>
               <div className="frame2-1 flex w=[156px] space-x-3 items-center ">
@@ -78,18 +152,18 @@ function App() {
           )}
       </div>
 
-      <div className="w-[481px] h-screen bg-blue-100 rounded-lg p-6">
+      <div className="w-[481px] h-fit bg-blue-100 rounded-lg p-6">
         <div className="To-Do flex justify-auto"> 
           <div className="pr-4"><DoneIcon /></div>
           <div className="styled-head">Done</div>
         </div>
         
         
-          {doneList.map((item, index)=> 
+          {doneList.map((item:any, index:any)=> 
             <div key={index} className="Task p-6 bg-white rounded-lg mt-6 mb-6">
               <div className="frame1 styled-title pb-8">{item.title}</div>
               <div className="frame2-1 flex w=[156px] space-x-3 items-center ">
-              <div className={`${priorityMap[item.priority] || "default"} styled-Date p-2 rounded-lg`}>{item.dueDate}</div> 
+              {/* <div className={`${priorityMap[item.priority] || "default"} styled-Date p-2 rounded-lg`}>{item.dueDate}</div>  */}
                   <div className="frame2-2 flex gap-2">
                     <div className="Priority"><MySVGIcon /></div>
                     <div className="Priority"><MySVGIcon /></div>
@@ -152,6 +226,9 @@ export const DoneIcon = () => {
   );
 
 };
+
+
+
 
 
 
