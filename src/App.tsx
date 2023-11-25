@@ -1,135 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
-import { todoData } from "./consts/todoList";
+import { todoData as originTodoData } from "./consts/todoList";
 import clsx from 'clsx';
 
 function App() {
-  const todoList = todoData.filter((item) => item.progress === "TODO");
-  const doneList = todoData.filter((item) => item.progress === "DONE");
+  const [value, setValue] = useState("");
+  const [ todoData,setTodoData ] = useState(originTodoData);
+  const todoList = todoData.filter((item) => item.priority === "medium");
+  const doneList = todoData.filter((item) => item.priority === "high");
+  
 
-  const Doinglist = [
-    { title: '3주차 과제', day: 'Sat', who: '라라', priority:'high', level: 1},
-    { title: '3주차 과제', day: 'Sat', who: '루나', priority:'high', level: 3 },
-    { title: '3주차 과제', day:'Sat', who: '김기혁', priority:'high', level: 3},
-    { title: '강습생 별 브랜치 준비', day:'Mon', who: '한치', priority:'high', level: 2},
-    { title: '피그마 개발자 모드 가이드', day:'Mon', who: '한치', priority:'medium', level: 3},
-    { title: 'VSCODE 새로고침 하는 법 가이드', day:'Sat', who: '한치', priority:'low', level: 3}
-  ]
-  const Donelist = [
-    { title: '3주차 과제 노티하기', day: 'Tue', who: '한치', priority:'medium', level: 3},
-    { title: '투두 데이터 준비', day: 'Mon', who: '한치', priority:'high', level: 1},
-    { title: '샘플 사이트 작성', day: 'Mon', who: '한치', priority:'high', level: 2}
-  ]
 
-  return <div className="bg-blue-900 flex flex-row justify-center items-cener gap-5">
-<div className="bg-blue-100 grid gap-5 w-[533px] h-fit p-[24px]  rounded-lg">
+
+
+
+  return <div className="bg-blue-900 w-full min-h-screen h-full flex flex-row justify-center items-center gap-5 ">
+
+<div className="flex flex-col gap-3">
+<div className="p-3 bg-blue-100 h-fit w-fit">
+제목{""} <input 
+type= "text"
+value ={value}
+onChange={(event) => setValue(event.target.value)} />
+<button className="bg-blue-800 text-white"
+onClick={() => {
+  setTodoData([
+    ...todoData,{title: value, 
+    progress: "TODO", level: 3,
+    priority: "high",
+    dueDate: "Sat",
+    author: "라라", },
+  ])
+  setValue("")
+  }}
+>
+추가
+</button>
+
+</div>
+
+
+<div className="flex flex-row gap-5">
+
+
+
+<div className="bg-blue-100 w-[533px] h-fit p-[24px]  rounded-lg flex flex-col gap-5 items-start">
   <div className="flex flex-row gap-2">
     <div><TodoIcon/></div>
     <div className="text-2xl text-blue-800 font-bold">To-Do</div>
-  </div>
-  
-  
-  {Doinglist.map((item, index) => 
-  <div key={index} className="bg-white w-[465px] p-[24px] grid gap-2 rounded-lg">
-    <div className="font-bold text-lg"> {item.title}</div>
-    <div className="flex flex-row justify-between">
-      <div className="flex flex-row gap-3 items-center">
-        <div className={`bg-priority-${item.priority.toLowerCase()} text-white p-2 rounded-md`}>{item.day}</div>
-        <div className="flex flex-row gap-2" >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',                       
-            })}/>
-          </svg>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',
-            'fill-priority-inactive': item.level === 1          
-            })}/>
-          </svg>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',
-            'fill-priority-inactive': item.level === 1 || item.level === 2,            
-            })}/>
-          </svg>
-        </div>
-      </div>
-        
-      <div>{item.who}</div>
-    </div>
-  </div>
-)}
-
-</div>
-
-
-
-
-<div className="bg-blue-100 w-[533px] h-fit p-[24px]  rounded-lg flex flex-col gap-5 items-start">
-  <div className="flex flex-row gap-2">
-    <div><DoneIcon/></div>
-    <div className="text-2xl text-blue-800 font-bold">Done</div>
-  </div>
-  
-  {Donelist.map((item, index) => 
-  <div key={index} className="bg-white w-[465px] p-[24px] grid gap-2 rounded-lg">
-    <div className="font-bold text-lg"> {item.title}</div>
-    <div className="flex flex-row justify-between">
-      <div className="flex flex-row gap-2">
-        <div className={clsx('p-2 rounded-md', {
-        'bg-priority-high': item.priority.toLowerCase() === 'high',
-        'bg-priority-medium': item.priority.toLowerCase() === 'medium',
-        'bg-priority-low': item.priority.toLowerCase() === 'low',
-        })}>{item.day}</div>
-        <div className="flex flex-row gap-2" >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',                       
-            })}/>
-          </svg>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',
-            'fill-priority-inactive': item.level === 1          
-            })}/>
-          </svg>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',
-            'fill-priority-inactive': item.level === 1 || item.level === 2,            
-            })}/>
-          </svg>
-        </div>
-      </div>  
-      <div>{item.who}</div>
-    </div>
-  </div>
-)}
-</div>
-
-<div className="bg-blue-100 w-[533px] h-fit p-[24px]  rounded-lg flex flex-col gap-5 items-start">
-  <div className="flex flex-row gap-2">
-    <div><DoneIcon/></div>
-    <div className="text-2xl text-blue-800 font-bold">Done</div>
   </div>
   {todoList.map((item, index) => 
   <div key={index} className="bg-white w-[465px] p-[24px] grid gap-2 rounded-lg">
@@ -226,7 +144,8 @@ function App() {
   )}
 </div>
 
-
+</div>
+</div>
   </div>;
 }
 
