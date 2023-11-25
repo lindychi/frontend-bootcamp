@@ -5,6 +5,7 @@ import { HighlightSpanKind } from "typescript";
 
 function App() {
   const [todoData, setTodoData] = useState(originTodoData);
+  const [author, setAuthor] = useState("");
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
   const [value, setValue] = useState("");
@@ -13,10 +14,17 @@ function App() {
       <div>
         <div className="felx flex-row ">
           <div className="p-4 bg-blue-100 rounded">
+            제목
             <input
               type="text"
               value={value}
               onChange={(e) => setValue(e.target.value)}
+            />
+            작성자
+            <input
+              type="text"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
             />
             <button
               onClick={() => {
@@ -28,15 +36,17 @@ function App() {
                     level: 2,
                     priority: "high",
                     dueDate: "Mon",
-                    author: "한치",
+                    author,
                   },
                 ]);
                 setValue("");
+                setAuthor("");
               }}
             >
               추가
             </button>
           </div>
+
           <div className="h-fit flex flex-row justify-center gap-10 py-20">
             <div className="bg-blue-100 rounded-xl p-6">
               <div className="w-[500px] h-fit flex flex-col gap-6">
