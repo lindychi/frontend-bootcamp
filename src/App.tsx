@@ -14,7 +14,10 @@ import Plus from "./icons/Plus";
 function App() {
   const [selectedMonth, setSelectedMonth] = React.useState(12);
   const [selectedYear, setSelectedYear] = React.useState(2023);
-  const targetCalendarDates = getCalendarDates(selectedYear, selectedMonth);
+  const targetCalendarDates: Date[] = getCalendarDates(
+    selectedYear,
+    selectedMonth
+  );
 
   return <div></div>;
 }
