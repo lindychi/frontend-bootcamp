@@ -1,12 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
-import { todoData } from "./consts/todoList";
+import { todoData as originTodoData } from "./consts/todoList";
+import TodoList from "./components/TodoList";
 
 function App() {
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [todoData, setTodoData] = useState(originTodoData);
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
 
-  return <div></div>;
+  return (
+    <div className="flex items-center justify-center h-full min-h-screen bg-blue-800 gap-1">
+      <div className="flex flex-col gap-4">
+        <div className="p-4 bg-blue-100 rounded">
+          제목{" "}
+          <input
+            type="text"
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+          작성자{" "}
+          <input
+            type="text"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              setTodoData([
+                ...todoData,
+                {
+                  title,
+                  progress: "TODO",
+                  level: 1,
+                  priority: "high",
+                  dueDate: "Mon",
+                  author,
+                },
+              ]);
+              setTitle("");
+              setAuthor("");
+            }}
+          >
+            추가
+          </button>
+        </div>
+        <div className="flex">
+          <TodoList icon={<TodoIcon />} title="TodoList" list={todoList} />
+          <TodoList icon={<DoneIcon />} title="DoneList" list={doneList} />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export const TodoIcon = () => {
