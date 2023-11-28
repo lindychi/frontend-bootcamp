@@ -1,4 +1,5 @@
 import { getCalendarDates } from "./calendar";
+import { getMonthString } from "./calendar";
 
 describe("getCalendarDates", () => {
   it("should return correct dates for December 2023", () => {
@@ -15,5 +16,14 @@ describe("getCalendarDates", () => {
     expect(novemberDates[novemberDates.length - 1]).toEqual(
       new Date(2023, 11, 2)
     ); // 12월 2일
+  });
+});
+
+describe("getMonthString", () => {
+  test("getMonthString returns correct month name", () => {
+    expect(getMonthString(1)).toBe("January");
+    expect(getMonthString(5)).toBe("May");
+    expect(getMonthString(12)).toBe("December");
+    expect(getMonthString(13)).toBe("");
   });
 });
