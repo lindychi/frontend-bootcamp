@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Date, todoData as originTodoData } from "./consts/todoList";
+import { Date, todoData as originTodoData, Priority } from "./consts/todoList";
 import clsx from 'clsx';
 
 
@@ -9,6 +9,7 @@ function App() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState<Priority>("high");
 
 
 
@@ -37,6 +38,14 @@ onChange={(event) => setAuthor(event.target.value)} />
 type= "text"
 value={dueDate}
 onChange={(event) => setDueDate(event.target.value)} />
+priority {""}
+<select
+value= {priority}
+onChange={(event) => setPriority(event.target.value as Priority)} >
+  <option value="high">high</option>
+  <option value="medium">medium</option>
+  <option value="low">low</option>
+</select>
 
 
 <button className="bg-blue-800 text-white"
@@ -45,7 +54,7 @@ onClick={() => {
     ...todoData,{title, 
     progress: "TODO", 
     level :3 ,
-    priority: "high",
+    priority : priority,
     dueDate: dueDate as Date,
     author, },
   ])
