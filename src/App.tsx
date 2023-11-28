@@ -299,5 +299,12 @@ export const DoneIcon = () => {
     </svg>
   );
 };
+export const SVGIcon = () => (
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" fill="#D9D9D9"/>
+</svg>
+  );
+};
 
 export default App;
