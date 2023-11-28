@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import "./App.css";
-import { todoData as originTodoData } from "./consts/todoList";
+import { Date, todoData as originTodoData } from "./consts/todoList";
 import clsx from 'clsx';
 
+
+
 function App() {
-  const [value, setValue] = useState("");
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [dueDate, setDueDate] = useState("");
+
+
+
   const [ todoData,setTodoData ] = useState(originTodoData);
-  const todoList = todoData.filter((item) => item.priority === "medium");
-  const doneList = todoData.filter((item) => item.priority === "high");
+  const todoList = todoData.filter((item) => item.progress === "TODO");
+  const doneList = todoData.filter((item) => item.progress === "DONE");
   
 
 
@@ -17,25 +24,41 @@ function App() {
   return <div className="bg-blue-900 w-full min-h-screen h-full flex flex-row justify-center items-center gap-5 ">
 
 <div className="flex flex-col gap-3">
-<div className="p-3 bg-blue-100 h-fit w-fit">
+<div className="p-3 bg-blue-100 h-fit w-fit flex flex-col">
 제목{""} <input 
 type= "text"
-value ={value}
-onChange={(event) => setValue(event.target.value)} />
+value ={title}
+onChange={(event) => setTitle(event.target.value)} />
+작성자{""} <input 
+type= "text"
+value ={author}
+onChange={(event) => setAuthor(event.target.value)} />
+요일{""} <input 
+type= "text"
+value={dueDate}
+onChange={(event) => setDueDate(event.target.value)} />
+
+
 <button className="bg-blue-800 text-white"
 onClick={() => {
   setTodoData([
-    ...todoData,{title: value, 
-    progress: "TODO", level: 3,
+    ...todoData,{title, 
+    progress: "TODO", 
+    level :3 ,
     priority: "high",
-    dueDate: "Sat",
-    author: "라라", },
+    dueDate: dueDate as Date,
+    author, },
   ])
-  setValue("")
+  setTitle("")  
+  setAuthor("") 
+  setDueDate("");
   }}
 >
 추가
 </button>
+
+
+
 
 </div>
 
