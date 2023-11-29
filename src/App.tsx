@@ -19,12 +19,13 @@ function App() {
     selectedYear,
     selectedMonth
   );
+ 
 
   return <div className="flex flex-row w-full h-full outer-box">
-<div className="w-[250px] h-max-[1024px]">  
+<div className="w-[250px] h-max-[1024px] p-3">  
   
   
-   <div> {getMonthString(12)} </div> 
+   <div className="font-bold"> {getMonthString(12)} </div> 
    <div className="grid grid-cols-7"> {dayList.map((day, index) => (<div key={index}>{day.short} </div>))} </div>  
    <div className="grid grid-cols-7"> {targetCalendarDates.map((date:Date,index) => (<div key={index} className="">{date.getDate()}</div>))} </div> 
   
@@ -33,19 +34,19 @@ function App() {
    
 
 
-<div className="w-[1214px] outer-box">
+<div className="w-[1214px] outer-box py-3">
    <div className="flex flex-row place-content-between items-center"> 
      <div className="flex flex-row items-center ">
       <div>< Hamburger /></div>
       <div className="text-2xl font-bold">{getMonthString(12)} </div>
       <div className="text-2xl"> {selectedYear}</div>
-      <div>박스</div>
+      <select></select>
      </div>
      <div className="flex flex-row items-center"> 
       <div><Search /></div>
-      <div className="flex flex-row">
+      <div className="flex flex-row bg-primary items-center text-white p-2">
         <div>Add event</div>
-        <div><Plus/></div>
+        <div> <Plus/></div>
         </div>
 
      </div>
