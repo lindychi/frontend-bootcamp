@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 import "./App.css";
+import "./consts/style.css";
 
 import { dayList } from "./consts/calendar";
 
@@ -19,7 +20,7 @@ function App() {
     selectedMonth
   );
 
-  return <div>
+  return <div className="flex flex-row w-full h-full outer-box">
 <div className="w-[250px] h-max-[1024px]">  
   
   
@@ -29,10 +30,31 @@ function App() {
   
 
 </div>  
+   
 
 
+<div className="w-[1214px] outer-box">
+   <div className="flex flex-row place-content-between items-center"> 
+     <div className="flex flex-row items-center ">
+      <div>< Hamburger /></div>
+      <div className="text-2xl font-bold">{getMonthString(12)} </div>
+      <div className="text-2xl"> {selectedYear}</div>
+      <div>박스</div>
+     </div>
+     <div className="flex flex-row items-center"> 
+      <div><Search /></div>
+      <div className="flex flex-row">
+        <div>Add event</div>
+        <div><Plus/></div>
+        </div>
 
-<div></div>
+     </div>
+    </div> 
+   <div className="grid grid-cols-7 outer-box"> {dayList.map((day, index) => (<div key={index}>{day.medium} </div>))} </div>  
+   <div className="grid grid-cols-7 w-[1214px] h-[923px]"> {targetCalendarDates.map((date:Date,index) => (<div key={index} className="outer-box">{date.getDate()}</div>))} </div>   
+
+
+</div>
 
 
   </div>;
