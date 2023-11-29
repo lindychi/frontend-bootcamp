@@ -19,7 +19,26 @@ function App() {
     selectedMonth
   );
 
-  return <div></div>;
+  return <div>
+<div className="w-[250px] h-max-[1024px]">  
+  
+  
+   <div> {getMonthString(12)} </div> 
+   <div className="grid grid-cols-7"> {dayList.map((day, index) => (<div key={index}>{day.short} </div>))} </div>  
+   <div className="grid grid-cols-7"> {targetCalendarDates.map((date:Date,index) => (<div key={index} className="">{date.getDate()}</div>))} </div> 
+  
+
+</div>  
+
+
+
+<div></div>
+
+
+  </div>;
 }
+
+
+
 
 export default App;
