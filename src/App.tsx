@@ -84,7 +84,7 @@ function App() {
           {targetCalendarDates.map((date: Date) => (
             <div
               key={date.toString()}
-              className={`text-left indent-3 py-2 border border-state-300${getSecondCalendarDateClass(
+              className={`text-left indent-3 py-2 border border-state-300 ${getSecondCalendarDateClass(
                 date
               )}`}
             >
