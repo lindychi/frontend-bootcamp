@@ -5,9 +5,9 @@ type Props = {};
 export default function Hamburger(props: Props) {
   return (
     <svg
-      width="36"
-      height="35"
-      viewBox="0 0 36 35"
+      width="42"
+      height="41"
+      viewBox="0 0 32 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

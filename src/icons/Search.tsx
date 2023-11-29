@@ -5,8 +5,8 @@ type Props = {};
 export default function Search(props: Props) {
   return (
     <svg
-      width="33"
-      height="33"
+      width="40"
+      height="40"
       viewBox="0 0 33 33"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
