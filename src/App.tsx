@@ -13,31 +13,40 @@ import Search from "./icons/Search";
 import Plus from "./icons/Plus";
 
 function App() {
-  const [selectedMonth, setSelectedMonth] = React.useState(12);
-  const [selectedYear, setSelectedYear] = React.useState(2023);
-  const targetCalendarDates: Date[] = getCalendarDates(
-    selectedYear,
-    selectedMonth
-  );
- 
+  const today = new Date();
+  const [selectedMonth, setSelectedMonth] = React.useState(today.getMonth() + 1);
+  const [selectedYear, setSelectedYear] = React.useState(today.getFullYear());
+  const targetCalendarDates: Date[] = getCalendarDates(selectedYear, selectedMonth);
 
   return <div className="flex flex-row w-full h-full outer-box">
 <div className="w-[250px] h-max-[1024px] p-3">  
   
  <div className=" p-[10px] grid gap-2.5">
-   <div className="items-center  px-[6px] text-xl grid justify-start"> {getMonthString(12)} </div> 
+   <div className="items-center  px-[6px] text-xl grid justify-start"> {getMonthString(selectedMonth)}</div> 
    <div className="grid grid-cols-7 text-[10px] "> {dayList.map((day, index) => (<div className="w-[26px] h-[25px]" key={index}>{day.short}  </div>))} </div>  
-   <div className="grid grid-cols-7 text-[10px]">
-            {targetCalendarDates.map((date: Date, index) => {
+   <div className="grid grid-cols-7 text-[10px] "> {targetCalendarDates.map((date: Date, index) => {
               const isCurrentMonth =
                 date.getMonth() + 1 === selectedMonth && date.getFullYear() === selectedYear;
-              const textColorClass = isCurrentMonth ? '' : 'text-zinc-800';
-
+              const isToday =
+                date.getDate() === today.getDate() &&
+                date.getMonth() === today.getMonth() &&
+                date.getFullYear() === today.getFullYear();
+              
+              
               return (
-                <div className={`w-[30px] h-[33px] ${textColorClass}`} key={index}>
+                <div
+                key={index}
+                className={clsx('w-[30px] h-[33px]', {
+                  'bg-primary text-white': isToday,
+                  'text-black': !isToday && isCurrentMonth,
+                  'text-zinc-500': !isToday && !isCurrentMonth,
+                })}
+                >
                   {date.getDate()}
-                </div>);
-            })} </div>
+                </div>
+              );
+            })}
+       </div>   
   </div> 
 
 
