@@ -18,8 +18,8 @@ function App() {
   const [selectedYear, setSelectedYear] = React.useState(today.getFullYear());
   const targetCalendarDates: Date[] = getCalendarDates(selectedYear, selectedMonth);
 
-  return <div className="flex flex-row w-full h-full outer-box">
-<div className="w-[250px] h-max-[1024px] p-3">  
+  return <div className="flex flex-row outer-box">
+<div className="w-[250px] h-min-[1024px] p-3">  
   
  <div className=" p-[10px] grid gap-2.5">
    <div className="items-center  px-[6px] text-xl grid justify-start"> {getMonthString(selectedMonth)}</div> 
@@ -72,8 +72,29 @@ function App() {
      </div>
     </div> 
    <div className="grid grid-cols-7 outer-box"> {dayList.map((day, index) => (<div key={index}>{day.medium} </div>))} </div>  
-   <div className="grid grid-cols-7 w-[1214px] h-[923px]"> {targetCalendarDates.map((date:Date,index) => (<div key={index} className="outer-box">{date.getDate()}</div>))} </div>   
-
+   <div className="grid grid-cols-7 w-[1214px] h-min-[923px]">{targetCalendarDates.map((date: Date, index) => {
+              const isCurrentMonth =
+                date.getMonth() + 1 === selectedMonth && date.getFullYear() === selectedYear;
+              const isToday =
+                date.getDate() === today.getDate() &&
+                date.getMonth() === today.getMonth() &&
+                date.getFullYear() === today.getFullYear();
+              
+              
+              return (
+                <div
+                key={index}
+                className={clsx('w-[173px] h-[184px] outer-box p-2.5', {
+                  'bg-primary text-white': isToday,
+                  'text-black': !isToday && isCurrentMonth,
+                  'text-zinc-500 bg-zinc-100 opacity-30': !isToday && !isCurrentMonth,
+                })}
+                >
+                  {date.getDate()}
+                </div>
+              );
+            })}
+       </div>   
 
 </div>
 
