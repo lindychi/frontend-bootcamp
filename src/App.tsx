@@ -56,9 +56,13 @@ function App() {
         </div>
 
 
-
-          <div className="datebox grid grid-cols-7 w-100% h-100% py-[3px] px-[4px] border solid rgba(157, 158, 159, 0.60)">
-            {targetCalendarDates.map((date: Date) => (<div className="date  w-[30px] h-[33px] p-[4px] font-medium text-xs">{date.getDate()}</div>))}
+        
+          <div className="datebox grid grid-cols-7 py-[3px] px-[4px] items-center justify-between border solid rgba(157, 158, 159, 0.60)">
+            {targetCalendarDates.map((date: Date) => (
+              <div className="inner-date w-[30px] h-[33px] p-[4px] font-medium text-xs">
+                {date.getDate()}
+              </div> 
+            ))}
           </div>
       </div>    
     </div>
