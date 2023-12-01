@@ -26,8 +26,18 @@ function App() {
   
  <div className=" p-[10px] grid gap-2.5">
    <div className="items-center  px-[6px] text-xl grid justify-start"> {getMonthString(12)} </div> 
-   <div className="grid grid-cols-7 text-sm "> {dayList.map((day, index) => (<div className="w-[26px] h-[25px]" key={index}>{day.short}  </div>))} </div>  
-   <div className="grid grid-cols-7 text-sm "> {targetCalendarDates.map((date:Date,index) => (<div className="w-[30px] h-[33px] items-start" key={index}>{date.getDate()}</div>))} </div> 
+   <div className="grid grid-cols-7 text-[10px] "> {dayList.map((day, index) => (<div className="w-[26px] h-[25px]" key={index}>{day.short}  </div>))} </div>  
+   <div className="grid grid-cols-7 text-[10px]">
+            {targetCalendarDates.map((date: Date, index) => {
+              const isCurrentMonth =
+                date.getMonth() + 1 === selectedMonth && date.getFullYear() === selectedYear;
+              const textColorClass = isCurrentMonth ? '' : 'text-zinc-800';
+
+              return (
+                <div className={`w-[30px] h-[33px] ${textColorClass}`} key={index}>
+                  {date.getDate()}
+                </div>);
+            })} </div>
   </div> 
 
 
