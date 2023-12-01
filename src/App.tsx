@@ -25,8 +25,18 @@ function App() {
     if (date.getMonth() + 1 !== selectedMonth) {
       return "text-gray-400";
     }
+    if (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    ) {
+      return "bg-primary rounded-full text-white";
+    }
     return "";
   };
+
+  const today = new Date();
+
   // 작은달력에 넣었던 효과가 큰달력에 적용되지 않아서 한번 더  추가함
   const getSecondCalendarDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
@@ -52,13 +62,13 @@ function App() {
               key={date.toString()}
               className={`text-center py-2 ${getDateClass(date)}`}
             >
-              {date.getDate()}
+              {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
             </div>
           ))}
         </div>
       </div>
       <div>
-        <div className="w-[1500px] h-[77px] flex flex-row justify-between p-3 items-center border border-state-300 rounded-tr-lg">
+        <div className="w-[1500px] h-[90px] flex flex-row justify-between p-3 items-center border border-state-300 rounded-tr-lg">
           <div className="flex justify-start gap-5 ">
             <Hamburger />
             <div className="text-5xl">December 2023</div>
@@ -88,7 +98,7 @@ function App() {
                 date
               )}`}
             >
-              {date.getDate()}
+              {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
             </div>
           ))}
         </div>
