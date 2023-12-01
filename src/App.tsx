@@ -24,11 +24,12 @@ function App() {
   return <div className="flex flex-row w-full h-full outer-box">
 <div className="w-[250px] h-max-[1024px] p-3">  
   
-  
-   <div className="font-bold"> {getMonthString(12)} </div> 
-   <div className="grid grid-cols-7"> {dayList.map((day, index) => (<div key={index}>{day.short} </div>))} </div>  
-   <div className="grid grid-cols-7"> {targetCalendarDates.map((date:Date,index) => (<div key={index} className="">{date.getDate()}</div>))} </div> 
-  
+ <div className=" p-[10px] grid gap-2.5">
+   <div className="items-center  px-[6px] text-xl grid justify-start"> {getMonthString(12)} </div> 
+   <div className="grid grid-cols-7 text-sm "> {dayList.map((day, index) => (<div className="w-[26px] h-[25px]" key={index}>{day.short}  </div>))} </div>  
+   <div className="grid grid-cols-7 text-sm "> {targetCalendarDates.map((date:Date,index) => (<div className="w-[30px] h-[33px] items-start" key={index}>{date.getDate()}</div>))} </div> 
+  </div> 
+
 
 </div>  
    
