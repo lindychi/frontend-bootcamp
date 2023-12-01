@@ -30,7 +30,7 @@ function App() {
   // 작은달력에 넣었던 효과가 큰달력에 적용되지 않아서 한번 더  추가함
   const getSecondCalendarDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
-      return "text-gray-400";
+      return "text-gray-400 bg-zinc-100";
     }
     return "";
   };
@@ -97,5 +97,5 @@ function App() {
     </div>
   );
 }
-
+// clsx은 이해가 부족해서 못썼어요
 export default App;
