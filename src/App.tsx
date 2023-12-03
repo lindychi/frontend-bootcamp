@@ -19,6 +19,11 @@ function App() {
   const [selectedMonth, setSelectedMonth] = React.useState(today.getMonth() + 1);
   const [selectedYear, setSelectedYear] = React.useState(today.getFullYear());
   const targetCalendarDates: Date[] = getCalendarDates(selectedYear, selectedMonth);
+  const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedMonthValue = parseInt(e.target.value, 10); // 문자열을 숫자로 변환
+    setSelectedMonth(selectedMonthValue);
+  };
+
 
   return <div className="flex flex-row outer-box">
 <div className="w-[250px] h-min-[1024px] p-3">  
@@ -58,14 +63,22 @@ function App() {
 
 <div className="w-[1214px] outer-box ">
    <div className="flex flex-row place-content-between items-center p-4"> 
-     <div className="flex flex-row items-center gap-4 ">
+     <div className="flex flex-row items-center gap-4  ">
       <div>< Hamburger /></div>
       <div className="text-[30px] font-bold">{getMonthString(12)} </div>
       <div className="text-[30px]"> {selectedYear}</div>
       <div className="flex flex-row border-primary  border-solid border-[1px]  p-2 gap-1 rounded">
-        <div>Month</div>
-        <div><Arrow /></div>
+      <select className="text-primary"
+            onChange={handleMonthChange}
+            value={selectedMonth}>
+               {Array.from({ length: 12 }, (_, index) => index + 1).map((monthValue) => (
+           <option key={monthValue} value={monthValue}>
+                {getMonthString(monthValue)}
+              </option> ))}
+          </select>
       </div>
+      
+
      </div>
      <div className="flex flex-row items-center gap-4"> 
       <div><Search /></div>
