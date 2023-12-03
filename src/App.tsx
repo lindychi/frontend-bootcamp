@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Date, todoData as originTodoData, Priority } from "./consts/todoList";
+import { Date, Level, todoData as originTodoData, Priority } from "./consts/todoList";
 import clsx from 'clsx';
 
 
@@ -8,8 +8,9 @@ import clsx from 'clsx';
 function App() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  const [dueDate, setDueDate] = useState("");
+  const [dueDate, setDueDate] = useState("Mon");
   const [priority, setPriority] = useState<Priority>("high");
+  const [level, setLevel] = useState(1);
 
 
 
@@ -17,6 +18,14 @@ function App() {
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
   
+  const dateList = [
+  { key: "Mon", value: "월요일"} ,
+  { key: "Tue", value: "화요일"} ,
+  { key: "Wed", value: "수요일"} ,
+  { key: "Thu", value: "목요일"} ,
+  { key: "Fri", value: "금요일"} ,
+  { key: "Sat", value: "토요일"} ,
+  { key: "Sun", value: "일요일"} , ] ;  
 
 
 
@@ -25,7 +34,7 @@ function App() {
   return <div className="bg-blue-900 w-full min-h-screen h-full flex flex-row justify-center items-center gap-5 ">
 
 <div className="flex flex-col gap-3">
-<div className="p-3 bg-blue-100 h-fit w-fit flex flex-col">
+<div className="p-3 bg-blue-100 h-fit w-fit flex flex-col text-xl">
 제목{""} <input 
 type= "text"
 value ={title}
@@ -34,11 +43,12 @@ onChange={(event) => setTitle(event.target.value)} />
 type= "text"
 value ={author}
 onChange={(event) => setAuthor(event.target.value)} />
-요일{""} <input 
-type= "text"
-value={dueDate}
-onChange={(event) => setDueDate(event.target.value)} />
-priority {""}
+요일{""} 
+<select onChange={(e) => setDueDate(e.target.value)}
+value={dueDate}>
+  {dateList.map((item)=> (<option value={item.key}>{item.value}</option>))}
+</select>
+중요도 {""}
 <select
 value= {priority}
 onChange={(event) => setPriority(event.target.value as Priority)} >
@@ -46,21 +56,37 @@ onChange={(event) => setPriority(event.target.value as Priority)} >
   <option value="medium">medium</option>
   <option value="low">low</option>
 </select>
+단계 {""}
+<select
+value= {level}
+onChange={(event) => setLevel(Number(event.target.value))} >
+  <option value={1}>1</option>
+  <option value={2}>2</option>
+  <option value={3}>3</option>
+</select>
 
 
 <button className="bg-blue-800 text-white"
 onClick={() => {
+  console.log({title, 
+    progress: "TODO", 
+    level : level as Level,
+    priority : priority,
+    dueDate: dueDate as Date,
+    author, })
   setTodoData([
     ...todoData,{title, 
     progress: "TODO", 
-    level :3 ,
+    level : level as Level,
     priority : priority,
     dueDate: dueDate as Date,
     author, },
   ])
   setTitle("")  
   setAuthor("") 
-  setDueDate("");
+  setDueDate("Mon")
+  setPriority("high")
+  setLevel(1);
   }}
 >
 추가
@@ -115,7 +141,7 @@ onClick={() => {
             'fill-priority-high': item.priority.toLowerCase() === 'high',
             'fill-priority-medium': item.priority.toLowerCase() === 'medium',
             'fill-priority-low': item.priority.toLowerCase() === 'low',
-            'fill-priority-inactive': item.level === 1 || item.level === 2,            
+            '!fill-priority-inactive': item.level === 1 || item.level === 2,            
             })}/>
           </svg>
         </div>
@@ -165,7 +191,7 @@ onClick={() => {
             'fill-priority-high': item.priority.toLowerCase() === 'high',
             'fill-priority-medium': item.priority.toLowerCase() === 'medium',
             'fill-priority-low': item.priority.toLowerCase() === 'low',
-            'fill-priority-inactive': item.level === 1 || item.level === 2,            
+            '!fill-priority-inactive': item.level === 1 || item.level === 2,            
             })}/>
           </svg>
         </div>
