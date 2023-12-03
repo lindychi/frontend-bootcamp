@@ -1,16 +1,35 @@
 import React, { useState } from "react";
+import clsx from "clsx";
 import "./App.css";
-import { todoData as originTodoData } from "./consts/todoList";
+import { Date, Priority, todoData as originTodoData } from "./consts/todoList";
 import { HighlightSpanKind } from "typescript";
+import { setPriority } from "os";
 
 function App() {
   const [todoData, setTodoData] = useState(originTodoData);
   const [author, setAuthor] = useState("");
+  const [dueDate, setDueDate] = useState("Sat");
+  const [level, setlevel] = useState("Level");
+  const [priority, setPriority] = useState("Priority");
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
   const [value, setValue] = useState("");
+  const dueDateList = [
+    { key: "Mon", value: "월요일" },
+    { key: "Tue", value: "화요일" },
+    { key: "Wed", value: "수요일" },
+    { key: "Thu", value: "목요일" },
+    { key: "Fri", value: "금요일" },
+    { key: "Sat", value: "토요일" },
+    { key: "Sun", value: "일요일" },
+  ];
+  const priorityList = [
+    { key: "high", value: "높음" },
+    { key: "medium", value: "중간" },
+    { key: "low", value: "낮음" },
+  ];
   return (
-    <div className="w-screen h-full items-center bg-blue-800">
+    <div className="w-screen h-screen items-center bg-blue-800">
       <div>
         <div className="felx flex-row ">
           <div className="p-4 bg-blue-100 rounded">
@@ -26,6 +45,26 @@ function App() {
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
             />
+            요일 {dueDate}
+            <select
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+            >
+              {dueDateList.map((item) => (
+                <option value={item.key}>{item.value}</option>
+              ))}
+            </select>
+            <div>
+              우선순위
+              <select
+                onChange={(e) => setPriority(e.target.value)}
+                value={priority}
+              >
+                {priorityList.map((item) => (
+                  <option value={item.key}>{item.value}</option>
+                ))}
+              </select>
+            </div>
             <button
               onClick={() => {
                 setTodoData([
@@ -33,9 +72,9 @@ function App() {
                   {
                     title: value,
                     progress: "TODO",
-                    level: 2,
-                    priority: "high",
-                    dueDate: "Mon",
+                    level: 1,
+                    priority: priority as Priority,
+                    dueDate: dueDate as Date,
                     author,
                   },
                 ]);
@@ -54,13 +93,28 @@ function App() {
                   <TodoIcon />
                   To-Do
                 </div>
-
                 {todoList.map((item, index) => (
                   <div
                     key={index}
                     className=" h-[130px] flex flex-col gap-6 p-6 bg-white rounded-xl"
                   >
-                    <div className="text-2xl">{item.title}</div>
+                    <div className="flex justify-between">
+                      <div className="text-2xl">{item.title}</div>
+                      <button
+                        onClick={() => {
+                          setTodoData(
+                            todoData.map((todo) =>
+                              item.title === todo.title &&
+                              item.author === todo.author
+                                ? { ...item, process: "Done" }
+                                : item
+                            )
+                          );
+                        }}
+                      >
+                        완료
+                      </button>
+                    </div>
                     <div className="flex justify-between gap-4">
                       <div className="flex flex-row gap-4">
                         <div
@@ -76,27 +130,7 @@ function App() {
                         >
                           {item.dueDate}
                         </div>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="25"
-                          height="25"
-                          viewBox="0 0 25 25"
-                          fill={
-                            item.priority === "high"
-                              ? "#E42C5F"
-                              : item.priority === "medium"
-                              ? "#ECB800"
-                              : item.priority === "low"
-                              ? "#2D41A7"
-                              : ""
-                          }
-                        >
-                          <path
-                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
-                            className="bg-priority-{item.priority}"
-                            fill="item.priority"
-                          />
-                        </svg>
+                        <SVGIcon />
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="25"
@@ -145,13 +179,11 @@ function App() {
                         {item.author}
                       </div>
                     </div>
-
                     <div className="hidden">{item.priority}</div>
                   </div>
                 ))}
               </div>
             </div>
-
             <div className="bg-blue-100 rounded-xl p-6 h-fit">
               <div className="w-[500px] h-fit flex flex-col gap-6">
                 <div className="flex gap-4 text-4xl text-blue-800">
@@ -163,7 +195,7 @@ function App() {
                     key={index}
                     className=" h-[130px] flex flex-col gap-6 p-6 bg-white rounded-xl"
                   >
-                    <div>{item.title}</div>
+                    <div>{item.title} </div>
                     <div className="flex justify-between gap-4">
                       <div className="flex flex-row gap-4">
                         <div
@@ -179,26 +211,8 @@ function App() {
                         >
                           {item.dueDate}
                         </div>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="25"
-                          height="25"
-                          viewBox="0 0 25 25"
-                          fill={
-                            item.priority === "high"
-                              ? "#E42C5F"
-                              : item.priority === "medium"
-                              ? "#ECB800"
-                              : item.priority === "low"
-                              ? "#2D41A7"
-                              : ""
-                          }
-                        >
-                          <path
-                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
-                            fill="item.priority"
-                          />
-                        </svg>
+                        <SVGIcon />
+
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="25"
@@ -247,7 +261,6 @@ function App() {
                         {item.author}
                       </div>
                     </div>
-
                     <div className="hidden">{item.priority}</div>
                   </div>
                 ))}
@@ -259,7 +272,6 @@ function App() {
     </div>
   );
 }
-
 export const TodoIcon = () => {
   return (
     <svg
@@ -279,7 +291,6 @@ export const TodoIcon = () => {
     </svg>
   );
 };
-
 export const DoneIcon = () => {
   return (
     <svg
@@ -299,12 +310,20 @@ export const DoneIcon = () => {
     </svg>
   );
 };
-export const SVGIcon = () => (
+export const SVGIcon = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" fill="#D9D9D9"/>
-</svg>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path
+        d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z"
+        fill="#D9D9D9"
+      />
+    </svg>
   );
 };
-
 export default App;
