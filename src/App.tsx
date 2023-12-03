@@ -11,6 +11,7 @@ function App() {
   const [dueDate, setDueDate] = useState("Mon");
   const [priority, setPriority] = useState<Priority>("high");
   const [level, setLevel] = useState(1);
+  
 
 
 
@@ -75,7 +76,9 @@ onClick={() => {
     dueDate: dueDate as Date,
     author, })
   setTodoData([
-    ...todoData,{title, 
+    ...todoData,{
+      id: todoData.length + 1,
+      title, 
     progress: "TODO", 
     level : level as Level,
     priority : priority,
@@ -147,6 +150,22 @@ onClick={() => {
         </div>
       </div>  
       <div>{item.author}</div>
+      
+        <button
+            className="text-white bg-blue-800 p-2"
+            onClick={() => {
+              setTodoData((prev) =>
+                prev.map((prevItem, prevIndex) =>
+                  prevItem.id === item.id
+                    ? { ...prevItem, progress: "DONE" }
+                    : prevItem
+                )
+              );
+            }}
+          >
+            완료
+          </button>
+         
     </div>
   </div>
   )}
