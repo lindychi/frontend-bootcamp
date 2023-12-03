@@ -216,6 +216,20 @@ onClick={() => {
         </div>
       </div>  
       <div>{item.author}</div>
+      <button
+            className="text-white bg-blue-800 p-2"
+            onClick={() => {
+              setTodoData((prev) =>
+                prev.map((prevItem, prevIndex) =>
+                  prevItem.id === item.id
+                    ? { ...prevItem, progress: "TODO" }
+                    : prevItem
+                )
+              );
+            }}
+          >
+            복구
+          </button>
     </div>
   </div>
   )}
