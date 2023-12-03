@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Date, Level, todoData as originTodoData, Priority } from "./consts/todoList";
+import { Date, Level, todoData as originTodoData, Priority, TodoItem } from "./consts/todoList";
 import clsx from 'clsx';
+
+
 
 
 
@@ -11,13 +13,20 @@ function App() {
   const [dueDate, setDueDate] = useState("Mon");
   const [priority, setPriority] = useState<Priority>("high");
   const [level, setLevel] = useState(1);
+
+  const [todoData, setTodoData] = useState<TodoItem[]>(() => {
+    // localStorage에서 데이터 불러오기
+    const storedData = localStorage.getItem("todoData");
+    return storedData ? JSON.parse(storedData) : [];
+  });
   
-
-
-
-  const [ todoData,setTodoData ] = useState(originTodoData);
+  
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
+
+  useEffect(() => {
+    localStorage.setItem("todoData", JSON.stringify(todoData));
+  }, [todoData]);
   
   const dateList = [
   { key: "Mon", value: "월요일"} ,
@@ -28,8 +37,7 @@ function App() {
   { key: "Sat", value: "토요일"} ,
   { key: "Sun", value: "일요일"} , ] ;  
 
-
-
+  
 
 
   return <div className="bg-blue-900 w-full min-h-screen h-full flex flex-row justify-center items-center gap-5 ">
