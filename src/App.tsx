@@ -28,6 +28,7 @@ function App() {
     { key: "medium", value: "중간" },
     { key: "low", value: "낮음" },
   ];
+
   return (
     <div className="w-screen h-screen items-center bg-blue-800">
       <div>
@@ -130,7 +131,6 @@ function App() {
                         >
                           {item.dueDate}
                         </div>
-                        <SVGIcon />
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="25"
@@ -151,20 +151,49 @@ function App() {
                             fill="item.priority"
                           />
                         </svg>
+                        <div>
+                          <svg
+                            key={index}
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="25"
+                            height="25"
+                            viewBox="0 0 25 25"
+                            fill={clsx({
+                              "#E42C5F":
+                                item.priority === "high" &&
+                                item.level >= index + 1,
+                              "#ECB800":
+                                item.priority === "medium" &&
+                                item.level >= index + 1,
+                              "#2D41A7":
+                                item.priority === "low" &&
+                                item.level >= index + 1,
+                              "#D9D9D9": item.level < index + 1,
+                            })}
+                          >
+                            <path
+                              d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
+                              fill="item.priority"
+                            />
+                          </svg>
+                        </div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="25"
                           height="25"
                           viewBox="0 0 25 25"
-                          fill={
-                            item.priority === "high"
-                              ? "#E42C5F"
-                              : item.priority === "medium"
-                              ? "#ECB800"
-                              : item.priority === "low"
-                              ? "#2D41A7"
-                              : ""
-                          }
+                          fill={clsx({
+                            "#E42C5F":
+                              item.priority === "high" &&
+                              item.level >= index + 1,
+                            "#ECB800":
+                              item.priority === "medium" &&
+                              item.level >= index + 1,
+                            "#2D41A7":
+                              item.priority === "low" &&
+                              item.level >= index + 1,
+                            "#D9D9D9": item.level < index + 1,
+                          })}
                         >
                           <path
                             d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
@@ -176,10 +205,14 @@ function App() {
                         className="text-blue-800
                       text-xl"
                       >
+                        {item.level}
                         {item.author}
                       </div>
                     </div>
-                    <div className="hidden">{item.priority}</div>
+                    <div className="hidden">
+                      {item.priority}
+                      {item.level}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -211,8 +244,6 @@ function App() {
                         >
                           {item.dueDate}
                         </div>
-                        <SVGIcon />
-
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="25"
@@ -247,6 +278,30 @@ function App() {
                               ? "#2D41A7"
                               : ""
                           }
+                        >
+                          <path
+                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
+                            fill="item.priority"
+                          />
+                        </svg>
+                        <svg
+                          key={index}
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 25 25"
+                          fill={clsx({
+                            "#E42C5F":
+                              item.priority === "high" &&
+                              item.level >= index + 1,
+                            "#ECB800":
+                              item.priority === "medium" &&
+                              item.level >= index + 1,
+                            "#2D41A7":
+                              item.priority === "low" &&
+                              item.level >= index + 1,
+                            "#D9D9D9": item.level < index + 1,
+                          })}
                         >
                           <path
                             d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
@@ -259,9 +314,13 @@ function App() {
                       text-xl"
                       >
                         {item.author}
+                        {item.level}
                       </div>
                     </div>
-                    <div className="hidden">{item.priority}</div>
+                    <div className="hidden">
+                      {item.priority}
+                      {item.level}
+                    </div>
                   </div>
                 ))}
               </div>
