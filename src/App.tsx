@@ -1,7 +1,13 @@
 import React, { useState } from "react";
+
 import clsx from "clsx";
 import "./App.css";
-import { Date, Priority, todoData as originTodoData } from "./consts/todoList";
+import {
+  Date,
+  Priority,
+  TodoItem,
+  todoData as originTodoData,
+} from "./consts/todoList";
 import { HighlightSpanKind } from "typescript";
 import { setPriority } from "os";
 
@@ -131,81 +137,12 @@ function App() {
                         >
                           {item.dueDate}
                         </div>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="25"
-                          height="25"
-                          viewBox="0 0 25 25"
-                          fill={
-                            item.priority === "high"
-                              ? "#E42C5F"
-                              : item.priority === "medium"
-                              ? "#ECB800"
-                              : item.priority === "low"
-                              ? "#2D41A7"
-                              : ""
-                          }
-                        >
-                          <path
-                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
-                            fill="item.priority"
-                          />
-                        </svg>
-                        <div>
-                          <svg
-                            key={index}
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="25"
-                            height="25"
-                            viewBox="0 0 25 25"
-                            fill={clsx({
-                              "#E42C5F":
-                                item.priority === "high" &&
-                                item.level >= index + 1,
-                              "#ECB800":
-                                item.priority === "medium" &&
-                                item.level >= index + 1,
-                              "#2D41A7":
-                                item.priority === "low" &&
-                                item.level >= index + 1,
-                              "#D9D9D9": item.level < index + 1,
-                            })}
-                          >
-                            <path
-                              d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
-                              fill="item.priority"
-                            />
-                          </svg>
-                        </div>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="25"
-                          height="25"
-                          viewBox="0 0 25 25"
-                          fill={clsx({
-                            "#E42C5F":
-                              item.priority === "high" &&
-                              item.level >= index + 1,
-                            "#ECB800":
-                              item.priority === "medium" &&
-                              item.level >= index + 1,
-                            "#2D41A7":
-                              item.priority === "low" &&
-                              item.level >= index + 1,
-                            "#D9D9D9": item.level < index + 1,
-                          })}
-                        >
-                          <path
-                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
-                            fill="item.priority"
-                          />
-                        </svg>
+                        <SVGIcon item={item} />
                       </div>
                       <div
                         className="text-blue-800
                       text-xl"
                       >
-                        {item.level}
                         {item.author}
                       </div>
                     </div>
@@ -244,77 +181,14 @@ function App() {
                         >
                           {item.dueDate}
                         </div>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="25"
-                          height="25"
-                          viewBox="0 0 25 25"
-                          fill={
-                            item.priority === "high"
-                              ? "#E42C5F"
-                              : item.priority === "medium"
-                              ? "#ECB800"
-                              : item.priority === "low"
-                              ? "#2D41A7"
-                              : ""
-                          }
-                        >
-                          <path
-                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
-                            fill="item.priority"
-                          />
-                        </svg>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="25"
-                          height="25"
-                          viewBox="0 0 25 25"
-                          fill={
-                            item.priority === "high"
-                              ? "#E42C5F"
-                              : item.priority === "medium"
-                              ? "#ECB800"
-                              : item.priority === "low"
-                              ? "#2D41A7"
-                              : ""
-                          }
-                        >
-                          <path
-                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
-                            fill="item.priority"
-                          />
-                        </svg>
-                        <svg
-                          key={index}
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="25"
-                          height="25"
-                          viewBox="0 0 25 25"
-                          fill={clsx({
-                            "#E42C5F":
-                              item.priority === "high" &&
-                              item.level >= index + 1,
-                            "#ECB800":
-                              item.priority === "medium" &&
-                              item.level >= index + 1,
-                            "#2D41A7":
-                              item.priority === "low" &&
-                              item.level >= index + 1,
-                            "#D9D9D9": item.level < index + 1,
-                          })}
-                        >
-                          <path
-                            d="M0.333252 6.5H20.3333C22.5424 6.5 24.3333 8.29086 24.3333 10.5V15.0714C24.3333 16.965 22.7982 18.5 20.9047 18.5H12.3333C5.70584 18.5 0.333252 13.1274 0.333252 6.5Z"
-                            fill="item.priority"
-                          />
-                        </svg>
+
+                        <SVGIcon item={item} />
                       </div>
                       <div
                         className="text-blue-800
                       text-xl"
                       >
                         {item.author}
-                        {item.level}
                       </div>
                     </div>
                     <div className="hidden">
@@ -369,20 +243,46 @@ export const DoneIcon = () => {
     </svg>
   );
 };
-export const SVGIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-    >
-      <path
-        d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z"
-        fill="#D9D9D9"
-      />
-    </svg>
-  );
+
+export const SVGIcon = ({ item }: { item: TodoItem }) => {
+  const icons = [];
+  for (let i = 0; i < item.level; i++) {
+    icons.push(
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <path
+          d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z"
+          className={clsx({
+            "fill-priority-high": item.priority === "high",
+            "fill-priority-medium": item.priority === "medium",
+            "fill-priority-low": item.priority === "low",
+          })}
+        />
+      </svg>
+    );
+  }
+  for (let i = 3; i > item.level; i--) {
+    icons.push(
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <path
+          d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z"
+          className="fill-priority-inactive"
+        />
+      </svg>
+    );
+  }
+
+  return <>{icons}</>;
 };
 export default App;
