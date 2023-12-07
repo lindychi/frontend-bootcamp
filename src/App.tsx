@@ -19,8 +19,6 @@ function App() {
     selectedMonth
   );
 
-  const monthString = getMonthString(selectedMonth);
-
   const getDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
       return "text-gray-400";
@@ -49,7 +47,7 @@ function App() {
     <div className="flex flex-row h-screen">
       <div className="w-[300px] h-screen border border-slate-300 p-4">
         <div className="text-2xl font-semibold mb-4 px-2 py-1">
-          {monthString}
+          {getMonthString(12)}
         </div>
         <div className="grid grid-cols-7 gap-1">
           {dayList.map((day) => (
@@ -67,14 +65,25 @@ function App() {
           ))}
         </div>
       </div>
+
       <div>
         <div className="w-[1500px] h-[90px] flex flex-row justify-between p-3 items-center border border-state-300 rounded-tr-lg">
           <div className="flex justify-start gap-5 ">
             <Hamburger />
-            <div className="text-5xl">December 2023</div>
-            <div className="flex text-primary border border-primary rounded-md p-2 gap-1">
-              Month <Arrow />
+            <div className="text-5xl">
+              {getMonthString(12)} {getYearString(2023)}
             </div>
+            <button className="flex text-primary border border-primary rounded-md p-2 gap-1">
+              Month
+              <Arrow />
+              <select
+                onChange={(e) => setSelectedMonth(Number(e.target.value))}
+                value={selectedMonth}
+              >
+                <option value={"December"}>12월</option>
+                <option value={"November"}>11월</option>
+              </select>
+            </button>
           </div>
           <div className="flex gap-3">
             <Search />
