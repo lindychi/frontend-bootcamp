@@ -71,20 +71,25 @@ function App() {
           <div className="flex justify-start gap-5 ">
             <Hamburger />
             <div className="text-5xl">
-              {getMonthString(12)} {getYearString(2023)}
+              {getMonthString(12)} {selectedYear}
             </div>
             <button className="flex text-primary border border-primary rounded-md p-2 gap-1">
               Month
               <Arrow />
               <select
+                className="text-primary"
                 onChange={(e) => setSelectedMonth(Number(e.target.value))}
                 value={selectedMonth}
               >
-                <option value={"December"}>12월</option>
-                <option value={"November"}>11월</option>
+                {Array.from({ length: 12 }, (_, index) => (
+                  <option key={index + 1} value={index + 1}>
+                    {getMonthString(index + 1)}
+                  </option>
+                ))}
               </select>
             </button>
           </div>
+
           <div className="flex gap-3">
             <Search />
             <div className="flex bg-primary text-white p-2 gap-1">
@@ -92,6 +97,7 @@ function App() {
             </div>
           </div>
         </div>
+
         <div className="grid grid-cols-7 gap-1 border border-state-300">
           {dayList.map((day) => (
             <div key={day.medium} className="text-center py-2 ">
@@ -99,6 +105,7 @@ function App() {
             </div>
           ))}
         </div>
+
         <div className="w-full h-full grid grid-cols-7  border border-state-300">
           {targetCalendarDates.map((date: Date) => (
             <div
