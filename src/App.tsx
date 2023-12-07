@@ -4,6 +4,7 @@ import clsx from "clsx";
 import "./App.css";
 import {
   Date,
+  Level,
   Priority,
   TodoItem,
   todoData as originTodoData,
@@ -34,12 +35,17 @@ function App() {
     { key: "medium", value: "중간" },
     { key: "low", value: "낮음" },
   ];
+  const levelList = [
+    { key: "1", value: "1" },
+    { key: "2", value: "2" },
+    { key: "3", value: "3" },
+  ];
 
   return (
     <div className="w-screen h-screen items-center bg-blue-800">
       <div>
         <div className="felx flex-row ">
-          <div className="p-4 bg-blue-100 rounded">
+          <div className="p-4 bg-blue-100 rounded gap-3">
             제목
             <input
               type="text"
@@ -61,17 +67,21 @@ function App() {
                 <option value={item.key}>{item.value}</option>
               ))}
             </select>
-            <div>
-              우선순위
-              <select
-                onChange={(e) => setPriority(e.target.value)}
-                value={priority}
-              >
-                {priorityList.map((item) => (
-                  <option value={item.key}>{item.value}</option>
-                ))}
-              </select>
-            </div>
+            우선순위
+            <select
+              onChange={(e) => setPriority(e.target.value)}
+              value={priority}
+            >
+              {priorityList.map((item) => (
+                <option value={item.key}>{item.value}</option>
+              ))}
+            </select>
+            level
+            <select onChange={(e) => setlevel(e.target.value)} value={level}>
+              {levelList.map((item) => (
+                <option value={item.key}>{item.value}</option>
+              ))}
+            </select>
             <button
               onClick={() => {
                 setTodoData([
