@@ -1,5 +1,5 @@
 import React from "react";
-
+import clsx from "clsx";
 import "./App.css";
 
 import { dayList } from "./consts/calendar";
@@ -45,20 +45,20 @@ function App() {
   // 작은달력에 넣었던 효과가 큰달력에 적용되지 않아서 한번 더  추가함
   return (
     <div className="flex flex-row h-screen">
-      <div className="w-[300px] h-screen border border-slate-300 p-4">
+      <div className="w-[340px] h-screen border border-slate-300 p-4">
         <div className="text-2xl font-semibold mb-4 px-2 py-1">
           {getMonthString(12)}
         </div>
-        <div className="grid grid-cols-7 gap-1">
+        <div className="min-w-[300px] grid grid-cols-7 gap-1 ">
           {dayList.map((day) => (
-            <div key={day.short} className="text-center py-2 ">
+            <div key={day.short} className="text-center text-sm py-2 ">
               {day.short}
             </div>
           ))}
           {targetCalendarDates.map((date: Date) => (
             <div
-              key={date.toString()}
-              className={`text-center py-2 ${getDateClass(date)}`}
+              key={date.getDate()}
+              className={`text-center text-sm py-3 ${getDateClass(date)}`}
             >
               {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
             </div>
@@ -70,7 +70,7 @@ function App() {
         <div className="w-[1500px] h-[90px] flex flex-row justify-between p-3 items-center border border-state-300 rounded-tr-lg">
           <div className="flex justify-start gap-5 ">
             <Hamburger />
-            <div className="text-5xl">
+            <div className="text-4xl">
               {getMonthString(12)} {selectedYear}
             </div>
             <button className="flex text-primary border border-primary rounded-md p-2 gap-1">
@@ -109,7 +109,7 @@ function App() {
         <div className="w-full h-full grid grid-cols-7  border border-state-300">
           {targetCalendarDates.map((date: Date) => (
             <div
-              key={date.toString()}
+              key={date.getDate()}
               className={`text-left indent-3 py-2 border border-state-300 ${getSecondCalendarDateClass(
                 date
               )}`}
