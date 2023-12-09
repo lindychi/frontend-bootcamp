@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import clsx from "clsx";
 import "./App.css";
 import "./consts/style.css";
@@ -13,7 +13,6 @@ import Search from "./icons/Search";
 import Plus from "./icons/Plus";
 
 
-
 function App() {
   const today = new Date();
   const [selectedMonth, setSelectedMonth] = React.useState(today.getMonth() + 1);
@@ -23,6 +22,11 @@ function App() {
     const selectedMonthValue = parseInt(e.target.value, 10); // 문자열을 숫자로 변환
     setSelectedMonth(selectedMonthValue);
   };
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedYearValue = parseInt(e.target.value, 10);
+    setSelectedYear(selectedYearValue);
+  };
+  
 
 
   return <div className="flex flex-row outer-box">
@@ -67,8 +71,23 @@ function App() {
       <div>< Hamburger /></div>
       <div className="text-[30px] font-bold">{getMonthString(12)} </div>
       <div className="text-[30px]"> {selectedYear}</div>
-      <div className="flex flex-row border-primary  border-solid border-[1px]  p-2 gap-1 rounded">
-      <select className="text-primary"
+      <div className="flex flex-row">
+      <select
+            className="text-primary border-primary  border-solid border-[1px]  p-2 gap-1 rounded"
+            onChange={handleYearChange}
+            value={selectedYear}
+          >
+            {Array.from({ length: 10 }, (_, index) => today.getFullYear() - 5 + index).map(
+              (yearValue) => (
+                <option key={yearValue} value={yearValue}>
+                  {yearValue}
+                </option>
+              )
+            )}
+          </select>
+      
+      
+      <select className="text-primary  border-primary  border-solid border-[1px]  p-2 gap-1 rounded"
             onChange={handleMonthChange}
             value={selectedMonth}>
                {Array.from({ length: 12 }, (_, index) => index + 1).map((monthValue) => (
@@ -77,11 +96,13 @@ function App() {
               </option> ))}
           </select>
       </div>
-      
-
      </div>
+
      <div className="flex flex-row items-center gap-4"> 
       <div><Search /></div>
+
+      
+
       <div className="flex flex-row bg-primary items-center text-white p-2 gap-2 rounded">
         <div>Add event</div>
         <div> <Plus/></div>
@@ -117,10 +138,12 @@ function App() {
 </div>
 
 
-  </div>;
-}
+  </div>
+          }
 
 
 
 
 export default App;
+
+
