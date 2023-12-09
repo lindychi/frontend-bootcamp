@@ -17,10 +17,11 @@ import Plus from "./icons/Plus";
 function App() {
   const today = new Date();
   const [value, setValue] = useState("");
-  const [todoData, setTodoData] = useState<{ title: string; time: string }[]>([]);
- 
+  const [selectedDate, setDate] = useState<Date | null>(null);
+  const [todoData, setTodoData] = useState<{ title: string; time: string; date: Date }[]>([]);
   const [selectedMonth, setSelectedMonth] = React.useState(today.getMonth() + 1);
   const [selectedYear, setSelectedYear] = React.useState(today.getFullYear());
+
   const targetCalendarDates: Date[] = getCalendarDates(selectedYear, selectedMonth);
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedMonthValue = parseInt(e.target.value, 10); // 문자열을 숫자로 변환
@@ -71,19 +72,36 @@ function App() {
           value={value}
           onChange={(event) => setValue(event.target.value)}
         />
-        <button
-          className="bg-primary text-white"
-          onClick={() => {
-            const newTodo = {
-              title: value,
-              time: "08:00",
-            };
-            setTodoData([...todoData, newTodo]);
-            setValue("");
+      Date{}
+      <input
+          type="date"
+          value={selectedDate ? selectedDate.toISOString().split('T')[0] : ''}
+          onChange={(event) => {
+            const selectedDateValue = event.target.value;
+            setDate((prevState) => new Date(selectedDateValue));
           }}
-        >
-          추가
-        </button>
+        />
+     <button
+  className="bg-primary text-white"
+  onClick={() => {
+    if (selectedDate) {
+      const newTodo = {
+        title: value,
+        time: "08:00",
+        date: selectedDate instanceof Date
+          ? selectedDate
+          : new Date(selectedDate),
+      };
+      setTodoData([...todoData, newTodo]);
+      setValue("");
+      setDate(null);
+    } else {
+      alert("Please select a date");
+    }
+  }}
+>
+  추가
+</button>
     </div>
   </div>
 
