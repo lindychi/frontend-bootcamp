@@ -3,6 +3,7 @@ import clsx from "clsx";
 import "./App.css";
 import "./consts/style.css";
 
+
 import { dayList } from "./consts/calendar";
 
 import { getCalendarDates, getMonthString } from "./libs/calendar";
@@ -15,6 +16,9 @@ import Plus from "./icons/Plus";
 
 function App() {
   const today = new Date();
+  const [value, setValue] = useState("");
+  const [todoData, setTodoData] = useState<{ title: string; time: string }[]>([]);
+ 
   const [selectedMonth, setSelectedMonth] = React.useState(today.getMonth() + 1);
   const [selectedYear, setSelectedYear] = React.useState(today.getFullYear());
   const targetCalendarDates: Date[] = getCalendarDates(selectedYear, selectedMonth);
@@ -59,7 +63,29 @@ function App() {
             })}
        </div>   
   </div> 
-
+  <div>
+    <div>
+      Title{""}
+      <input
+          type="text"
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+        />
+        <button
+          className="bg-primary text-white"
+          onClick={() => {
+            const newTodo = {
+              title: value,
+              time: "08:00",
+            };
+            setTodoData([...todoData, newTodo]);
+            setValue("");
+          }}
+        >
+          추가
+        </button>
+    </div>
+  </div>
 
 </div>  
    
@@ -130,6 +156,13 @@ function App() {
                 })}
                 >
                   {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
+
+                  {todoData.map((item, index) => (
+  <div key={index} className='flex flex-row gap-4'>
+    <div>{item.title}</div>
+    <div>{item.time}</div>
+  </div>
+))}
                 </div>
               );
             })}
