@@ -21,8 +21,8 @@ export default function TodoHeader({ handleAddTodo }: Props) {
 
 
   return (
-   
-        <div className="p-3 bg-blue-100 h-fit w-fit flex flex-col text-xl">
+  
+<div className="p-3 bg-blue-100 h-fit w-fit flex flex-col text-xl">
 제목{""} <input 
 type= "text"
 value ={title}
@@ -56,21 +56,14 @@ onChange={(event) => setLevel(Number(event.target.value))} >
 
 <button className="bg-blue-800 text-white"
 onClick={() => {
-  console.log({title, 
-    progress: "TODO", 
-    level : level as Level,
-    priority : priority,
-    dueDate: dueDate as Date,
-    author, })
-    handleAddTodo({
+      handleAddTodo({
     title, 
     progress: "TODO", 
     level : level as Level,
     priority : priority,
     dueDate: dueDate as Date,
     author,
-    })
-  
+    }) ;  
   setTitle("")  
   setAuthor("") 
   setDueDate("Mon")

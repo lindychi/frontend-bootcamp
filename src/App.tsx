@@ -3,9 +3,7 @@ import "./App.css";
 import { Date, Level, todoData as originTodoData, Priority, TodoItem, TodoItemRequest } from "./consts/todoList";
 import clsx from 'clsx';
 import TodoHeader from "./components/TodoHeader";
-
-
-
+import ListForm from "./components/ListForm";
 
 
 function App() {
@@ -33,164 +31,58 @@ function App() {
   const handleAddTodo = (todo: TodoItemRequest) => { 
     setTodoData([...todoData, {...todo, id: todoData.length + 1}])}
 
+  const handleComplete = (itemId: number) => {
+      setTodoData((prev) =>
+        prev.map((prevItem) =>
+          prevItem.id === itemId
+            ? { ...prevItem, progress: "DONE" }
+            : prevItem
+        )
+      );
+    };
+  
+  const handleDone = (itemId : number) => {
+    setTodoData((prev) =>
+      prev.map((prevItem, prevIndex) =>
+        prevItem.id === itemId
+          ? { ...prevItem, progress: "TODO" }
+          : prevItem
+      )
+    );
+  }
+  
+
+
+    
+   
   
 
 
   return <div className="bg-blue-900 w-full min-h-screen h-full flex flex-row justify-center items-center gap-5 ">
     <TodoHeader handleAddTodo={handleAddTodo}/>
 
-<div className="flex flex-col gap-3">
+<div className="flex flex-row gap-3">
+
+<ListForm
+title = 'To-Do'
+icon = {<TodoIcon/>}
+list ={todoList}
+handleDelete={handleDelete}
+handleComplete={handleComplete}
+/>
 
 
 
-<div className="flex flex-row gap-5">
-
-
-
-<div className="bg-blue-100 w-[533px] h-fit p-[24px]  rounded-lg flex flex-col gap-5 items-start">
-  <div className="flex flex-row gap-2">
-    <div><TodoIcon/></div>
-    <div className="text-2xl text-blue-800 font-bold">To-Do</div>
-  </div>
-  {todoList.map((item, index) => 
-  <div key={index} className="bg-white w-[465px] p-[24px] grid gap-2 rounded-lg">
-    <div className="font-bold text-lg"> {item.title}</div>
-    <div className="flex flex-row justify-between">
-      <div className="flex flex-row gap-2">
-        <div className={clsx('p-2 rounded-md', {
-        'bg-priority-high': item.priority === 'high',
-        'bg-priority-medium': item.priority === 'medium',
-        'bg-priority-low': item.priority === 'low',
-        })}>{item.dueDate}</div>
-        <div className="flex flex-row gap-2" >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority === 'high',
-            'fill-priority-medium': item.priority === 'medium',
-            'fill-priority-low': item.priority === 'low',                       
-            })}/>
-          </svg>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority === 'high',
-            'fill-priority-medium': item.priority === 'medium',
-            'fill-priority-low': item.priority === 'low',
-            'fill-priority-inactive': item.level === 1          
-            })}/>
-          </svg>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority === 'high',
-            'fill-priority-medium': item.priority === 'medium',
-            'fill-priority-low': item.priority === 'low',
-            '!fill-priority-inactive': item.level === 1 || item.level === 2,            
-            })}/>
-          </svg>
-        </div>
-      </div>  
-      <div>{item.author}</div>
-      
-        <button
-            className="text-white bg-blue-800 p-2"
-            onClick={() => {
-              setTodoData((prev) =>
-                prev.map((prevItem, prevIndex) =>
-                  prevItem.id === item.id
-                    ? { ...prevItem, progress: "DONE" }
-                    : prevItem
-                )
-              );
-            }}
-          >
-            완료
-          </button>
-          <button
-        className="text-white bg-red-500 p-2"
-        onClick={() => handleDelete(item.id)}
-      >
-        삭제
-      </button>
-         
-    </div>
-  </div>
-  )}
-</div>
-
-<div className="bg-blue-100 w-[533px] h-fit p-[24px]  rounded-lg flex flex-col gap-5 items-start">
-  <div className="flex flex-row gap-2">
-    <div><DoneIcon/></div>
-    <div className="text-2xl text-blue-800 font-bold">Done</div>
-  </div>
-  {doneList.map((item, index) => 
-  <div key={index} className="bg-white w-[465px] p-[24px] grid gap-2 rounded-lg">
-    <div className="font-bold text-lg"> {item.title}</div>
-    <div className="flex flex-row justify-between">
-      <div className="flex flex-row gap-2">
-        <div className={clsx('p-2 rounded-md', {
-        'bg-priority-high': item.priority === 'high',
-        'bg-priority-medium': item.priority === 'medium',
-        'bg-priority-low': item.priority === 'low',
-        })}>{item.dueDate}</div>
-        <div className="flex flex-row gap-2" >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority === 'high',
-            'fill-priority-medium': item.priority === 'medium',
-            'fill-priority-low': item.priority === 'low',                       
-            })}/>
-          </svg>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority === 'high',
-            'fill-priority-medium': item.priority === 'medium',
-            'fill-priority-low': item.priority === 'low',
-            'fill-priority-inactive': item.level === 1          
-            })}/>
-          </svg>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
-          className={clsx({
-            'fill-priority-high': item.priority === 'high',
-            'fill-priority-medium': item.priority === 'medium',
-            'fill-priority-low': item.priority === 'low',
-            '!fill-priority-inactive': item.level === 1 || item.level === 2,            
-            })}/>
-          </svg>
-        </div>
-      </div>  
-      <div>{item.author}</div>
-      <button
-            className="text-white bg-blue-800 p-2"
-            onClick={() => {
-              setTodoData((prev) =>
-                prev.map((prevItem, prevIndex) =>
-                  prevItem.id === item.id
-                    ? { ...prevItem, progress: "TODO" }
-                    : prevItem
-                )
-              );
-            }}
-          >
-            복구
-          </button>
-          <button
-        className="text-white bg-red-500 p-2"
-        onClick={() => handleDelete(item.id)}
-      >
-        삭제
-      </button>
-    </div>
-  </div>
-  )}
-</div>
+<ListForm
+title = 'Done'
+icon = {<DoneIcon/>}
+list ={doneList}
+handleDelete={handleDelete}
+handleComplete={handleDone}
+/>
 
 </div>
-</div>
+
   </div>;
 }
 
