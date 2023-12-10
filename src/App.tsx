@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Date, Level, todoData as originTodoData, Priority, TodoItem } from "./consts/todoList";
+import { Date, Level, todoData as originTodoData, Priority, TodoItem, TodoItemRequest } from "./consts/todoList";
 import clsx from 'clsx';
+import TodoHeader from "./components/TodoHeader";
 
 
 
 
 
 function App() {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [dueDate, setDueDate] = useState("Mon");
-  const [priority, setPriority] = useState<Priority>("high");
-  const [level, setLevel] = useState(1);
+  
 
   const [todoData, setTodoData] = useState<TodoItem[]>(() => {
     // localStorage에서 데이터 불러오기
@@ -23,90 +20,27 @@ function App() {
   
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
+  
+  const handleDelete = (deleteId: number) => {
+    // Todo 또는 Done 항목 삭제
+    setTodoData((prev) => prev.filter((prevItem) => prevItem.id !== deleteId));
+  };
 
   useEffect(() => {
     localStorage.setItem("todoData", JSON.stringify(todoData));
   }, [todoData]);
   
-  const dateList = [
-  { key: "Mon", value: "월요일"} ,
-  { key: "Tue", value: "화요일"} ,
-  { key: "Wed", value: "수요일"} ,
-  { key: "Thu", value: "목요일"} ,
-  { key: "Fri", value: "금요일"} ,
-  { key: "Sat", value: "토요일"} ,
-  { key: "Sun", value: "일요일"} , ] ;  
+  const handleAddTodo = (todo: TodoItemRequest) => { 
+    setTodoData([...todoData, {...todo, id: todoData.length + 1}])}
 
   
 
 
   return <div className="bg-blue-900 w-full min-h-screen h-full flex flex-row justify-center items-center gap-5 ">
+    <TodoHeader handleAddTodo={handleAddTodo}/>
 
 <div className="flex flex-col gap-3">
-<div className="p-3 bg-blue-100 h-fit w-fit flex flex-col text-xl">
-제목{""} <input 
-type= "text"
-value ={title}
-onChange={(event) => setTitle(event.target.value)} />
-작성자{""} <input 
-type= "text"
-value ={author}
-onChange={(event) => setAuthor(event.target.value)} />
-요일{""} 
-<select onChange={(e) => setDueDate(e.target.value)}
-value={dueDate}>
-  {dateList.map((item)=> (<option value={item.key}>{item.value}</option>))}
-</select>
-중요도 {""}
-<select
-value= {priority}
-onChange={(event) => setPriority(event.target.value as Priority)} >
-  <option value="high">high</option>
-  <option value="medium">medium</option>
-  <option value="low">low</option>
-</select>
-단계 {""}
-<select
-value= {level}
-onChange={(event) => setLevel(Number(event.target.value))} >
-  <option value={1}>1</option>
-  <option value={2}>2</option>
-  <option value={3}>3</option>
-</select>
 
-
-<button className="bg-blue-800 text-white"
-onClick={() => {
-  console.log({title, 
-    progress: "TODO", 
-    level : level as Level,
-    priority : priority,
-    dueDate: dueDate as Date,
-    author, })
-  setTodoData([
-    ...todoData,{
-      id: todoData.length + 1,
-      title, 
-    progress: "TODO", 
-    level : level as Level,
-    priority : priority,
-    dueDate: dueDate as Date,
-    author, },
-  ])
-  setTitle("")  
-  setAuthor("") 
-  setDueDate("Mon")
-  setPriority("high")
-  setLevel(1);
-  }}
->
-추가
-</button>
-
-
-
-
-</div>
 
 
 <div className="flex flex-row gap-5">
@@ -124,34 +58,34 @@ onClick={() => {
     <div className="flex flex-row justify-between">
       <div className="flex flex-row gap-2">
         <div className={clsx('p-2 rounded-md', {
-        'bg-priority-high': item.priority.toLowerCase() === 'high',
-        'bg-priority-medium': item.priority.toLowerCase() === 'medium',
-        'bg-priority-low': item.priority.toLowerCase() === 'low',
+        'bg-priority-high': item.priority === 'high',
+        'bg-priority-medium': item.priority === 'medium',
+        'bg-priority-low': item.priority === 'low',
         })}>{item.dueDate}</div>
         <div className="flex flex-row gap-2" >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
           className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',                       
+            'fill-priority-high': item.priority === 'high',
+            'fill-priority-medium': item.priority === 'medium',
+            'fill-priority-low': item.priority === 'low',                       
             })}/>
           </svg>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
           className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',
+            'fill-priority-high': item.priority === 'high',
+            'fill-priority-medium': item.priority === 'medium',
+            'fill-priority-low': item.priority === 'low',
             'fill-priority-inactive': item.level === 1          
             })}/>
           </svg>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
           className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',
+            'fill-priority-high': item.priority === 'high',
+            'fill-priority-medium': item.priority === 'medium',
+            'fill-priority-low': item.priority === 'low',
             '!fill-priority-inactive': item.level === 1 || item.level === 2,            
             })}/>
           </svg>
@@ -173,6 +107,12 @@ onClick={() => {
           >
             완료
           </button>
+          <button
+        className="text-white bg-red-500 p-2"
+        onClick={() => handleDelete(item.id)}
+      >
+        삭제
+      </button>
          
     </div>
   </div>
@@ -190,34 +130,34 @@ onClick={() => {
     <div className="flex flex-row justify-between">
       <div className="flex flex-row gap-2">
         <div className={clsx('p-2 rounded-md', {
-        'bg-priority-high': item.priority.toLowerCase() === 'high',
-        'bg-priority-medium': item.priority.toLowerCase() === 'medium',
-        'bg-priority-low': item.priority.toLowerCase() === 'low',
+        'bg-priority-high': item.priority === 'high',
+        'bg-priority-medium': item.priority === 'medium',
+        'bg-priority-low': item.priority === 'low',
         })}>{item.dueDate}</div>
         <div className="flex flex-row gap-2" >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
           className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',                       
+            'fill-priority-high': item.priority === 'high',
+            'fill-priority-medium': item.priority === 'medium',
+            'fill-priority-low': item.priority === 'low',                       
             })}/>
           </svg>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
           className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',
+            'fill-priority-high': item.priority === 'high',
+            'fill-priority-medium': item.priority === 'medium',
+            'fill-priority-low': item.priority === 'low',
             'fill-priority-inactive': item.level === 1          
             })}/>
           </svg>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M0 6H20C22.2091 6 24 7.79086 24 10V14.5714C24 16.465 22.465 18 20.5714 18H12C5.37258 18 0 12.6274 0 6Z" 
           className={clsx({
-            'fill-priority-high': item.priority.toLowerCase() === 'high',
-            'fill-priority-medium': item.priority.toLowerCase() === 'medium',
-            'fill-priority-low': item.priority.toLowerCase() === 'low',
+            'fill-priority-high': item.priority === 'high',
+            'fill-priority-medium': item.priority === 'medium',
+            'fill-priority-low': item.priority === 'low',
             '!fill-priority-inactive': item.level === 1 || item.level === 2,            
             })}/>
           </svg>
@@ -238,6 +178,12 @@ onClick={() => {
           >
             복구
           </button>
+          <button
+        className="text-white bg-red-500 p-2"
+        onClick={() => handleDelete(item.id)}
+      >
+        삭제
+      </button>
     </div>
   </div>
   )}

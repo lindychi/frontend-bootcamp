@@ -13,6 +13,8 @@ export interface TodoItem {
   author: string;
 }
 
+export type TodoItemRequest = Omit<TodoItem, "id">
+
 export const todoData: TodoItem[] = [
   {
     id:1 ,
