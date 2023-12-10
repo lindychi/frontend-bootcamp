@@ -2,173 +2,31 @@ import React, { useState } from "react";
 
 import clsx from "clsx";
 import "./App.css";
-import {
-  Date,
-  Level,
-  Priority,
-  TodoItem,
-  todoData as originTodoData,
-} from "./consts/todoList";
-import { HighlightSpanKind } from "typescript";
-import { setPriority } from "os";
+import { TodoItem, todoData as originTodoData } from "./consts/todoList";
+import Todoheader from "./components/Todoheader";
+import TodoList from "./components/components/TodoList";
 
 function App() {
   const [todoData, setTodoData] = useState(originTodoData);
-  const [author, setAuthor] = useState("");
-  const [dueDate, setDueDate] = useState("Sat");
-  const [level, setlevel] = useState(1);
-  // 레벨이 "level"으로 설정되어 있어서 string타입으로 되어 있어서 error가나왔음 1 | 2 | 3; 숫자로 바꿨음 , 숫자는 대표값 하나만 넣으면 된다.
-  const [priority, setPriority] = useState("Priority");
+  // 레벨이 "level"으로 설정되어 있어서 string타입으로 되어 있어서 error가나왔음 1 | 2 | 3; 숫자로 바꿨음 , 대표값 하나만 넣으면 된다.
+
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
-  const [value, setValue] = useState("");
-  const dueDateList = [
-    { key: "Mon", value: "월요일" },
-    { key: "Tue", value: "화요일" },
-    { key: "Wed", value: "수요일" },
-    { key: "Thu", value: "목요일" },
-    { key: "Fri", value: "금요일" },
-    { key: "Sat", value: "토요일" },
-    { key: "Sun", value: "일요일" },
-  ];
-  const priorityList = [
-    { key: "high", value: "높음" },
-    { key: "medium", value: "중간" },
-    { key: "low", value: "낮음" },
-  ];
-  const levelList = [
-    { key: "1", value: "1" },
-    { key: "2", value: "2" },
-    { key: "3", value: "3" },
-  ];
 
+  const addTodo = (todo: TodoItem) => {
+    setTodoData([...todoData, todo]);
+  };
+  const addTodoList = (todo: TodoItem) => {
+    setTodoData([]);
+  };
+  // const add = () => {}
   return (
     <div className="w-screen h-screen items-center bg-blue-800">
       <div>
         <div className="felx flex-row ">
-          <div className="p-4 bg-blue-100 rounded gap-3">
-            제목
-            <input
-              type="text"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-            />
-            작성자
-            <input
-              type="text"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-            />
-            요일 {dueDate}
-            <select
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-            >
-              {dueDateList.map((item) => (
-                <option value={item.key}>{item.value}</option>
-              ))}
-            </select>
-            우선순위
-            <select
-              onChange={(e) => setPriority(e.target.value)}
-              value={priority}
-            >
-              {priorityList.map((item) => (
-                <option value={item.key}>{item.value}</option>
-              ))}
-            </select>
-            level
-            <select
-              onChange={(e) => setlevel(Number(e.target.value))}
-              // setlevel(e.target.value)라고 되어있어서 에러가 나옴 Number를 넣어서 string을 숫자로 바꿔야함
-              value={level}
-            >
-              {levelList.map((item) => (
-                <option value={item.key}>{item.value}</option>
-              ))}
-            </select>
-            <button
-              onClick={() => {
-                setTodoData([
-                  ...todoData,
-                  {
-                    title: value,
-                    progress: "TODO",
-                    level: level as Level,
-                    priority: priority as Priority,
-                    dueDate: dueDate as Date,
-                    author,
-                  },
-                ]);
-                setValue("");
-                setAuthor("");
-              }}
-            >
-              추가
-            </button>
-          </div>
-
+          <Todoheader onClickAdd={addTodo} />
           <div className="h-fit flex flex-row justify-center gap-10 py-20">
-            <div className="bg-blue-100 rounded-xl p-6">
-              <div className="w-[500px] h-fit flex flex-col gap-6">
-                <div className="flex gap-4 text-4xl text-blue-800">
-                  <TodoIcon />
-                  To-Do
-                </div>
-                {todoList.map((item, index) => (
-                  <div
-                    key={index}
-                    className=" h-[130px] flex flex-col gap-6 p-6 bg-white rounded-xl"
-                  >
-                    <div className="flex justify-between">
-                      <div className="text-2xl">{item.title}</div>
-                      <button
-                        onClick={() => {
-                          setTodoData(
-                            todoData.map((todo) =>
-                              item.title === todo.title &&
-                              item.author === todo.author
-                                ? { ...item, process: "Done" }
-                                : item
-                            )
-                          );
-                        }}
-                      >
-                        완료
-                      </button>
-                    </div>
-                    <div className="flex justify-between gap-4">
-                      <div className="flex flex-row gap-4">
-                        <div
-                          className={`rounded-xl text-white ${
-                            item.priority === "high"
-                              ? "bg-priority-high"
-                              : item.priority === "medium"
-                              ? "bg-priority-medium"
-                              : item.priority === "low"
-                              ? "bg-priority-low"
-                              : ""
-                          } px-3 py-2`}
-                        >
-                          {item.dueDate}
-                        </div>
-                        <SVGIcon item={item} />
-                      </div>
-                      <div
-                        className="text-blue-800
-                      text-xl"
-                      >
-                        {item.author}
-                      </div>
-                    </div>
-                    <div className="hidden">
-                      {item.priority}
-                      {item.level}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <TodoList DoneTodoList={addTodoList} list={todoList} />
             <div className="bg-blue-100 rounded-xl p-6 h-fit">
               <div className="w-[500px] h-fit flex flex-col gap-6">
                 <div className="flex gap-4 text-4xl text-blue-800">
