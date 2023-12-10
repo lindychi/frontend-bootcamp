@@ -51,7 +51,7 @@ function App() {
 
   const [value, setValue] = useState("");
   const [author, setAuthor] = useState(""); //외워야함댜
-  const [duedate, setDuedate] = useState("Mon");
+  const [dueDate, setdueDate] = useState("Mon");
   const [priority, setPriority] = useState("high");
   const [level, setLevel] = useState(1);
 
@@ -86,8 +86,8 @@ function App() {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
-        요일 {duedate}
-        <select onChange={(e) => setDuedate(e.target.value)} value={duedate}>
+        요일 {dueDate}
+        <select onChange={(e) => setdueDate(e.target.value)} value={dueDate}>
           <option value="Mon">월</option>
           <option value="Tue">화</option>
           <option value="Wed">수</option>
@@ -105,6 +105,7 @@ function App() {
         난이도 {level}
         <select
           onChange={(e) => setLevel(Number(e.target.value))}
+          // 스트링이므로 e타겟을 넘버로 바꿔준다.
           value={level}
         >
           <option value={1}>1</option>
@@ -131,7 +132,7 @@ function App() {
                 progress: "TODO",
                 level: level as Level,
                 priority: priority as Priority,
-                dueDate: duedate as Date,
+                dueDate: dueDate as Date,
                 author: author,
                 // 같은거면:이후 생략가능 ex author
               },
