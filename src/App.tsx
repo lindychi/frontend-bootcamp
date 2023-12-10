@@ -124,11 +124,13 @@ function App() {
         }])
       
           setTitle("")
+          setDate(null)
          
   }}
 >
   추가
 </button>
+{JSON.stringify(todoData)}
           </div>
         </div>
       </div>
@@ -225,8 +227,7 @@ function App() {
       {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
 
       {/* 선택된 날짜와 달력에 표시된 날짜가 같을 때만 할 일 표시 */}
-      {isSelectedDate &&
-        filterDate(todoData, selectedDate).map((item, index) => (
+      { filterDate(todoData, date).map((item, index) => (
           <div key={index} className="flex flex-row gap-4">
             <div>{item.title}</div>
             <div>{item.time}</div>
