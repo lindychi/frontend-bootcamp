@@ -19,11 +19,6 @@ function App() {
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
   
-  const handleDelete = (deleteId: number) => {
-    // Todo 또는 Done 항목 삭제
-    setTodoData((prev) => prev.filter((prevItem) => prevItem.id !== deleteId));
-  };
-
   useEffect(() => {
     localStorage.setItem("todoData", JSON.stringify(todoData));
   }, [todoData]);
@@ -31,25 +26,22 @@ function App() {
   const handleAddTodo = (todo: TodoItemRequest) => { 
     setTodoData([...todoData, {...todo, id: todoData.length + 1}])}
 
-  const handleComplete = (itemId: number) => {
+  const handleComplete = (itemId: number, newProgress: "TODO" | "DONE") => {
       setTodoData((prev) =>
         prev.map((prevItem) =>
           prevItem.id === itemId
-            ? { ...prevItem, progress: "DONE" }
+            ? { ...prevItem, progress: newProgress }
             : prevItem
         )
       );
     };
   
-  const handleDone = (itemId : number) => {
-    setTodoData((prev) =>
-      prev.map((prevItem, prevIndex) =>
-        prevItem.id === itemId
-          ? { ...prevItem, progress: "TODO" }
-          : prevItem
-      )
-    );
-  }
+
+  // Todo 또는 Done 항목 삭제
+  const handleDelete = (deleteId: number) => {
+    setTodoData((prev) => prev.filter((prevItem) => prevItem.id !== deleteId));
+  };
+
   
 
 
@@ -68,7 +60,7 @@ title = 'To-Do'
 icon = {<TodoIcon/>}
 list ={todoList}
 handleDelete={handleDelete}
-handleComplete={handleComplete}
+handleComplete={(itemId) => handleComplete(itemId, "DONE")}
 />
 
 
@@ -78,7 +70,7 @@ title = 'Done'
 icon = {<DoneIcon/>}
 list ={doneList}
 handleDelete={handleDelete}
-handleComplete={handleDone}
+handleComplete={(itemId) => handleComplete(itemId, "TODO")}
 />
 
 </div>

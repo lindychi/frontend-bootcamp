@@ -67,7 +67,7 @@ export default function ListForm({ title, list, icon, handleDelete, handleComple
             className="text-white bg-blue-800 p-2"
             onClick={() => handleComplete(item.id)}
           >
-            완료
+            체크
           </button>
           <button
         className="text-white bg-red-500 p-2"
