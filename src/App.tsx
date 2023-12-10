@@ -16,7 +16,8 @@ function App() {
   const [todoData, setTodoData] = useState(originTodoData);
   const [author, setAuthor] = useState("");
   const [dueDate, setDueDate] = useState("Sat");
-  const [level, setlevel] = useState("Level");
+  const [level, setlevel] = useState(1);
+  // 레벨이 "level"으로 설정되어 있어서 string타입으로 되어 있어서 error가나왔음 1 | 2 | 3; 숫자로 바꿨음 , 숫자는 대표값 하나만 넣으면 된다.
   const [priority, setPriority] = useState("Priority");
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
@@ -77,7 +78,11 @@ function App() {
               ))}
             </select>
             level
-            <select onChange={(e) => setlevel(e.target.value)} value={level}>
+            <select
+              onChange={(e) => setlevel(Number(e.target.value))}
+              // setlevel(e.target.value)라고 되어있어서 에러가 나옴 Number를 넣어서 string을 숫자로 바꿔야함
+              value={level}
+            >
               {levelList.map((item) => (
                 <option value={item.key}>{item.value}</option>
               ))}
@@ -89,7 +94,7 @@ function App() {
                   {
                     title: value,
                     progress: "TODO",
-                    level: 1,
+                    level: level as Level,
                     priority: priority as Priority,
                     dueDate: dueDate as Date,
                     author,
