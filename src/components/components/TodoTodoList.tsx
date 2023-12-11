@@ -1,9 +1,9 @@
 import React from "react";
 import clsx from "clsx";
+import { TodoItem } from "../../consts/todoList";
+type Props = { list: TodoItem[]; PracticeList: (todo: TodoItem) => void };
 
-type Props = {};
-
-export default function TodoTodoList({}: Props) {
+export default function TodoTodoList({ PracticeList, list }: Props) {
   return (
     <div className="bg-blue-100 rounded-xl p-6">
       <div className="w-[500px] h-fit flex flex-col gap-6">
@@ -11,7 +11,7 @@ export default function TodoTodoList({}: Props) {
           <TodoIcon />
           To-Do
         </div>
-        {todoList.map((item, index) => (
+        {list.map((item, index) => (
           <div
             key={index}
             className=" h-[130px] flex flex-col gap-6 p-6 bg-white rounded-xl"
@@ -20,13 +20,7 @@ export default function TodoTodoList({}: Props) {
               <div className="text-2xl">{item.title}</div>
               <button
                 onClick={() => {
-                  setTodoData(
-                    todoData.map((todo) =>
-                      item.title === todo.title && item.author === todo.author
-                        ? { ...item, process: "Done" }
-                        : item
-                    )
-                  );
+                  PracticeList(item);
                 }}
               >
                 완료
@@ -66,6 +60,7 @@ export default function TodoTodoList({}: Props) {
     </div>
   );
 }
+
 export const TodoIcon = () => {
   return (
     <svg
