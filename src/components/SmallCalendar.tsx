@@ -10,7 +10,7 @@ type Props = {
 };
 
 
-const CalendarDateGrid: React.FC<Props> = ({ dates, selectedMonth, selectedYear, today }) => {
+const SmallCalendar: React.FC<Props> = ({ dates, selectedMonth, selectedYear, today }) => {
     
     
     return (
@@ -35,4 +35,4 @@ const CalendarDateGrid: React.FC<Props> = ({ dates, selectedMonth, selectedYear,
     );
   };
   
-  export default CalendarDateGrid;
+  export default SmallCalendar;
