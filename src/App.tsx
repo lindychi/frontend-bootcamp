@@ -10,15 +10,13 @@ import Search from "./icons/Search";
 import Plus from "./icons/Plus";
 
 function App() {
-  const [selectedMonth, setSelectedMonth] = React.useState<number>(1);
+  const [selectedMonth, setSelectedMonth] = React.useState<number>(12);
   const [selectedYear, setSelectedYear] = React.useState<number>(2023);
   const targetCalendarDates: Date[] = getCalendarDates(
     selectedYear,
     selectedMonth
   );
-  const handleMonthChange = (month: number) => {
-    setSelectedMonth(month);
-  };
+
   const getDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
       return "text-gray-400";
@@ -36,7 +34,7 @@ function App() {
   const today = new Date();
 
   // 작은달력에 넣었던 효과가 큰달력에 적용되지 않아서 한번 더  추가함
-  const getSecondCalendarDateClass = (date: Date): string => {
+  const getSecondDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
       return "text-gray-400 bg-zinc-100";
     }
@@ -47,7 +45,7 @@ function App() {
     <div className="flex flex-row h-screen">
       <div className="w-[340px] h-screen border border-slate-300 p-4">
         <div className="text-2xl font-semibold mb-4 px-2 py-1">
-          {getMonthString(12)}
+          {getMonthString(selectedMonth)}
         </div>
         <div className="min-w-[300px] grid grid-cols-7 gap-1 ">
           {dayList.map((day) => (
@@ -55,6 +53,7 @@ function App() {
               {day.short}
             </div>
           ))}
+
           {targetCalendarDates.map((date: Date) => (
             <div
               key={date.getDate()}
@@ -64,6 +63,9 @@ function App() {
             </div>
           ))}
         </div>
+        <div className="text-2xl font-semibold mb-4 px-2 py-1 ">Today</div>
+        <div className="text-2xl font-semibold mb-4 px-2 py-1 ">Tomorrow</div>
+        <div className="text-2xl font-semibold mb-4 px-2 py-1 ">Vacations</div>
       </div>
 
       <div>
@@ -71,16 +73,21 @@ function App() {
           <div className="flex justify-start gap-5 ">
             <Hamburger />
             <div className="text-4xl">
-              {getMonthString(12)} {selectedYear}
+              {getMonthString(selectedMonth)} {selectedYear}
             </div>
-            <div className="flex text-primary border border-primary rounded-md p-2 gap-1">
-              {[...Array(12)].map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleMonthChange(index + 1)}
-                >{`${getMonthString(index + 1)}`}</button>
-              ))}
-            </div>
+            <button className="flex text-primary border border-primary rounded-md p-2 gap-1">
+              <select
+                className="text-primary"
+                onChange={(e) => setSelectedMonth(Number(e.target.value))}
+                value={selectedMonth}
+              >
+                {Array.from({ length: 12 }, (_, index) => (
+                  <option key={index + 1} value={index + 1}>
+                    {getMonthString(index + 1)}
+                  </option>
+                ))}
+              </select>
+            </button>
           </div>
 
           <div className="flex gap-3">
@@ -99,11 +106,11 @@ function App() {
           ))}
         </div>
 
-        <div className="min-w-full min-h-[1500px] grid grid-cols-7  border border-state-300">
+        <div className="min-w-screen min-h-[1500px] grid grid-cols-7  border border-state-300">
           {targetCalendarDates.map((date: Date) => (
             <div
               key={date.getDate()}
-              className={`text-left indent-3 py-2 border border-state-300 ${getSecondCalendarDateClass(
+              className={`text-left indent-3 py-2 border border-state-300 ${getSecondDateClass(
                 date
               )}`}
             >
