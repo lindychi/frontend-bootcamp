@@ -16,7 +16,9 @@ function App() {
     selectedYear,
     selectedMonth
   );
-
+  const handleMonthChange = (month: number) => {
+    setSelectedMonth(month);
+  };
   const getDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
       return "text-gray-400";
@@ -71,19 +73,14 @@ function App() {
             <div className="text-4xl">
               {getMonthString(12)} {selectedYear}
             </div>
-            <button className="flex text-primary border border-primary rounded-md p-2 gap-1">
-              <select
-                className="text-primary"
-                onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                value={selectedMonth}
-              >
-                {Array.from({ length: 12 }, (_, index) => (
-                  <option key={index + 1} value={index + 1}>
-                    {getMonthString(index + 1)}
-                  </option>
-                ))}
-              </select>
-            </button>
+            <div className="flex text-primary border border-primary rounded-md p-2 gap-1">
+              {[...Array(12)].map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleMonthChange(index + 1)}
+                >{`${getMonthString(index + 1)}`}</button>
+              ))}
+            </div>
           </div>
 
           <div className="flex gap-3">
