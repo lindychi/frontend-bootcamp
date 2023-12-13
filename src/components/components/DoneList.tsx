@@ -4,7 +4,7 @@ import { TodoItem } from "../../consts/todoList";
 import { DoneIcon } from "../../App";
 type Props = { list: TodoItem[] };
 
-export default function TodoList({ list }: Props) {
+export default function DoneList({ list }: Props) {
   return (
     <div>
       <div className="bg-blue-100 rounded-xl p-6">

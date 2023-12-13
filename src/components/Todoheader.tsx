@@ -10,6 +10,7 @@ export default function Todoheader({ onClickAdd }: Props) {
   const [author, setAuthor] = useState("");
   const [dueDate, setDueDate] = useState("Mon");
   const [level, setlevel] = useState(1);
+  // 레벨이 "level"으로 설정되어 있어서 string타입으로 되어 있어서 error가나왔음 1 | 2 | 3; 숫자로 바꿨음 , 대표값 하나만 넣으면 된다.
   const [priority, setPriority] = useState("Priority");
 
   const dueDateList = [

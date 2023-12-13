@@ -9,7 +9,6 @@ import DoneList from "./components/components/DoneList";
 
 function App() {
   const [todoData, setTodoData] = useState(originTodoData);
-  // 레벨이 "level"으로 설정되어 있어서 string타입으로 되어 있어서 error가나왔음 1 | 2 | 3; 숫자로 바꿨음 , 대표값 하나만 넣으면 된다.
 
   const todoList = todoData.filter((item) => item.progress === "TODO");
   const doneList = todoData.filter((item) => item.progress === "DONE");
@@ -22,7 +21,7 @@ function App() {
     setTodoData([...todoData]);
   };
 
-  const TodoTodoList = () => {
+  const practiceList = (todo: TodoItem) => {
     setTodoData([...todoData]);
   };
   // const add = () => {}
@@ -33,7 +32,7 @@ function App() {
           <Todoheader onClickAdd={addTodo} />
           <div className="h-fit flex flex-row justify-center gap-10 py-20">
             <TodoList DoneTodoList={doneTodoList} list={todoList} />
-            <TodoTodoList />
+
             <DoneList list={doneList} />
           </div>
         </div>
