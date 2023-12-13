@@ -3,16 +3,14 @@ import clsx from "clsx";
 import "./App.css";
 
 import { dayList } from "./consts/calendar";
-
 import { getCalendarDates, getMonthString } from "./libs/calendar";
-
 import Arrow from "./icons/Arrow";
 import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
 import Plus from "./icons/Plus";
 
 function App() {
-  const [selectedMonth, setSelectedMonth] = React.useState<number>(12);
+  const [selectedMonth, setSelectedMonth] = React.useState<number>(1);
   const [selectedYear, setSelectedYear] = React.useState<number>(2023);
   const targetCalendarDates: Date[] = getCalendarDates(
     selectedYear,
@@ -74,8 +72,6 @@ function App() {
               {getMonthString(12)} {selectedYear}
             </div>
             <button className="flex text-primary border border-primary rounded-md p-2 gap-1">
-              Month
-              <Arrow />
               <select
                 className="text-primary"
                 onChange={(e) => setSelectedMonth(Number(e.target.value))}
@@ -106,7 +102,7 @@ function App() {
           ))}
         </div>
 
-        <div className="min-w-screen min-h-screen grid grid-cols-7  border border-state-300">
+        <div className="min-w-full min-h-[1500px] grid grid-cols-7  border border-state-300">
           {targetCalendarDates.map((date: Date) => (
             <div
               key={date.getDate()}
