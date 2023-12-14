@@ -1,7 +1,6 @@
 import React from "react";
 import clsx from "clsx";
 import "./App.css";
-
 import { dayList } from "./consts/calendar";
 import { getCalendarDates, getMonthString } from "./libs/calendar";
 import Arrow from "./icons/Arrow";
@@ -12,10 +11,18 @@ import Plus from "./icons/Plus";
 function App() {
   const [selectedMonth, setSelectedMonth] = React.useState<number>(12);
   const [selectedYear, setSelectedYear] = React.useState<number>(2023);
-  const targetCalendarDates: Date[] = getCalendarDates(
-    selectedYear,
-    selectedMonth
-  );
+  const [targetCalendarDates, setTargetCalendarDates] = React.useState<
+    Date[] | null
+  >(null);
+
+  React.useEffect(() => {
+    // 새로운 달력을 받아오기 전에 기존 달력을 초기화합니다.
+    setTargetCalendarDates(null);
+
+    // 새로운 달력을 가져와서 업데이트합니다.
+    const newDates: Date[] = getCalendarDates(selectedYear, selectedMonth);
+    setTargetCalendarDates(newDates);
+  }, [selectedMonth, selectedYear]);
 
   const getDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
@@ -41,6 +48,7 @@ function App() {
     return "";
   };
   // 작은달력에 넣었던 효과가 큰달력에 적용되지 않아서 한번 더  추가함
+
   return (
     <div className="flex flex-row h-screen">
       <div className="w-[340px] h-screen border border-slate-300 p-4">
@@ -54,9 +62,9 @@ function App() {
             </div>
           ))}
 
-          {targetCalendarDates.map((date: Date) => (
+          {targetCalendarDates?.map((date: Date, index: number) => (
             <div
-              key={date.getDate()}
+              key={index}
               className={`text-center text-sm py-3 ${getDateClass(date)}`}
             >
               {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
@@ -92,7 +100,7 @@ function App() {
 
           <div className="flex gap-3">
             <Search />
-            <div className="flex bg-primary text-white p-2 gap-1">
+            <div className="flex bg-primary text-white p-2 gap-1 items-center">
               Add event <Plus />
             </div>
           </div>
@@ -107,9 +115,9 @@ function App() {
         </div>
 
         <div className="min-w-screen min-h-[1500px] grid grid-cols-7  border border-state-300">
-          {targetCalendarDates.map((date: Date) => (
+          {targetCalendarDates?.map((date: Date, index: number) => (
             <div
-              key={date.getDate()}
+              key={index}
               className={`text-left indent-3 py-2 border border-state-300 ${getSecondDateClass(
                 date
               )}`}
