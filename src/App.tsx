@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import "./App.css";
 import { dayList } from "./consts/calendar";
@@ -7,19 +7,20 @@ import Arrow from "./icons/Arrow";
 import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
 import Plus from "./icons/Plus";
+import DropDown from "./components/Dropdown";
+import CalendarSection from "./components/CalendarSection";
 
 function App() {
-  const [selectedMonth, setSelectedMonth] = React.useState<number>(12);
-  const [selectedYear, setSelectedYear] = React.useState<number>(2023);
-  const [targetCalendarDates, setTargetCalendarDates] = React.useState<
-    Date[] | null
-  >(null);
+  const [selectedMonth, setSelectedMonth] = useState<number>(12);
+  const [selectedYear, setSelectedYear] = useState<number>(
+    new Date().getFullYear()
+  );
+  const [targetCalendarDates, setTargetCalendarDates] = useState<Date[] | null>(
+    null
+  );
 
-  React.useEffect(() => {
-    // 새로운 달력을 받아오기 전에 기존 달력을 초기화합니다.
+  useEffect(() => {
     setTargetCalendarDates(null);
-
-    // 새로운 달력을 가져와서 업데이트합니다.
     const newDates: Date[] = getCalendarDates(selectedYear, selectedMonth);
     setTargetCalendarDates(newDates);
   }, [selectedMonth, selectedYear]);
@@ -51,30 +52,11 @@ function App() {
 
   return (
     <div className="flex flex-row h-screen">
-      <div className="w-[340px] h-screen border border-slate-300 p-4">
-        <div className="text-2xl font-semibold mb-4 px-2 py-1">
-          {getMonthString(selectedMonth)}
-        </div>
-        <div className="min-w-[300px] grid grid-cols-7 gap-1 ">
-          {dayList.map((day) => (
-            <div key={day.short} className="text-center text-sm py-2 ">
-              {day.short}
-            </div>
-          ))}
-
-          {targetCalendarDates?.map((date: Date, index: number) => (
-            <div
-              key={index}
-              className={`text-center text-sm py-3 ${getDateClass(date)}`}
-            >
-              {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
-            </div>
-          ))}
-        </div>
-        <div className="text-2xl font-semibold mb-4 px-2 py-1 ">Today</div>
-        <div className="text-2xl font-semibold mb-4 px-2 py-1 ">Tomorrow</div>
-        <div className="text-2xl font-semibold mb-4 px-2 py-1 ">Vacations</div>
-      </div>
+      <CalendarSection
+        selectedMonth={selectedMonth}
+        targetCalendarDates={targetCalendarDates}
+        getDateClass={getDateClass}
+      />
 
       <div>
         <div className="w-[1600px] h-[90px] flex flex-row justify-between p-3 items-center border border-state-300 rounded-tr-lg">
@@ -83,19 +65,11 @@ function App() {
             <div className="text-4xl">
               {getMonthString(selectedMonth)} {selectedYear}
             </div>
-            <button className="flex text-primary border border-primary rounded-md p-2 gap-1">
-              <select
-                className="text-primary"
-                onChange={(e) => setSelectedMonth(Number(e.target.value))}
-                value={selectedMonth}
-              >
-                {Array.from({ length: 12 }, (_, index) => (
-                  <option key={index + 1} value={index + 1}>
-                    {getMonthString(index + 1)}
-                  </option>
-                ))}
-              </select>
-            </button>
+            {/* 드롭다운버튼 */}
+            <DropDown
+              selectedMonth={selectedMonth}
+              setSelectedMonth={setSelectedMonth}
+            />
           </div>
 
           <div className="flex gap-3">
@@ -131,6 +105,5 @@ function App() {
     </div>
   );
 }
-// clsx은 이해가 부족해서 못썼어요
 
 export default App;
