@@ -1,67 +1,26 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import clsx from "clsx";
 import { TodoItem } from "../../consts/todoList";
-type Props = { list: TodoItem[]; DoneTodoList: (todo: TodoItem) => void };
+import DueDate from "./DueDate";
+import TodoListItem from "./TodoListItem";
+type Props = {
+  title: string;
+  list: TodoItem[];
+  DoneTodoList: (todo: TodoItem) => void;
+  icon: ReactNode;
+};
 
-export default function TodoList({ DoneTodoList, list }: Props) {
+export default function TodoList({ DoneTodoList, list, title, icon }: Props) {
   return (
     <div>
       <div className="bg-blue-100 rounded-xl p-6">
         <div className="w-[500px] h-fit flex flex-col gap-6">
           <div className="flex gap-4 text-4xl text-blue-800">
-            <TodoIcon />
-            To-Do
+            {icon}
+            {title}
           </div>
           {list.map((item, index) => (
-            <div
-              key={index}
-              className=" h-[130px] flex flex-col gap-6 p-6 bg-white rounded-xl"
-            >
-              <div className="flex justify-between">
-                <div className="text-2xl">{item.title}</div>
-                <button
-                  onClick={() => {
-                    DoneTodoList(item);
-
-                    //     item.title === todo.title && item.author === todo.author
-                    //       ? { ...item, process: "Done" }
-                    //       : item
-                    //   )
-                    // );
-                  }}
-                >
-                  완료
-                </button>
-              </div>
-              <div className="flex justify-between gap-4">
-                <div className="flex flex-row gap-4">
-                  <div
-                    className={`rounded-xl text-white ${
-                      item.priority === "high"
-                        ? "bg-priority-high"
-                        : item.priority === "medium"
-                        ? "bg-priority-medium"
-                        : item.priority === "low"
-                        ? "bg-priority-low"
-                        : ""
-                    } px-3 py-2`}
-                  >
-                    {item.dueDate}
-                  </div>
-                  <SVGIcon item={item} />
-                </div>
-                <div
-                  className="text-blue-800
-            text-xl"
-                >
-                  {item.author}
-                </div>
-              </div>
-              <div className="hidden">
-                {item.priority}
-                {item.level}
-              </div>
-            </div>
+            <TodoListItem item={item} key={index} />
           ))}
         </div>
       </div>

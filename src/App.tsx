@@ -4,7 +4,7 @@ import clsx from "clsx";
 import "./App.css";
 import { TodoItem, todoData as originTodoData } from "./consts/todoList";
 import Todoheader from "./components/Todoheader";
-import TodoList from "./components/components/TodoList";
+import TodoList, { TodoIcon } from "./components/components/TodoList";
 import DoneList from "./components/components/DoneList";
 
 function App() {
@@ -21,9 +21,6 @@ function App() {
     setTodoData([...todoData]);
   };
 
-  const practiceList = (todo: TodoItem) => {
-    setTodoData([...todoData]);
-  };
   // const add = () => {}
   return (
     <div className="w-screen h-screen items-center bg-blue-800">
@@ -31,9 +28,19 @@ function App() {
         <div className="felx flex-row ">
           <Todoheader onClickAdd={addTodo} />
           <div className="h-fit flex flex-row justify-center gap-10 py-20">
-            <TodoList DoneTodoList={doneTodoList} list={todoList} />
+            <TodoList
+              DoneTodoList={doneTodoList}
+              list={todoList}
+              title={"TodoList"}
+              icon={<TodoIcon />}
+            />
 
-            <DoneList list={doneList} />
+            <TodoList
+              DoneTodoList={doneTodoList}
+              list={doneList}
+              title={"DoneList"}
+              icon={<DoneIcon />}
+            />
           </div>
         </div>
       </div>
