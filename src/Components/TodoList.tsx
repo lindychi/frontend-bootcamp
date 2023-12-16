@@ -35,7 +35,7 @@ export default function TodoList({ list, finishTodo }: Props) {
               완료
             </button>
           </div>
-          <div className="frame2-1 flex w=[156px] space-x-3 items-center ">
+          <div className="frame2-1 flex w-[156px] space-x-3 items-center ">
             {/* 하단 이해못함 */}
             <div
               className={`${
@@ -45,7 +45,7 @@ export default function TodoList({ list, finishTodo }: Props) {
               {todo.dueDate}
             </div>
 
-            <div className="frame2-2 flex gap-2">
+            <div className="frame2-2 flex gap-2 ">
               {[1, 2, 3].map((currentLevel) => (
                 <div style={{ width: 24, height: 24 }}>
                   <svg
@@ -70,11 +70,14 @@ export default function TodoList({ list, finishTodo }: Props) {
                   </svg>
                 </div>
               ))}
+              <div className="frame2-3 styled-name w-[291.5px] px-5 ">
+                <div className="text-right">{todo.author}</div>
+              </div>
             </div>
           </div>
-          <div className="frame2-3 styled-name w-[291.5px] ">
+          {/* <div className="frame2-3 styled-name w-[291.5px] ">
             <div className="text-right">{todo.author}</div>
-          </div>
+          </div> */}
         </div>
       ))}
     </div>
