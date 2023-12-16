@@ -13,8 +13,6 @@ const DropDown: React.FC<DropdownProps> = ({
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedDate = new Date();
     setSelectedMonth(Number(e.target.value));
-    // 년도 변경 로직이 필요하다면 추가
-    // setSelectedYear(selectedDate.getFullYear());
   };
 
   return (

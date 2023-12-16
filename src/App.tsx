@@ -10,6 +10,7 @@ import Plus from "./icons/Plus";
 import DropDown from "./components/Dropdown";
 import CalendarSection from "./components/CalendarSection";
 import BigCalendar from "./components/BigCalendar";
+import YearDropDown from "./components/\bYearDropDown";
 
 function App() {
   const [selectedMonth, setSelectedMonth] = useState<number>(12);
@@ -70,6 +71,10 @@ function App() {
             <DropDown
               selectedMonth={selectedMonth}
               setSelectedMonth={setSelectedMonth}
+            />
+            <YearDropDown
+              selectedYear={selectedYear}
+              setSelectedYear={setSelectedYear}
             />
           </div>
 
