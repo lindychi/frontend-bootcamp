@@ -13,6 +13,8 @@ import MonthSelect from './components/MonthSelect';
 import SmallCalendar from './components/SmallCalendar';
 import BigCalendar from './components/BigCalendar';
 import ToDoAdd from './components/ToDoAdd';
+import DaySelector from './components/DaySelector';
+
 
 function App() {
   
@@ -21,6 +23,8 @@ function App() {
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
   const [todoData, setTodoData] = useState<{ title: string; time: string; date: Date }[]>([]);
+  const tomorrow = new Date();
+tomorrow.setDate(today.getDate() + 1);
 
   // 선택된 월, 년도에 따른 달력 날짜 계산
   const targetCalendarDates: Date[] = getCalendarDates(selectedYear, selectedMonth);
@@ -53,46 +57,10 @@ function App() {
     </div>
     <ToDoAdd setTodoData={setTodoData} /> 
     <div className='bg-yellow-100 h-40'>
-      <div>Today</div>
-      <div>
-      {todoData
-              .filter((todo) => {
-                const todoDate = new Date(todo.date);
-                return (
-                  todoDate.getDate() === today.getDate() &&
-                  todoDate.getMonth() === today.getMonth() &&
-                  todoDate.getFullYear() === today.getFullYear()
-                );
-              })
-              .map((todo, index) => (
-                <div key={index}>
-                  {/* 여기에 할 일 정보를 표시합니다. */}
-                  {todo.title} - {todo.time}
-                  </div>
-              ))}         
-      </div>
+    <DaySelector title="TODAY" todoData={todoData} selectedDate={today} />
     </div>
     <div className='bg-green-100 h-40'>
-      <div>Tomorrow</div>
-      <div>
-      {todoData
-              .filter((todo) => {
-                const tomorrow = new Date(today);
-                tomorrow.setDate(today.getDate() + 1);
-                const todoDate = new Date(todo.date);
-                return (
-                  todoDate.getDate() === tomorrow.getDate() &&
-                  todoDate.getMonth() === tomorrow.getMonth() &&
-                  todoDate.getFullYear() === tomorrow.getFullYear()
-                );
-              })
-              .map((todo, index) => (
-                <div key={index}>
-                  {/* 여기에 내일 할 일 정보를 표시합니다. */}
-                  {todo.title} - {todo.time}
-                </div>
-              ))}
-      </div>
+    <DaySelector title="TOMORROW" todoData={todoData} selectedDate={tomorrow} />
     </div>
   </div>
   <div className="w-[1214px] outer-box ">
