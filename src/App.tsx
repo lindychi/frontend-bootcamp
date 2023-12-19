@@ -43,7 +43,7 @@ function App() {
   <div className="w-[250px] h-min-[1024px] p-3">
    <div className="p-[10px] grid gap-2.5">
       <MonthHeader selectedMonth={selectedMonth}/>
-      <DayHeader className='grid grid-cols-7 text-[10px]' />
+      <DayHeader className='grid grid-cols-7 text-[10px]' form='short' />
       <SmallCalendar
         dates={targetCalendarDates}
         selectedMonth={selectedMonth}
@@ -52,6 +52,48 @@ function App() {
       />
     </div>
     <ToDoAdd setTodoData={setTodoData} /> 
+    <div className='bg-yellow-100 h-40'>
+      <div>Today</div>
+      <div>
+      {todoData
+              .filter((todo) => {
+                const todoDate = new Date(todo.date);
+                return (
+                  todoDate.getDate() === today.getDate() &&
+                  todoDate.getMonth() === today.getMonth() &&
+                  todoDate.getFullYear() === today.getFullYear()
+                );
+              })
+              .map((todo, index) => (
+                <div key={index}>
+                  {/* 여기에 할 일 정보를 표시합니다. */}
+                  {todo.title} - {todo.time}
+                  </div>
+              ))}         
+      </div>
+    </div>
+    <div className='bg-green-100 h-40'>
+      <div>Tomorrow</div>
+      <div>
+      {todoData
+              .filter((todo) => {
+                const tomorrow = new Date(today);
+                tomorrow.setDate(today.getDate() + 1);
+                const todoDate = new Date(todo.date);
+                return (
+                  todoDate.getDate() === tomorrow.getDate() &&
+                  todoDate.getMonth() === tomorrow.getMonth() &&
+                  todoDate.getFullYear() === tomorrow.getFullYear()
+                );
+              })
+              .map((todo, index) => (
+                <div key={index}>
+                  {/* 여기에 내일 할 일 정보를 표시합니다. */}
+                  {todo.title} - {todo.time}
+                </div>
+              ))}
+      </div>
+    </div>
   </div>
   <div className="w-[1214px] outer-box ">
    <div className="flex flex-row place-content-between items-center p-4">
@@ -72,7 +114,7 @@ function App() {
         </div>
       </div>
     </div>
-    <DayHeader className="grid grid-cols-7 outer-box" />
+    <DayHeader className="grid grid-cols-7 outer-box" form='medium' />
     <BigCalendar
       todoData={todoData}
       selectedMonth={selectedMonth}

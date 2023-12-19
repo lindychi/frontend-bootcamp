@@ -4,6 +4,7 @@ import clsx from 'clsx';
 type Todo = {
   title: string;
   time: string;
+  date: Date;
 };
 
 type Props = {
@@ -20,11 +21,8 @@ const filterDate = (todos: Todo[], selectedDate: Date | null): Todo[] => {
     return [];
   }
 
-  // 필터링 로직 추가
-
   return todos.filter((todo) => {
-    // 예시로 todo의 날짜를 사용함. 실제로는 todo의 날짜를 어떻게 처리할지에 따라 로직이 달라짐
-    const todoDate = new Date(todo.time);
+    const todoDate = new Date(todo.date);
 
     return (
       todoDate.getDate() === selectedDate.getDate() &&
@@ -33,7 +31,6 @@ const filterDate = (todos: Todo[], selectedDate: Date | null): Todo[] => {
     );
   });
 };
-
 const BigCalendar: React.FC<Props> = ({
   todoData,
   selectedMonth,
@@ -42,6 +39,11 @@ const BigCalendar: React.FC<Props> = ({
   selectedDate,
   dates,
 }) => {
+  console.log(todoData); 
+
+
+
+
   return (
     <div className="grid grid-cols-7 w-[1214px] h-min-[923px]">
       {dates.map((date: Date, index) => {
@@ -83,3 +85,4 @@ const BigCalendar: React.FC<Props> = ({
 };
 
 export default BigCalendar;
+
