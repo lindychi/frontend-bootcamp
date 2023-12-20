@@ -28,6 +28,14 @@ function App() {
     setTargetCalendarDates(newDates);
   }, [selectedMonth, selectedYear]);
 
+  const [events, setEvents] = useState<
+    {
+      date: string;
+      name: string;
+      time: string;
+    }[]
+  >([]);
+
   const getDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
       return "text-gray-400";
@@ -45,6 +53,9 @@ function App() {
   const today = new Date();
   // 모달에 필요한 함수
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventTime, setEventTime] = useState("");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -53,7 +64,16 @@ function App() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
+  const handleSaveEvent = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newEvent = {
+      date: eventDate,
+      name: eventName,
+      time: eventTime,
+    };
+    setEvents([...events, newEvent]);
+    closeModal();
+  };
   // 작은달력에 넣었던 효과가 큰달력에 적용되지 않아서 한번 더  추가함
   const getSecondDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
@@ -99,12 +119,25 @@ function App() {
                       &times;
                     </span>
                     <h2>Add Event</h2>
-                    {/* 여기에 이벤트 입력 폼이 들어갈 수 있어요 */}
-                    <form>
-                      <input type="text" placeholder="Event Name" />
-                      <input type="date" placeholder="Date" />
-                      <input type="time" placeholder="Time" />
-
+                    <form onSubmit={handleSaveEvent}>
+                      <input
+                        type="text"
+                        placeholder="Event Name"
+                        value={eventName}
+                        onChange={(e) => setEventName(e.target.value)}
+                      />
+                      <input
+                        type="date"
+                        placeholder="Date"
+                        value={eventDate}
+                        onChange={(e) => setEventDate(e.target.value)}
+                      />
+                      <input
+                        type="time"
+                        placeholder="Time"
+                        value={eventTime}
+                        onChange={(e) => setEventTime(e.target.value)}
+                      />
                       <button type="submit" className="save-button">
                         Save
                       </button>
@@ -120,6 +153,7 @@ function App() {
           dayList={dayList}
           targetCalendarDates={targetCalendarDates}
           getSecondDateClass={getSecondDateClass}
+          events={events}
         />
       </div>
       <div></div>
