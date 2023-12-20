@@ -10,7 +10,8 @@ import Plus from "./icons/Plus";
 import DropDown from "./components/Dropdown";
 import CalendarSection from "./components/CalendarSection";
 import BigCalendar from "./components/BigCalendar";
-import YearDropDown from "./components/\bYearDropDown";
+import YearDropDown from "./components/YearDropDown";
+import "./Modal.css";
 
 function App() {
   const [selectedMonth, setSelectedMonth] = useState<number>(12);
@@ -42,6 +43,16 @@ function App() {
   };
 
   const today = new Date();
+  // 모달에 필요한 함수
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   // 작은달력에 넣었던 효과가 큰달력에 적용되지 않아서 한번 더  추가함
   const getSecondDateClass = (date: Date): string => {
@@ -50,7 +61,6 @@ function App() {
     }
     return "";
   };
-  // 작은달력에 넣었던 효과가 큰달력에 적용되지 않아서 한번 더  추가함
 
   return (
     <div className="flex flex-row h-screen">
@@ -80,18 +90,30 @@ function App() {
 
           <div className="flex gap-3">
             <Search />
-            <div className="flex bg-primary text-white p-2 gap-1 items-center">
-              Add event <Plus />
+            <div className="flex-row bg-primary text-white p-2 gap-1">
+              <button onClick={openModal}>Add Event</button>
+              {isModalOpen && (
+                <div className="modal-background">
+                  <div className="modal-content">
+                    <span className="close" onClick={closeModal}>
+                      &times;
+                    </span>
+                    <h2>Add Event</h2>
+                    {/* 여기에 이벤트 입력 폼이 들어갈 수 있어요 */}
+                    <form>
+                      <input type="text" placeholder="Event Name" />
+                      <input type="date" placeholder="Date" />
+                      <input type="time" placeholder="Time" />
+
+                      <button type="submit" className="save-button">
+                        Save
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-        </div>
-
-        <div className="min-w-screen grid grid-cols-7 gap-1 border border-state-300">
-          {dayList.map((day) => (
-            <div key={day.medium} className="text-center py-2 ">
-              {day.medium}
-            </div>
-          ))}
         </div>
 
         <BigCalendar

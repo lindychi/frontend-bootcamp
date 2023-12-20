@@ -11,7 +11,6 @@ const DropDown: React.FC<DropdownProps> = ({
   setSelectedMonth,
 }) => {
   const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedDate = new Date();
     setSelectedMonth(Number(e.target.value));
   };
 

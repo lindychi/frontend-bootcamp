@@ -13,6 +13,14 @@ const BigCalendar: React.FC<BigCalendarProps> = ({
 }) => {
   return (
     <>
+      <div className="min-w-screen grid grid-cols-7 gap-1 border border-state-300">
+        {dayList.map((day) => (
+          <div key={day.medium} className="text-center py-2 ">
+            {day.medium}
+          </div>
+        ))}
+      </div>
+
       <div className="min-w-screen min-h-[1500px] grid grid-cols-7  border border-state-300">
         {targetCalendarDates?.map((date: Date, index: number) => (
           <div
