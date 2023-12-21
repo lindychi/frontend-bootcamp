@@ -5,12 +5,14 @@ type CalendarSectionProps = {
   selectedMonth: number;
   targetCalendarDates: Date[] | null;
   getDateClass: (date: Date) => string;
+  events: { date: string; name: string; time: string }[];
 };
 
 const CalendarSection: React.FC<CalendarSectionProps> = ({
   selectedMonth,
   targetCalendarDates,
   getDateClass,
+  events,
 }) => {
   return (
     <div className="w-[340px] h-screen border border-slate-300 p-4">
@@ -32,9 +34,39 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
           </div>
         ))}
       </div>
-      <div className="text-2xl font-semibold mb-4 px-2 py-1 ">Today</div>
-      <div className="text-2xl font-semibold mb-4 px-2 py-1 ">Tomorrow</div>
-      <div className="text-2xl font-semibold mb-4 px-2 py-1 ">Vacations</div>
+      <div className="p-3 ">
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold mb-2">이벤트 리스트</h3>
+          <ul className="list-disc pl-5">
+            {events.map((event, index) => (
+              <li key={index} className="mb-1">
+                {event.name} - {event.date} - {event.time}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold mb-2">일정 테이블</h3>
+          <table className="w-full border-collapse border">
+            <thead>
+              <tr className="border-b">
+                <th className="p-2">이름</th>
+                <th className="p-2">날짜</th>
+                <th className="p-2">시간</th>
+              </tr>
+            </thead>
+            <tbody>
+              {events.map((event, index) => (
+                <tr key={index} className="border-b">
+                  <td className="p-2">{event.name}</td>
+                  <td className="p-2">{event.date}</td>
+                  <td className="p-2">{event.time}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

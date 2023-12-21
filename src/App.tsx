@@ -88,6 +88,7 @@ function App() {
         selectedMonth={selectedMonth}
         targetCalendarDates={targetCalendarDates}
         getDateClass={getDateClass}
+        events={events}
       />
 
       <div>

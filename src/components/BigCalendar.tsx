@@ -16,9 +16,14 @@ const BigCalendar: React.FC<BigCalendarProps> = ({
   const getEventForDate = (
     date: Date
   ): { name: string; time: string } | null => {
-    const eventForDate = events.find(
-      (event) => event.date === date.toISOString().split("T")[0]
-    );
+    const eventForDate = events.find((event) => {
+      const eventDate = new Date(event.date);
+      return (
+        eventDate.getDate() === date.getDate() &&
+        eventDate.getMonth() === date.getMonth() &&
+        eventDate.getFullYear() === date.getFullYear()
+      );
+    });
     return eventForDate || null;
   };
 
