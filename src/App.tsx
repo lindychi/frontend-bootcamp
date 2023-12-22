@@ -64,6 +64,9 @@ function App() {
     ) {
       return "bg-primary rounded-full text-white";
     }
+    if (date.getDay() === 6 || date.getDay() === 0) {
+      return "text-red-500";
+    }
     return "";
   };
 
@@ -98,6 +101,9 @@ function App() {
   const getSecondDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
       return "text-gray-400 bg-zinc-100";
+    }
+    if (date.getDay() === 6 || date.getDay() === 0) {
+      return "text-red-500";
     }
     return "";
   };

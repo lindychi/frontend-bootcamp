@@ -14,6 +14,12 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
   getDateClass,
   events,
 }) => {
+  const today = new Date();
+  const todayString = `${today.getFullYear()}-${
+    today.getMonth() + 1
+  }-${today.getDate()}`;
+
+  const todayEvents = events.filter((event) => event.date === todayString);
   return (
     <div className="w-[340px] h-screen border border-slate-300 p-4">
       <div className="text-2xl font-semibold mb-4 px-2 py-1">
@@ -34,19 +40,31 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
           </div>
         ))}
       </div>
-      <div className="p-3 ">
+      <div className="p-3">
         <div className="mt-8">
-          <h3 className="text-lg font-semibold mb-2">이벤트 리스트</h3>
-          <ul className="list-disc pl-5">
-            {events.map((event, index) => (
-              <li key={index} className="mb-1">
-                {event.name} - {event.date} - {event.time}
-              </li>
-            ))}
-          </ul>
+          <h3 className="text-2xl font-semibold mb-2">
+            {todayEvents.length > 0 ? "TODAY EVENT" : "A DAY WITH NOTHING"}
+          </h3>
+          {todayEvents.length > 0 ? (
+            <ul className="list-disc pl-5">
+              {todayEvents.map((event, index) => (
+                <li key={index} className="mb-1">
+                  {event.name} - {event.date} - {event.time}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <ul className="list-disc pl-5">
+              {events.map((event, index) => (
+                <li key={index} className="mb-1">
+                  {event.name} - {event.date} - {event.time}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="mt-8">
-          <h3 className="text-lg font-semibold mb-2">일정 테이블</h3>
+          <h3 className="text-2xl font-semibold mb-2">일정 테이블</h3>
           <table className="w-full border-collapse border">
             <thead>
               <tr className="border-b">
