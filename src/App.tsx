@@ -36,6 +36,23 @@ function App() {
     }[]
   >([]);
 
+  const [sortedEvents, setSortedEvents] = useState<
+    {
+      date: string;
+      name: string;
+      time: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    const sorted = [...events].sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateA.getTime() - dateB.getTime();
+    });
+    setSortedEvents(sorted);
+  }, [events]);
+
   const getDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
       return "text-gray-400";
@@ -63,6 +80,9 @@ function App() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setEventName("");
+    setEventDate("");
+    setEventTime("");
   };
   const handleSaveEvent = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -88,7 +108,7 @@ function App() {
         selectedMonth={selectedMonth}
         targetCalendarDates={targetCalendarDates}
         getDateClass={getDateClass}
-        events={events}
+        events={sortedEvents}
       />
 
       <div>
