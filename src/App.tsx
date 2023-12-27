@@ -14,6 +14,9 @@ import SmallCalendar from './components/SmallCalendar';
 import BigCalendar from './components/BigCalendar';
 import ToDoAdd from './components/ToDoAdd';
 import DaySelector from './components/DaySelector';
+import WeekView from './components/WeekView';
+import DayView from './components/DayView';
+import YearView from './components/YearView';
 
 
 function App() {
@@ -22,6 +25,7 @@ function App() {
   const [selectedDate, setDate] = useState<Date | null>(null);
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+  const [selectedView, setSelectedView] = useState<string>('month');
   const [todoData, setTodoData] = useState<{ title: string; time: string; date: Date }[]>([]);
   const tomorrow = new Date();
 tomorrow.setDate(today.getDate() + 1);
@@ -39,6 +43,12 @@ tomorrow.setDate(today.getDate() + 1);
   const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedYearValue = parseInt(e.target.value, 10);
     setSelectedYear(selectedYearValue);
+  };
+
+  // 뷰 유형 변경 핸들러
+  const handleViewChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedViewValue = e.target.value;
+    setSelectedView(selectedViewValue);
   };
   
 
@@ -72,6 +82,19 @@ tomorrow.setDate(today.getDate() + 1);
        <div className="flex flex-row">
        <YearSelect selectedYear={selectedYear} handleYearChange={handleYearChange}/>
        <MonthSelect selectedMonth={selectedMonth} handleMonthChange={handleMonthChange} />
+       <div>
+            <label htmlFor="viewSelect"> </label>
+            <select 
+            className="text-primary border-primary border-solid border-[1px] p-2 gap-1 rounded"
+            id="viewSelect" value={selectedView} onChange={handleViewChange}>
+              <option value="year">Year</option>
+              <option value="month">Month</option>
+              <option value="week">Week</option>
+              <option value="day">Day</option>
+              
+            </select>
+          </div>
+          
         </div>
       </div>
       <div className="flex flex-row items-center gap-4">
@@ -82,16 +105,52 @@ tomorrow.setDate(today.getDate() + 1);
         </div>
       </div>
     </div>
-    <DayHeader className="grid grid-cols-7 outer-box" form='medium' />
-    <BigCalendar
-      todoData={todoData}
-      selectedMonth={selectedMonth}
-      selectedYear={selectedYear}
-      today={today}
-      selectedDate={selectedDate}
-      dates={targetCalendarDates}
-      />
+    
+{selectedView === 'month' && (
+          <BigCalendar
+            todoData={todoData}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            today={today}
+            selectedDate={selectedDate}
+            dates={targetCalendarDates}
+          />
+        )}
+
+        {selectedView === 'week' && (
+          <WeekView
+            todoData={todoData}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            today={today}
+            selectedDate={selectedDate}
+            dates={targetCalendarDates}
+          />
+        )}
+
+        {selectedView === 'day' && (
+          <DayView
+            todoData={todoData}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            today={today}
+            selectedDate={selectedDate}
+            dates={targetCalendarDates}
+          />
+        )}
+
+{selectedView === 'year' && (
+        <YearView
+        selectedYear={selectedYear}
+        targetCalendarDates={targetCalendarDates}
+        />
+      )}
+
+
+
+
     </div>
+    
   </div>
   );
 }
