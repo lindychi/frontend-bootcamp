@@ -15,7 +15,7 @@ const YearView: React.FC<YearViewProps> = ({ year, getDateClass, dayList }) => {
   const renderMonthCalendar = (month: number) => {
     const targetCalendarDates = getCalendarDates(year, month);
     return (
-      <div className="min-w-[300px] grid grid-cols-7 gap-1">
+      <div className="min-w-[350px] grid grid-cols-7 gap-4">
         {dayList.map((day) => (
           <div key={day.short} className="text-center text-sm py-2">
             {day.short}
@@ -34,7 +34,7 @@ const YearView: React.FC<YearViewProps> = ({ year, getDateClass, dayList }) => {
   };
 
   return (
-    <div className="flex flex-wrap">
+    <div className="flex flex-wrap p-2 gap-3">
       {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
         <div key={month} className="m-4">
           <h2 className="text-lg font-bold mb-2">{getMonthString(month)}</h2>

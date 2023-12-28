@@ -1,14 +1,14 @@
 import React from "react";
 import { dayList } from "../consts/calendar";
 
-type BigCalendarProps = {
+type WeekViewProps = {
   dayList: { medium: string }[];
   targetCalendarDates: Date[] | null;
   getSecondDateClass: (date: Date) => string;
   events: { date: string; name: string; time: string }[];
 };
 
-const BigCalendar: React.FC<BigCalendarProps> = ({
+const WeekView: React.FC<WeekViewProps> = ({
   targetCalendarDates,
   getSecondDateClass,
   events,
@@ -26,7 +26,16 @@ const BigCalendar: React.FC<BigCalendarProps> = ({
     });
     return eventForDate || null;
   };
+  const today = new Date();
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay());
 
+  const thisWeekDates: Date[] = [];
+  for (let i = 0; i < 7; i++) {
+    const currentDate = new Date(startOfWeek);
+    currentDate.setDate(startOfWeek.getDate() + i);
+    thisWeekDates.push(currentDate);
+  }
   return (
     <>
       <div className="min-w-screen grid grid-cols-7 gap-1 border border-state-300">
@@ -38,7 +47,7 @@ const BigCalendar: React.FC<BigCalendarProps> = ({
       </div>
 
       <div className="min-w-screen min-h-[1500px] grid grid-cols-7  border border-state-300">
-        {targetCalendarDates?.map((date: Date, index: number) => (
+        {thisWeekDates.map((date: Date, index: number) => (
           <div
             key={index}
             className={`text-left indent-3 py-2 border border-state-300 ${getSecondDateClass(
@@ -64,4 +73,4 @@ const BigCalendar: React.FC<BigCalendarProps> = ({
   );
 };
 
-export default BigCalendar;
+export default WeekView;

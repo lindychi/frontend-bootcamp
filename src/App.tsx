@@ -9,12 +9,14 @@ import Plus from "./icons/Plus";
 import DropDown from "./components/Dropdown";
 import CalendarSection from "./components/CalendarSection";
 import BigCalendar from "./components/BigCalendar";
-import YearDropDown from "./components/YearDropDown";
-import YearView from "./components/YearView";
 import "./Modal.css";
+import YearView from "./components/YearView";
+import WeekView from "./components/WeekView";
+
 enum View {
   Month = "month",
   Year = "year",
+  Week = "week",
 }
 function App() {
   const [selectedMonth, setSelectedMonth] = useState<number>(12);
@@ -53,12 +55,19 @@ function App() {
   >([]);
 
   useEffect(() => {
-    const sorted = [...events].sort((a, b) => {
+    const sortedByDate = [...events].sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return dateA.getTime() - dateB.getTime();
     });
-    setSortedEvents(sorted);
+
+    const sortedByDateTime = [...sortedByDate].sort((a, b) => {
+      const timeA = new Date(`1970-01-01T${a.time}`);
+      const timeB = new Date(`1970-01-01T${b.time}`);
+      return timeA.getTime() - timeB.getTime();
+    });
+
+    setSortedEvents(sortedByDateTime);
   }, [events]);
 
   const getDateClass = (date: Date): string => {
@@ -143,6 +152,7 @@ function App() {
                 value={currentView}
                 onChange={(e) => handleViewChange(e.target.value as View)}
               >
+                <option value={View.Week}>Week</option>
                 <option value={View.Month}>Month</option>
                 <option value={View.Year}>Year</option>
               </select>
@@ -200,11 +210,18 @@ function App() {
             getSecondDateClass={getSecondDateClass}
             events={events}
           />
-        ) : (
+        ) : currentView === View.Year ? (
           <YearView
             year={selectedYear}
             getDateClass={getDateClass}
             dayList={dayList}
+          />
+        ) : (
+          <WeekView
+            dayList={dayList}
+            targetCalendarDates={targetCalendarDates}
+            getSecondDateClass={getSecondDateClass}
+            events={events}
           />
         )}
       </div>
