@@ -3,7 +3,6 @@ import clsx from "clsx";
 import "./App.css";
 import { dayList } from "./consts/calendar";
 import { getCalendarDates, getMonthString } from "./libs/calendar";
-import Arrow from "./icons/Arrow";
 import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
 import Plus from "./icons/Plus";
@@ -11,8 +10,12 @@ import DropDown from "./components/Dropdown";
 import CalendarSection from "./components/CalendarSection";
 import BigCalendar from "./components/BigCalendar";
 import YearDropDown from "./components/YearDropDown";
+import YearView from "./components/YearView";
 import "./Modal.css";
-
+enum View {
+  Month = "month",
+  Year = "year",
+}
 function App() {
   const [selectedMonth, setSelectedMonth] = useState<number>(12);
   const [selectedYear, setSelectedYear] = useState<number>(
@@ -21,6 +24,11 @@ function App() {
   const [targetCalendarDates, setTargetCalendarDates] = useState<Date[] | null>(
     null
   );
+  const [currentView, setCurrentView] = useState<View>(View.Month);
+
+  const handleViewChange = (view: View) => {
+    setCurrentView(view);
+  };
 
   useEffect(() => {
     setTargetCalendarDates(null);
@@ -124,15 +132,21 @@ function App() {
             <div className="text-4xl">
               {getMonthString(selectedMonth)} {selectedYear}
             </div>
-            {/* 드롭다운버튼 */}
+
             <DropDown
               selectedMonth={selectedMonth}
               setSelectedMonth={setSelectedMonth}
             />
-            <YearDropDown
-              selectedYear={selectedYear}
-              setSelectedYear={setSelectedYear}
-            />
+            <div className="flex text-primary border border-primary rounded-md p-2 ">
+              <select
+                className={"text-primary"}
+                value={currentView}
+                onChange={(e) => handleViewChange(e.target.value as View)}
+              >
+                <option value={View.Month}>Month</option>
+                <option value={View.Year}>Year</option>
+              </select>
+            </div>
           </div>
 
           <div className="flex gap-3">
@@ -145,7 +159,10 @@ function App() {
                     <span className="close" onClick={closeModal}>
                       &times;
                     </span>
-                    <h2>Add Event</h2>
+                    <h2>
+                      Add Event
+                      <Plus />
+                    </h2>
                     <form onSubmit={handleSaveEvent}>
                       <input
                         type="text"
@@ -176,12 +193,20 @@ function App() {
           </div>
         </div>
 
-        <BigCalendar
-          dayList={dayList}
-          targetCalendarDates={targetCalendarDates}
-          getSecondDateClass={getSecondDateClass}
-          events={events}
-        />
+        {currentView === View.Month ? (
+          <BigCalendar
+            dayList={dayList}
+            targetCalendarDates={targetCalendarDates}
+            getSecondDateClass={getSecondDateClass}
+            events={events}
+          />
+        ) : (
+          <YearView
+            year={selectedYear}
+            getDateClass={getDateClass}
+            dayList={dayList}
+          />
+        )}
       </div>
       <div></div>
     </div>

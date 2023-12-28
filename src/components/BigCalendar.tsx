@@ -4,7 +4,7 @@ type BigCalendarProps = {
   dayList: { medium: string }[];
   targetCalendarDates: Date[] | null;
   getSecondDateClass: (date: Date) => string;
-  events: { date: string; name: string; time: string }[]; // 이벤트 정보를 담을 배열
+  events: { date: string; name: string; time: string }[];
 };
 
 const BigCalendar: React.FC<BigCalendarProps> = ({
