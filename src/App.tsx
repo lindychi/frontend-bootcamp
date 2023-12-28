@@ -20,13 +20,12 @@ function App() {
   );
 
   return (
-    <div className="calendar flex justify-start w-[1465px] rounded-md h-auto border solid rgba(157, 158, 159, 0.60)">
+    <div className="calendar flex justify-start w-[1465px] rounded-md h- auto border solid rgba(157, 158, 159, 0.60)">
       {/* 미니 캘린더 */}
       <div className="sidebar flex-col w-[250px] border solid rgba(157, 158, 159, 0.60)">
         <div className="month_s flex-col w-[250px] h-[47px] py-[10px] px-[16px] font-medium">
           {getMonthString(12)}
         </div>
-        {/* 미니캘린더 요일 */}
         <div className="day-s flex items-center justify-between w-[250px] h-[33px] p-[10px]">
           {dayList.map(({ short }, index) => (
             <div
@@ -61,11 +60,10 @@ function App() {
         </div>
         {/* 미니캘린더 하단*/}
         <div className="schedule w-[250px] h-[409px] py-[10px] px-[16px] gap-[10px]">
-          3
+          Upcoming events
         </div>
       </div>
 
-      {/* 메인 캘린더*/}
       <div className="content">
         {/* 상단 헤더 */}
         <div className="content_top flex w-[1214px] h-[77px] p-[16px] justify-between border solid rgba(157, 158, 159, 0.60)">
@@ -108,8 +106,8 @@ function App() {
           </div>
         </div>
 
-        {/* 찐달력         */}
-        <div className="day flex items-center justify-between w-100% h-[24px]">
+        {/* 빅달력_요일 */}
+        <div className="mediumDay flex items-center justify-between w-100% h-[24px]">
           {dayList.map(({ medium }, index) => (
             <div
               key={index}
@@ -119,8 +117,8 @@ function App() {
             </div>
           ))}
         </div>
-
-        <div className="dates w-[1214px] h-[923px] grid grid-cols-7 py-[3px] px-[4px]">
+        {/* 빅달력_날짜    */}
+        <div className="mediumDates w-[1214px] h-[923px] grid grid-cols-7 py-[3px] px-[4px]">
           {targetCalendarDates.map((date: Date) => (
             <div
               key={date.getTime()} // 각 날짜에 대한 고유한 key
