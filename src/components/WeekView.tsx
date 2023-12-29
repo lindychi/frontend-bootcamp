@@ -26,6 +26,7 @@ const WeekView: React.FC<WeekViewProps> = ({
     });
     return eventForDate || null;
   };
+
   const today = new Date();
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - today.getDay());
@@ -36,36 +37,51 @@ const WeekView: React.FC<WeekViewProps> = ({
     currentDate.setDate(startOfWeek.getDate() + i);
     thisWeekDates.push(currentDate);
   }
+
+  const slotsPerDay = 16;
+  const slotHeightPercentage = 100 / slotsPerDay;
+
   return (
     <>
       <div className="min-w-screen grid grid-cols-7 gap-1 border border-state-300">
         {dayList.map((day) => (
-          <div key={day.medium} className="text-center py-2 ">
+          <div key={day.medium} className="text-center py-2">
             {day.medium}
           </div>
         ))}
       </div>
 
-      <div className="min-w-screen min-h-[1500px] grid grid-cols-7  border border-state-300">
+      <div className="min-w-screen min-h-[1500px] grid grid-cols-7 border border-state-300">
         {thisWeekDates.map((date: Date, index: number) => (
           <div
             key={index}
-            className={`text-left indent-3 py-2 border border-state-300 ${getSecondDateClass(
-              date
-            )}`}
+            className="grid"
+            style={{
+              gridTemplateRows: `repeat(${slotsPerDay}, ${slotHeightPercentage}%)`,
+            }}
           >
-            {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
+            {[...Array(slotsPerDay)].map((_, slotIndex) => (
+              <div
+                key={slotIndex}
+                className={`text-left indent-3 py-2 border border-state-300 ${getSecondDateClass(
+                  date
+                )}`}
+              >
+                {slotIndex === 0 &&
+                  (date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`)}
 
-            {events && (
-              <div>
-                {getEventForDate(date) && (
+                {events && (
                   <div>
-                    {getEventForDate(date)?.name} at{" "}
-                    {getEventForDate(date)?.time}
+                    {getEventForDate(date) && (
+                      <div>
+                        {getEventForDate(date)?.name} at{" "}
+                        {getEventForDate(date)?.time}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
-            )}
+            ))}
           </div>
         ))}
       </div>
