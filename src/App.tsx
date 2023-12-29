@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import clsx from "clsx";
+
 import "./App.css";
 
 import { dayList } from "./consts/calendar";
@@ -9,9 +9,10 @@ import Arrow from "./icons/Arrow";
 import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
 import Plus from "./icons/Plus";
+import CalendarS from "./components/CalendarS";
+import WeekM from "./components/WeekM";
 
 function App() {
-  const [value, setValue] = useState("");
   const [selectedMonth, setSelectedMonth] = React.useState(12);
   const [selectedYear, setSelectedYear] = React.useState(2023);
   const targetCalendarDates: Date[] = getCalendarDates(
@@ -21,52 +22,18 @@ function App() {
 
   return (
     <div className="calendar flex justify-start w-[1465px] rounded-md h- auto border solid rgba(157, 158, 159, 0.60)">
-      {/* 미니 캘린더 */}
       <div className="sidebar flex-col w-[250px] border solid rgba(157, 158, 159, 0.60)">
-        <div className="month_s flex-col w-[250px] h-[47px] py-[10px] px-[16px] font-medium">
-          {getMonthString(12)}
-        </div>
-        <div className="day-s flex items-center justify-between w-[250px] h-[33px] p-[10px]">
-          {dayList.map(({ short }, index) => (
-            <div
-              key={index}
-              className="day px-[5px] mx-auto text-center text-xs"
-            >
-              {short}
-            </div>
-          ))}
-        </div>
-        {/* 미니캘린더 날짜     */}
-        <div className="calendar_s grid grid-cols-7 w-[250px] h-[218px] p-[10px]">
-          {targetCalendarDates.map((date: Date) => (
-            <div
-              key={date.getTime()} // 각 날짜에 대한 고유한 key
-              className={clsx(
-                "inner-date",
-                "p-[5px]",
-                "font-medium",
-                "text-xs",
-                "text-center",
-                "align-middle",
-                {
-                  "text-gray-800": date.getMonth() === new Date().getMonth(),
-                  "text-gray-400": date.getMonth() !== new Date().getMonth(),
-                }
-              )}
-            >
-              {date.getDate()}
-            </div>
-          ))}
-        </div>
+        <div>{/* 미니캘린더*/}</div>
+
         {/* 미니캘린더 하단*/}
         <div className="schedule w-[250px] h-[409px] py-[10px] px-[16px] gap-[10px]">
           Upcoming events
         </div>
       </div>
 
-      <div className="content">
+      <div className="content w-[1214px]">
         {/* 상단 헤더 */}
-        <div className="content_top flex w-[1214px] h-[77px] p-[16px] justify-between border solid rgba(157, 158, 159, 0.60)">
+        <div className="content_top flex w-[1214px] h-[77px] p-[16px] justify-between ">
           <div className="left-content flex justify-between gap-4 items-center">
             <div>
               <Hamburger />
@@ -95,7 +62,7 @@ function App() {
         Month <Arrow /> 
       </div>*/}
           </div>
-          {/* 오른쪽 콘텐츠       */}
+          {/* Add event */}
           <div className="right-contents flex justify-between gap-[16px] items-center">
             <div>
               <Search />
@@ -107,38 +74,38 @@ function App() {
         </div>
 
         {/* 빅달력_요일 */}
-        <div className="mediumDay flex items-center justify-between w-100% h-[24px]">
+        <div className="flex w-100% bg-purple-600 border solid rgba(157, 158, 159, 0.60)">
+          <div className="time w-[54px] px-[10px] bg-yellow-300"></div>
+          <div className="weekM flex-1 bg-red-400">
+            <WeekM dayList={dayList} />
+          </div>
+        </div>
+
+        <div className="flex w-100% h-100% border solid rgba(157, 158, 159, 0.60) bg-orange-400">
+          <div className="weekCalendar flex">
+            <div className="w-[54px] h-100%  bg-orange-300"></div>
+            
+          </div>
+          <div className="w-[1214px] h-[923px] grid grid-cols-7 py-[3px] px-[4px]"></div>
+        </div>
+
+        {/* <div className="mediumDay flex items-center justify-between w-100% h-[24px] border solid rgba(157, 158, 159, 0.60)">
           {dayList.map(({ medium }, index) => (
             <div
               key={index}
-              className="day px-[10px] mx-auto text-center text-xs"
+              className="day px-[10px] mx-auto text-center text-s"
             >
               {medium}
             </div>
           ))}
-        </div>
+        </div> */}
         {/* 빅달력_날짜    */}
-        <div className="mediumDates w-[1214px] h-[923px] grid grid-cols-7 py-[3px] px-[4px]">
-          {targetCalendarDates.map((date: Date) => (
-            <div
-              key={date.getTime()} // 각 날짜에 대한 고유한 key
-              className={clsx(
-                "inner-date",
-                "p-[4px]",
-                "font-medium",
-                "text-xs",
-                "border",
-                "solid",
-                "rgba(157, 158, 159, 0.60)",
-                {
-                  "bg-white": date.getMonth() === new Date().getMonth(),
-                  "bg-gray-100": date.getMonth() !== new Date().getMonth(),
-                }
-              )}
-            >
-              {date.getDate()}
-            </div>
-          ))}
+
+        {/* 연력*/}
+        <div className="flex">
+          {" "}
+          <div></div>
+          <div></div>
         </div>
       </div>
     </div>
