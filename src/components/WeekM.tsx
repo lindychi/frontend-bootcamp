@@ -7,9 +7,9 @@ type Props = {
 
 export default function WeekM({ dayList }: Props) {
   return (
-    <div className="mediumDay flex items-center justify-between ">
+    <div className="mediumDay flex text-center">
       {dayList.map(({ medium }, index) => (
-        <div key={index} className="day px-16 text-s">
+        <div key={index} className="day w-full px-16 border-r text-s">
           {medium}
         </div>
 

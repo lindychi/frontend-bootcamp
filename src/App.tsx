@@ -21,8 +21,8 @@ function App() {
   );
 
   return (
-    <div className="calendar flex justify-start w-[1465px] rounded-md h- auto border solid rgba(157, 158, 159, 0.60)">
-      <div className="sidebar flex-col w-[250px] border solid rgba(157, 158, 159, 0.60)">
+    <div className="calendar flex justify-start w-[1465px] h- auto border solid rgba(157, 158, 159, 0.60)">
+      <div className="sidebar flex-col w-[250px] border-r solid rgba(157, 158, 159, 0.60)">
         <div>{/* 미니캘린더*/}</div>
 
         {/* 미니캘린더 하단*/}
@@ -33,7 +33,7 @@ function App() {
 
       <div className="content w-[1214px]">
         {/* 상단 헤더 */}
-        <div className="content_top flex w-[1214px] h-[77px] p-[16px] justify-between ">
+        <div className="content_top flex w-100% h-[77px] p-[16px] justify-between ">
           <div className="left-content flex justify-between gap-4 items-center">
             <div>
               <Hamburger />
@@ -74,19 +74,25 @@ function App() {
         </div>
 
         {/* 빅달력_요일 */}
-        <div className="flex w-100% bg-purple-600 border solid rgba(157, 158, 159, 0.60)">
-          <div className="time w-[54px] px-[10px] bg-yellow-300"></div>
-          <div className="weekM flex-1 bg-red-400">
+        <div className="flex w-100% border-y solid rgba(157, 158, 159, 0.60) bg-red-400">
+          <div className="time w-[64px] bg-yellow-300"></div>
+          <div className="weekM w-full">
             <WeekM dayList={dayList} />
           </div>
         </div>
 
-        <div className="flex w-100% h-100% border solid rgba(157, 158, 159, 0.60) bg-orange-400">
-          <div className="weekCalendar flex">
-            <div className="w-[54px] h-100%  bg-orange-300"></div>
-            
+        {/* 주력 */}
+        <div className="flex w-100% bg-red-400">
+          <div className="timeBox w-[64px] border-l text-s bg-yellow-300"></div>
+          <div className="weekBox flex w-full h-[80px] bg-red-600 text-start">
+            <div className="w-full border-r break-words"></div>
+            <div className="w-full border-r"></div>
+            <div className="w-full border-r"></div>
+            <div className="w-full border-r"></div>
+            <div className="w-full border-r"></div>
+            <div className="w-full border-r"></div>
+            <div className="w-full border-r"></div>
           </div>
-          <div className="w-[1214px] h-[923px] grid grid-cols-7 py-[3px] px-[4px]"></div>
         </div>
 
         {/* <div className="mediumDay flex items-center justify-between w-100% h-[24px] border solid rgba(157, 158, 159, 0.60)">
