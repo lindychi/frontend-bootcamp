@@ -40,6 +40,7 @@ const WeekView: React.FC<WeekViewProps> = ({
 
   const slotsPerDay = 16;
   const slotHeightPercentage = 100 / slotsPerDay;
+  const slotDurationInHours = 24 / slotsPerDay;
 
   return (
     <>
@@ -60,28 +61,43 @@ const WeekView: React.FC<WeekViewProps> = ({
               gridTemplateRows: `repeat(${slotsPerDay}, ${slotHeightPercentage}%)`,
             }}
           >
-            {[...Array(slotsPerDay)].map((_, slotIndex) => (
-              <div
-                key={slotIndex}
-                className={`text-left indent-3 py-2 border border-state-300 ${getSecondDateClass(
-                  date
-                )}`}
-              >
-                {slotIndex === 0 &&
-                  (date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`)}
+            {[...Array(slotsPerDay)].map((_, slotIndex) => {
+              const slotStartTime = new Date(date);
+              slotStartTime.setHours(
+                Math.floor(slotIndex / (slotsPerDay / 24))
+              );
+              slotStartTime.setMinutes(0);
+              const slotEndTime = new Date(date);
+              slotEndTime.setHours(
+                Math.floor((slotIndex + 1) / (slotsPerDay / 24))
+              );
+              slotEndTime.setMinutes(0);
 
-                {events && (
-                  <div>
-                    {getEventForDate(date) && (
-                      <div>
-                        {getEventForDate(date)?.name} at{" "}
-                        {getEventForDate(date)?.time}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
+              const eventForSlot = events.find((event) => {
+                const eventTime = new Date(event.date);
+                return eventTime >= slotStartTime && eventTime < slotEndTime;
+              });
+
+              return (
+                <div
+                  key={slotIndex}
+                  className={`text-left indent-3 py-2 border border-state-300 ${getSecondDateClass(
+                    date
+                  )}`}
+                >
+                  {slotIndex % (slotsPerDay / 24) === 0 &&
+                    (date.getDate() > 9
+                      ? date.getDate()
+                      : `0${date.getDate()}`)}
+
+                  {eventForSlot && (
+                    <div>
+                      {eventForSlot.name} at {eventForSlot.time}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         ))}
       </div>

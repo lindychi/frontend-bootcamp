@@ -106,11 +106,20 @@ function App() {
   };
   const handleSaveEvent = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const [hours, minutes] = eventTime.split(":").map(Number);
+
+    const today = new Date();
+
+    today.setHours(hours);
+    today.setMinutes(minutes);
+
     const newEvent = {
-      date: eventDate,
+      date: today.toISOString(),
       name: eventName,
       time: eventTime,
     };
+
     setEvents([...events, newEvent]);
     closeModal();
   };
