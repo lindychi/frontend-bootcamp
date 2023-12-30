@@ -14,10 +14,7 @@ const YearView: React.FC<Props> = ({ selectedYear, targetCalendarDates }) => {
 
   return (
     <div className="flex flex-wrap gap-4">
-      {/* 각 월에 대해 SmallCalendar를 표시 */}
       {months.map((month) => {
-        // 각 월에 대한 today 날짜 생성
-        
         return (
           <div key={month}>
             <h2 className="text-lg font-semibold mb-2">{`${month}월`}</h2>

@@ -19,6 +19,9 @@ type Props = {
 };
 
 const filterDate = (todos: Todo[], selectedDate: Date | null, selectedHour: number): Todo[] => {
+  console.log('Selected Date:', selectedDate);
+  console.log('Todo Data:', todos);
+ 
   if (!selectedDate) {
     return [];
   }
@@ -29,8 +32,7 @@ const filterDate = (todos: Todo[], selectedDate: Date | null, selectedHour: numb
     return (
       todoDate.getDate() === selectedDate.getDate() &&
       todoDate.getMonth() === selectedDate.getMonth() &&
-      todoDate.getFullYear() === selectedDate.getFullYear() &&
-      todoDate.getHours() === selectedHour
+      todoDate.getFullYear() === selectedDate.getFullYear()
     );
   });
 };
@@ -46,23 +48,30 @@ const DayView: React.FC<Props> = ({
   const hours = Array.from({ length: 24 }, (_, index) => index);
 
   return (
-    <div className="grid grid-cols-1 w-[1214px] h-min-[923px]">
-      {hours.map((hour) => (
-        <div
-          key={hour}
-          className={clsx('h-[80px] grid grid-cols-2 ', {
-            'bg-primary text-white': hour === today.getHours(),
-          })}
-        >
-          <div className="flex items-center  ">
-            {hour > 9 ? hour : `0${hour}`}:00
-          </div>
+    <div className='outer-box flex flex-row'>
 
-          <div className="flex flex-col  w-1024px outer-box">
+    <div>
+      {hours.map((hour) => (
+        <div key={hour} className="flex flex-col h-[80px]">
+          {hour > 9 ? hour : `0${hour}`}:00
+        </div>
+      ))}
+    </div>
+    <div className="relative"> 
+      <div className='p-3'>
+        {hours.map((hour) => (
+          <div key={hour} className="outer-box w-[1024px] h-[80px]"></div>
+        ))}
+      </div>
+
+      
+    <div className='absolute top-3 left-3'>
+        {hours.map((hour) => (
+          <div key={hour} className="flex flex-col w-[1024px] h-[80px]">
             {filterDate(todoData, selectedDate, hour).map((item: Todo, index: number) => (
               <div
                 key={index}
-                className={clsx('flex flex-row  gap-4 ', {
+                className={clsx('flex flex-row gap-4', {
                   'bg-primary text-white': hour === today.getHours(),
                 })}
               >
@@ -70,11 +79,24 @@ const DayView: React.FC<Props> = ({
                 <div>{item.time}</div>
               </div>
             ))}
+
+      
+            {filterDate(todoData, selectedDate, hour).length === 0 && (
+              <div
+                key={hour}
+                className={clsx('flex flex-row gap-4 ', {
+                  'bg-primary text-white': hour === today.getHours(),
+                })}
+              >
+                <div className='w-[1024px] h-[80px] grid items-center'>No Task</div>
+              </div>
+            )}
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+    </div>
+   
     </div>
   );
 };
-
 export default DayView;
