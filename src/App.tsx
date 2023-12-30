@@ -10,6 +10,7 @@ import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
 import Plus from "./icons/Plus";
 import CalendarS from "./components/CalendarS";
+import SevenDays from "./components/SevenDays";
 import WeekM from "./components/WeekM";
 
 function App() {
@@ -77,12 +78,15 @@ function App() {
         <div className="flex w-100% border-y solid rgba(157, 158, 159, 0.60) bg-red-400">
           <div className="time w-[64px] bg-yellow-300"></div>
           <div className="weekM w-full">
-            <WeekM dayList={dayList} />
+            <SevenDays dayList={dayList} />
           </div>
+        </div>
+        <div>
+          <WeekM />
         </div>
 
         {/* 주력 */}
-        <div className="flex w-100% bg-red-400">
+        {/* <div className="flex w-100% bg-red-400">
           <div className="timeBox w-[64px] border-l text-s bg-yellow-300"></div>
           <div className="weekBox flex w-full h-[80px] bg-red-600 text-start">
             <div className="w-full border-r break-words"></div>
@@ -93,7 +97,7 @@ function App() {
             <div className="w-full border-r"></div>
             <div className="w-full border-r"></div>
           </div>
-        </div>
+        </div> */}
 
         {/* <div className="mediumDay flex items-center justify-between w-100% h-[24px] border solid rgba(157, 158, 159, 0.60)">
           {dayList.map(({ medium }, index) => (
