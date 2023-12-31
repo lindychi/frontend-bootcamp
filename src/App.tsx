@@ -2,11 +2,13 @@ import React from "react";
 import clsx from "clsx";
 import "./App.css";
 
-import { dayList } from "./consts/calendar";
+import { calendarTypeList, dayList } from "./consts/calendar";
 
 import { getCalendarDates, getMonthString } from "./libs/calendar";
 
-import Arrow from "./icons/Arrow";
+import DayListHeader from "./components/DayListHeader";
+import SelectBox from "./components/SelectBox";
+
 import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
 import Plus from "./icons/Plus";
@@ -15,6 +17,9 @@ function App() {
   const [selectedMonth, setSelectedMonth] = React.useState(12);
   const [selectedYear, setSelectedYear] = React.useState(2023);
   const targetCalendarDates = getCalendarDates(selectedYear, selectedMonth);
+  const [selectedCalendarType, setSelectedCalendarType] = React.useState(
+    calendarTypeList[0]
+  );
 
   return (
     <div className="w-full h-full min-w-screen min-h-screen">
@@ -98,12 +103,13 @@ function App() {
                   </span>
                 </div>
               </div>
-              <div className="w-[75px] p-2 rounded-[3px] border border-primary justify-center items-center gap-1 flex">
-                <div className="justify-start items-start gap-2.5 flex">
-                  <div className="text-primary text-xs font-medium">Month</div>
-                </div>
-                <Arrow />
-              </div>
+              <SelectBox
+                options={calendarTypeList}
+                selectedOption={selectedCalendarType}
+                onClick={(select) => {
+                  setSelectedCalendarType(select);
+                }}
+              />
             </div>
             <div className="justify-start items-center gap-4 flex">
               <Search />
@@ -118,17 +124,7 @@ function App() {
               </div>
             </div>
           </div>
-          <div className="self-stretch border-b border-gray-300 justify-start items-start inline-flex">
-            {dayList.map((dayName) => (
-              <div className="grow shrink basis-0 h-6 px-2.5 justify-center items-center gap-2.5 flex">
-                <div className="justify-start items-start gap-2.5 flex">
-                  <div className="text-zinc-800 text-xs font-medium">
-                    {dayName.medium}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <DayListHeader />
           <div className="w-full h-[calc(100%-94px)] justify-center items-center">
             <div className="grow self-stretch justify-start items-start grid grid-cols-7 grid-rows-6 h-full">
               {targetCalendarDates.map((date) => (

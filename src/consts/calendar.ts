@@ -12,3 +12,10 @@ export const dayList: DateName[] = [
   { short: "f", medium: "Fri" },
   { short: "s", medium: "Sat" },
 ];
+
+export const calendarTypeList = [
+  { key: "month", value: "Month" },
+  { key: "week", value: "Week" },
+  { key: "day", value: "Day" },
+  { key: "year", value: "Year" },
+];
