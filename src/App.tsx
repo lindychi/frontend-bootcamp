@@ -6,8 +6,8 @@ import { calendarTypeList, dayList } from "./consts/calendar";
 
 import { getCalendarDates, getMonthString } from "./libs/calendar";
 
-import DayListHeader from "./components/DayListHeader";
 import SelectBox from "./components/SelectBox";
+import MonthCalendar from "./components/MonthCalendar";
 
 import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
@@ -87,7 +87,7 @@ function App() {
         </div>
 
         {/* 우측 항목 */}
-        <div className="grow shrink basis-0 h-screen pl-px flex-col justify-center items-center inline-flex">
+        <div className="grow shrink basis-0 h-screen pl-px flex-col justify-start items-center inline-flex">
           <div className="self-stretch p-4 bg-white border-b border-gray-300 border-opacity-60 justify-between items-center inline-flex">
             <div className="justify-start items-center gap-4 flex">
               <div className="justify-start items-start flex">
@@ -124,34 +124,7 @@ function App() {
               </div>
             </div>
           </div>
-          <DayListHeader />
-          <div className="w-full h-[calc(100%-94px)] justify-center items-center">
-            <div className="grow self-stretch justify-start items-start grid grid-cols-7 grid-rows-6 h-full">
-              {targetCalendarDates.map((date) => (
-                <div
-                  className={clsx([
-                    "self-stretch grow shrink basis-0 px-1 py-[3px] bg-white border border-gray-300 border-opacity-60 flex-col justify-start items-start gap-2.5 flex h-full",
-                    {
-                      "bg-zinc-100 opacity-50":
-                        date.getMonth() !== selectedMonth - 1,
-                    },
-                  ])}
-                >
-                  <div className="p-1 justify-start items-start gap-2.5 inline-flex">
-                    <div className="h-[25px] p-[5px] justify-start items-start gap-2.5 flex">
-                      <div className="justify-start items-start gap-2.5 flex">
-                        <div className="text-zinc-800 text-[10px] font-medium">
-                          {date.getDate() < 10
-                            ? `0${date.getDate()}`
-                            : date.getDate()}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          {selectedCalendarType.key === "month" && <MonthCalendar />}
         </div>
       </div>
     </div>
