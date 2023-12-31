@@ -19,10 +19,7 @@ type Props = {
 };
 
 const filterDate = (todos: Todo[], selectedDate: Date | null, selectedHour: number): Todo[] => {
-  console.log('Selected Date:', selectedDate);
-  console.log('Todo Data:', todos);
- 
-  if (!selectedDate) {
+    if (!selectedDate) {
     return [];
   }
 
@@ -32,7 +29,8 @@ const filterDate = (todos: Todo[], selectedDate: Date | null, selectedHour: numb
     return (
       todoDate.getDate() === selectedDate.getDate() &&
       todoDate.getMonth() === selectedDate.getMonth() &&
-      todoDate.getFullYear() === selectedDate.getFullYear()
+      todoDate.getFullYear() === selectedDate.getFullYear() &&
+      Number(todo.time.split(":")[0])=== selectedHour      
     );
   });
 };
@@ -65,35 +63,34 @@ const DayView: React.FC<Props> = ({
       </div>
 
       
-    <div className='absolute top-3 left-3'>
-        {hours.map((hour) => (
-          <div key={hour} className="flex flex-col w-[1024px] h-[80px]">
-            {filterDate(todoData, selectedDate, hour).map((item: Todo, index: number) => (
-              <div
-                key={index}
-                className={clsx('flex flex-row gap-4', {
-                  'bg-primary text-white': hour === today.getHours(),
-                })}
-              >
-                <div>{item.title}</div>
-                <div>{item.time}</div>
-              </div>
-            ))}
-
-      
-            {filterDate(todoData, selectedDate, hour).length === 0 && (
-              <div
-                key={hour}
-                className={clsx('flex flex-row gap-4 ', {
-                  'bg-primary text-white': hour === today.getHours(),
-                })}
-              >
-                <div className='w-[1024px] h-[80px] grid items-center'>No Task</div>
-              </div>
-            )}
+     <div className='absolute top-3 left-3'>
+    {hours.map((hour) => (
+      <div key={hour} className="flex flex-col w-[1024px] h-[80px]">
+        {filterDate(todoData, today, hour).map((item: Todo, index: number) => (
+          <div
+            key={index}
+            className={clsx('flex flex-row gap-4', {
+              'bg-primary text-white': hour === today.getHours(),
+            })}
+          >
+            <div>{item.title}</div>
+            <div>{item.time}</div>
           </div>
         ))}
+
+        {filterDate(todoData, today, hour).length === 0 && (
+          <div
+            key={hour}
+            className={clsx('flex flex-row gap-4 ', {
+              'bg-primary text-white': hour === today.getHours(),
+            })}
+          >
+            <div className='w-[1024px] h-[80px] grid items-center'>No Task</div>
+          </div>
+        )}
       </div>
+    ))}
+  </div>
     </div>
    
     </div>
