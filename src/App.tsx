@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="w-full h-full min-w-screen min-h-screen">
-      <div className="w-[1465px] h-[1024px] bg-white rounded-md border border-neutral-400 border-opacity-60 justify-start items-start inline-flex">
+      <div className="w-screen h-screen bg-white rounded-md border border-neutral-400 border-opacity-60 justify-start items-start inline-flex">
         <div className="w-[250px] self-stretch bg-white border-r border-gray-300 flex-col justify-start items-start inline-flex">
           <div className="self-stretch h-[47px] px-4 py-2.5 flex-col justify-start items-start gap-2.5 flex">
             <div className="justify-start items-start gap-2.5 inline-flex">
@@ -80,7 +80,9 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="grow shrink basis-0 h-[1024px] pl-px flex-col justify-center items-center inline-flex">
+
+        {/* 우측 항목 */}
+        <div className="grow shrink basis-0 h-screen pl-px flex-col justify-center items-center inline-flex">
           <div className="self-stretch p-4 bg-white border-b border-gray-300 border-opacity-60 justify-between items-center inline-flex">
             <div className="justify-start items-center gap-4 flex">
               <div className="justify-start items-start flex">
@@ -127,12 +129,12 @@ function App() {
               </div>
             ))}
           </div>
-          <div className="w-[1214px] h-[923px] justify-center items-center">
-            <div className="grow self-stretch justify-start items-start grid grid-cols-7">
+          <div className="w-full h-[calc(100%-94px)] justify-center items-center">
+            <div className="grow self-stretch justify-start items-start grid grid-cols-7 grid-rows-6 h-full">
               {targetCalendarDates.map((date) => (
                 <div
                   className={clsx([
-                    "self-stretch grow shrink basis-0 px-1 py-[3px] bg-white border border-gray-300 border-opacity-60 flex-col justify-start items-start gap-2.5 flex h-[184.60px]",
+                    "self-stretch grow shrink basis-0 px-1 py-[3px] bg-white border border-gray-300 border-opacity-60 flex-col justify-start items-start gap-2.5 flex h-full",
                     {
                       "bg-zinc-100 opacity-50":
                         date.getMonth() !== selectedMonth - 1,
