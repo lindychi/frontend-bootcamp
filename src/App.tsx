@@ -109,13 +109,13 @@ function App() {
 
     const [hours, minutes] = eventTime.split(":").map(Number);
 
-    const today = new Date();
+    const newDate = new Date(eventDate);
 
-    today.setHours(hours);
-    today.setMinutes(minutes);
+    newDate.setHours(hours);
+    newDate.setMinutes(minutes);
 
     const newEvent = {
-      date: today.toISOString(),
+      date: newDate.toISOString(),
       name: eventName,
       time: eventTime,
     };

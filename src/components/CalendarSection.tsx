@@ -19,7 +19,15 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
     today.getMonth() + 1
   }-${today.getDate()}`;
 
-  const todayEvents = events.filter((event) => event.date === todayString);
+  const todayEvents = events.filter((event) => {
+    const eventDate = new Date(event.date);
+    return (
+      eventDate.getFullYear() === today.getFullYear() &&
+      eventDate.getMonth() === today.getMonth() &&
+      eventDate.getDate() === today.getDate()
+    );
+  });
+
   return (
     <div className="w-[340px] h-screen border border-slate-300 p-4">
       <div className="text-2xl font-semibold mb-4 px-2 py-1">
