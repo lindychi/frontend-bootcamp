@@ -1,4 +1,4 @@
-import { TodoItem } from "../types/common";
+import { Category, TodoItem } from "../types/common";
 
 /* 12월 31일부터 1월 7일까지 하루에 여러 일정이 있어도 상관없으니 샘플 데이터를 추가해줘 */
 
@@ -9,6 +9,19 @@ export const getMonthTodoList = (year: number, month: number) => {
   });
   return todoList;
 };
+
+export const categoryList: Category[] = [
+  {
+    id: 1,
+    name: "일상",
+    color: "#E7C160",
+  },
+  {
+    id: 2,
+    name: "휴일",
+    color: "#2C5A41",
+  },
+];
 
 export const todoDateList: TodoItem[] = [
   /* 2023년 12월부터 2024년 1월까지 샘플 데이터 만들어줘 */
@@ -114,7 +127,39 @@ export const todoDateList: TodoItem[] = [
     id: 15,
     title: "포트럭 파티",
     createdAt: "2024-01-14",
-    startedAt: new Date("2023-12-24"),
-    endedAt: new Date("2023-12-24"),
+    startedAt: new Date("2023-12-24T16:00:00"),
+    endedAt: new Date("2023-12-24T19:00:00"),
+  },
+  {
+    id: 16,
+    title: "크리스마스 이브",
+    createdAt: "2023-12-24",
+    startedAt: new Date("2023-12-24T00:00:00"),
+    endedAt: new Date("2023-12-24T23:59:59"),
+    category: categoryList[1],
+  },
+  {
+    id: 17,
+    title: "크리스마스",
+    createdAt: "2023-12-25",
+    startedAt: new Date("2023-12-25T00:00:00"),
+    endedAt: new Date("2023-12-25T23:59:59"),
+    category: categoryList[1],
+  },
+  {
+    id: 18,
+    title: "입을 옷 준비하기",
+    createdAt: "2023-12-24",
+    startedAt: new Date("2023-12-24T09:00:00"),
+    endedAt: new Date("2023-12-24T09:30:00"),
+    category: categoryList[0],
+  },
+  {
+    id: 19,
+    title: "늦지않게 나가기",
+    createdAt: "2023-12-24",
+    startedAt: new Date("2023-12-24T15:00:00"),
+    endedAt: new Date("2023-12-2415:30:00"),
+    category: categoryList[0],
   },
 ];

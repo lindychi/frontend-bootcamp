@@ -41,13 +41,27 @@ export default function MonthCalendar({}: Props) {
                   </div>
                 </div>
               </div>
-              <div className="absolute left-2 bottom-2 text-xs w-[calc(100%-16px)]">
+              <div className="absolute bottom-2 text-xs w-[calc(100%-8px)]">
                 {todoList
                   .filter((todo) => todo.startedAt.getDate() === date.getDate())
+                  .sort((a, b) => a.startedAt.getTime() - b.startedAt.getTime())
                   .map((todo) => (
-                    <div className="w-full flex justify-between">
-                      <div>{todo.title}</div>
-                      <div>{`${todo.startedAt
+                    <div
+                      className="w-full flex justify-between font-bold bg-white hover:brightness-75 rounded-md px-1 transition-all cursor-pointer"
+                      style={{
+                        color: todo.category?.color,
+                      }}
+                    >
+                      <div className="flex items-center gap-1">
+                        {todo.category?.color && (
+                          <div
+                            className="w-2 h-2 rounded-full brightness-125"
+                            style={{ background: todo.category.color }}
+                          ></div>
+                        )}
+                        <div>{todo.title}</div>
+                      </div>
+                      <div className="font-normal text-black">{`${todo.startedAt
                         .getHours()
                         .toString()
                         .padStart(2, "0")}:${todo.startedAt

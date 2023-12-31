@@ -87,7 +87,7 @@ function App() {
         </div>
 
         {/* 우측 항목 */}
-        <div className="grow shrink basis-0 h-screen pl-px flex-col justify-start items-center inline-flex">
+        <div className="grow shrink basis-0 h-screen flex-col justify-start items-center inline-flex">
           <div className="self-stretch p-4 bg-white border-b border-gray-300 border-opacity-60 justify-between items-center inline-flex">
             <div className="justify-start items-center gap-4 flex">
               <div className="justify-start items-start flex">
