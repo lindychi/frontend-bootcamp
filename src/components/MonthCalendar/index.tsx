@@ -25,8 +25,10 @@ export default function MonthCalendar({}: Props) {
               className={clsx([
                 "self-stretch grow shrink basis-0 px-1 py-[3px] bg-white border border-gray-300 border-opacity-60 flex-col justify-start items-start gap-2.5 flex h-full relative",
                 {
-                  "bg-zinc-100 opacity-50":
-                    date.getMonth() !== selectedMonth - 1,
+                  "bg-zinc-100 opacity-50": date.getMonth() !== month - 1,
+                },
+                {
+                  "bg-white": date.getMonth() === month - 1,
                 },
               ])}
             >
@@ -41,13 +43,13 @@ export default function MonthCalendar({}: Props) {
                   </div>
                 </div>
               </div>
-              <div className="absolute bottom-2 text-xs w-[calc(100%-8px)]">
+              <div className="absolute bottom-2 text-xs w-[calc(100%-8px)] bg-inherit">
                 {todoList
                   .filter((todo) => todo.startedAt.getDate() === date.getDate())
                   .sort((a, b) => a.startedAt.getTime() - b.startedAt.getTime())
                   .map((todo) => (
                     <div
-                      className="w-full flex justify-between font-bold bg-white hover:brightness-75 rounded-md px-1 transition-all cursor-pointer"
+                      className="w-full flex justify-between font-bold bg-inherit hover:brightness-75 rounded-md px-1 transition-all cursor-pointer"
                       style={{
                         color: todo.category?.color,
                       }}
