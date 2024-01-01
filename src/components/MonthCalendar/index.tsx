@@ -18,7 +18,14 @@ export default function MonthCalendar({}: Props) {
     <>
       <DayListHeader />
       <div className="w-full h-[calc(100%-94px)] justify-center items-center">
-        <div className="grow self-stretch justify-start items-start grid grid-cols-7 grid-rows-6 h-full">
+        <div
+          className="grow self-stretch justify-start items-start grid grid-cols-7 grid-rows-6 h-full"
+          style={{
+            gridTemplateRows: `repeat(${
+              targetCalendarDates.length / 7
+            }, minmax(0, 1fr)`,
+          }}
+        >
           {targetCalendarDates.map((date) => (
             <div
               key={date.getMonth() + "-" + date.getDate()}
