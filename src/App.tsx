@@ -12,14 +12,16 @@ import BigCalendar from "./components/BigCalendar";
 import "./Modal.css";
 import YearView from "./components/YearView";
 import WeekView from "./components/WeekView";
+import DayView from "./components/DayView";
 
 enum View {
   Month = "month",
   Year = "year",
   Week = "week",
+  Day = "Day",
 }
 function App() {
-  const [selectedMonth, setSelectedMonth] = useState<number>(12);
+  const [selectedMonth, setSelectedMonth] = useState<number>(1);
   const [selectedYear, setSelectedYear] = useState<number>(
     new Date().getFullYear()
   );
@@ -148,7 +150,13 @@ function App() {
           <div className="flex justify-start gap-5 ">
             <Hamburger />
             <div className="text-4xl">
-              {getMonthString(selectedMonth)} {selectedYear}
+              {currentView === View.Month
+                ? `${getMonthString(selectedMonth)} ${selectedYear}`
+                : currentView === View.Year
+                ? `${selectedYear}`
+                : currentView === View.Week
+                ? `This Week in ${getMonthString(selectedMonth)}`
+                : "Day View"}
             </div>
 
             <DropDown
@@ -161,6 +169,7 @@ function App() {
                 value={currentView}
                 onChange={(e) => handleViewChange(e.target.value as View)}
               >
+                <option value={View.Day}>Day</option>
                 <option value={View.Week}>Week</option>
                 <option value={View.Month}>Month</option>
                 <option value={View.Year}>Year</option>
@@ -225,6 +234,8 @@ function App() {
             getDateClass={getDateClass}
             dayList={dayList}
           />
+        ) : currentView === View.Day ? (
+          <DayView />
         ) : (
           <WeekView
             dayList={dayList}

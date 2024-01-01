@@ -38,10 +38,11 @@ const WeekView: React.FC<WeekViewProps> = ({
     thisWeekDates.push(currentDate);
   }
 
-  const slotsPerDay = 16;
+  const slotsPerDay = 17;
   const slotHeightPercentage = 100 / slotsPerDay;
   const slotDurationInHours = 24 / slotsPerDay;
-
+  const startHour = 8;
+  const endHour = 23;
   return (
     <>
       <div className="min-w-screen grid grid-cols-7 gap-1 border border-state-300">
@@ -63,15 +64,15 @@ const WeekView: React.FC<WeekViewProps> = ({
           >
             {[...Array(slotsPerDay)].map((_, slotIndex) => {
               const slotStartTime = new Date(date);
-              slotStartTime.setHours(
-                Math.floor(slotIndex / (slotsPerDay / 24))
-              );
-              slotStartTime.setMinutes(0);
-              const slotEndTime = new Date(date);
-              slotEndTime.setHours(
-                Math.floor((slotIndex + 1) / (slotsPerDay / 24))
-              );
-              slotEndTime.setMinutes(0);
+              slotStartTime.setHours(startHour + Math.floor(slotIndex));
+
+              if (slotStartTime.getHours() >= endHour) {
+                slotStartTime.setHours(slotStartTime.getHours() - endHour);
+                slotStartTime.setDate(slotStartTime.getDate() + 1);
+              }
+
+              const slotEndTime = new Date(slotStartTime);
+              slotEndTime.setHours(slotStartTime.getHours() + 1);
 
               const eventForSlot = events.find((event) => {
                 const eventTime = new Date(event.date);
