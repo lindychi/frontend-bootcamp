@@ -1,16 +1,20 @@
 import React from "react";
 
 import clsx from "clsx";
-import "./App.css";
+import "../App.css";
 
 import { DateName, dayList } from "../consts/calendar";
 import { getCalendarDates, getMonthString } from "../libs/calendar";
 
-type Props = {};
+type Props = {
+  selectedMonth: number;
+  selectedYear: number;
+  dayList: DateName[];
+};
 
-export default function CalendarS({}: Props) {
-  const [selectedMonth, setSelectedMonth] = React.useState(12);
-  const [selectedYear, setSelectedYear] = React.useState(2023);
+export default function CalendarS({ selectedMonth, selectedYear }: Props) {
+  // const [selectedMonth, setSelectedMonth] = React.useState(12);
+  // const [selectedYear, setSelectedYear] = React.useState(2023);
   const targetCalendarDates: Date[] = getCalendarDates(
     selectedYear,
     selectedMonth
@@ -19,8 +23,8 @@ export default function CalendarS({}: Props) {
   return (
     // {/* 미니 캘린더-월 */}
     <div>
-      <div className="month_s flex-col w-[250px] h-[47px] py-[10px] px-[16px] font-medium">
-        {getMonthString(12)}
+      <div className="month_s lex-col w-[250px] h-[47px] py-[10px] px-[16px] font-medium">
+        {getMonthString(1)}
       </div>
       {/* 미니 캘린더-요일 */}
       <div className="day-s flex items-center justify-between w-[250px] h-[33px] p-[10px]">

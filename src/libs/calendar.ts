@@ -5,6 +5,8 @@ export function getCalendarDates(year: number, month: number): Date[] {
   const firstDayOfMonth = new Date(year, month - 1, 1);
   const lastDayOfMonth = new Date(year, month, 0);
 
+  
+
   // 이전 달의 마지막 주 날짜를 추가합니다. (일요일 시작)
   let current = new Date(firstDayOfMonth);
   while (current.getDay() !== 0) {
@@ -26,7 +28,15 @@ export function getCalendarDates(year: number, month: number): Date[] {
   while (current.getDay() !== 0) {
     dates.push(new Date(current));
     current = new Date(current.getTime() + 24 * 60 * 60 * 1000);
+
+
+
+
+
+    
   }
+
+  
 
   return dates;
 }

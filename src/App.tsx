@@ -9,22 +9,36 @@ import Arrow from "./icons/Arrow";
 import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
 import Plus from "./icons/Plus";
-import CalendarS from "./components/CalendarS";
 import SevenDays from "./components/SevenDays";
-import WeekM from "./components/WeekM";
+
+import WeekCalendar from "./components/WeekCalendar";
+import CalendarS from "./components/CalendarS";
 
 function App() {
-  const [selectedMonth, setSelectedMonth] = React.useState(12);
-  const [selectedYear, setSelectedYear] = React.useState(2023);
+  const [selectedMonth, setSelectedMonth] = React.useState(1);
+  const [selectedYear, setSelectedYear] = React.useState(2024);
   const targetCalendarDates: Date[] = getCalendarDates(
     selectedYear,
     selectedMonth
   );
+  const monthsArray = Array.from({ length: 12 }, (_, index) => index + 1);
 
   return (
-    <div className="calendar flex justify-start w-[1465px] h- auto border solid rgba(157, 158, 159, 0.60)">
+    <div className="calendar flex justify-start w-[1465px] h-[auto] border solid rgba(157, 158, 159, 0.60)">
       <div className="sidebar flex-col w-[250px] border-r solid rgba(157, 158, 159, 0.60)">
-        <div>{/* 미니캘린더*/}</div>
+        <div>
+          <CalendarS
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            dayList={dayList}
+          />
+        </div>
+
+        {/* <div>
+          {dayList.map((day, index) => (
+            <div key={index}>{day.short}</div>
+          ))}
+        </div> */}
 
         {/* 미니캘린더 하단*/}
         <div className="schedule w-[250px] h-[409px] py-[10px] px-[16px] gap-[10px]">
@@ -40,7 +54,7 @@ function App() {
               <Hamburger />
             </div>
             <div className="Month-title flex gap-[4px] items-center">
-              {/* 디쎔버 */}
+              {/* 월 */}
               <div className="text-3xl text-center font-semibold">
                 {getMonthString(12)}
               </div>
@@ -48,7 +62,7 @@ function App() {
               <div className="year text-3xl  text-center">{selectedYear}</div>
             </div>
 
-            {/* Month 셀렉박스    */}
+            {/* Month 셀렉박스*/}
             <select
               name="calendarType"
               id=""
@@ -74,32 +88,41 @@ function App() {
           </div>
         </div>
 
+        {/* 월력 */}
+        <div className="calendarS flex flex-wrap w-100%">
+          {monthsArray.map((month) => (
+            <div key={month}>
+              <CalendarS
+                selectedMonth={month}
+                selectedYear={selectedYear}
+                dayList={dayList}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* <div>
+          <CalendarS selectedMonth={selectedMonth} selectedYear=
+        {selectedYear} dayList={dayList} />
+        </div> */}
+
         {/* 빅달력_요일 */}
-        <div className="flex w-100% border-y solid rgba(157, 158, 159, 0.60) bg-red-400">
+        {/* <div className="flex w-100% border-y solid rgba(157, 158, 159, 0.60) bg-red-400">
           <div className="time w-[64px] bg-yellow-300"></div>
           <div className="weekM w-full">
             <SevenDays dayList={dayList} />
           </div>
         </div>
         <div>
-          <WeekM />
-        </div>
-
-        {/* 주력 */}
-        {/* <div className="flex w-100% bg-red-400">
-          <div className="timeBox w-[64px] border-l text-s bg-yellow-300"></div>
-          <div className="weekBox flex w-full h-[80px] bg-red-600 text-start">
-            <div className="w-full border-r break-words"></div>
-            <div className="w-full border-r"></div>
-            <div className="w-full border-r"></div>
-            <div className="w-full border-r"></div>
-            <div className="w-full border-r"></div>
-            <div className="w-full border-r"></div>
-            <div className="w-full border-r"></div>
-          </div>
+          {Array(16)
+            .fill(null)
+            .map((_, index) => (
+              <WeekCalendar key={index} />
+            ))}
         </div> */}
 
-        {/* <div className="mediumDay flex items-center justify-between w-100% h-[24px] border solid rgba(157, 158, 159, 0.60)">
+        {/* 
+        <div className="mediumDay flex items-center justify-between w-100% h-[24px] border solid rgba(157, 158, 159, 0.60)">
           {dayList.map(({ medium }, index) => (
             <div
               key={index}
