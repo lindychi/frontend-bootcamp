@@ -6,13 +6,11 @@ import { getCalendarDates } from "../../libs/calendar";
 import DayListHeader from "../DayListHeader";
 import { getMonthTodoList } from "../../consts/sampleData";
 
-type Props = {};
+type Props = { year: number; month: number };
 
-export default function MonthCalendar({}: Props) {
-  const [selectedMonth, setSelectedMonth] = React.useState(12);
-  const [selectedYear, setSelectedYear] = React.useState(2023);
-  const targetCalendarDates = getCalendarDates(selectedYear, selectedMonth);
-  const todoList = getMonthTodoList(selectedYear, selectedMonth);
+export default function MonthCalendar({ year, month }: Props) {
+  const targetCalendarDates = getCalendarDates(year, month);
+  const todoList = getMonthTodoList(year, month);
 
   return (
     <>
