@@ -51,6 +51,7 @@ tomorrow.setDate(today.getDate() + 1);
     const selectedViewValue = e.target.value;
     setSelectedView(selectedViewValue);
   };
+
   
 
   return (
@@ -60,7 +61,6 @@ tomorrow.setDate(today.getDate() + 1);
       <MonthHeader selectedMonth={selectedMonth}/>
       <DayHeader className='grid grid-cols-7 text-[10px]' form='short' />
       <SmallCalendar
-        dates={targetCalendarDates}
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
         today={new Date()}

@@ -2,18 +2,20 @@
 
 import React from 'react';
 import clsx from 'clsx';
+import { getCalendarDates } from '../libs/calendar';
 
 type Props = {
-  dates: Date[];
   selectedMonth: number;
   selectedYear: number;
   today: Date;
 };
 
-const SmallCalendar: React.FC<Props> = ({ dates, selectedMonth, selectedYear, today }) => {
+const SmallCalendar: React.FC<Props> = ({ selectedMonth, selectedYear, today }) => {
+  const dates = getCalendarDates(selectedYear, selectedMonth);
+
   return (
     <div className="grid grid-cols-7 text-[10px]">
-      {dates.map((date: Date, index) => {
+      {dates?.map((date: Date, index) => {
         const isCurrentMonth =
           date.getMonth() + 1 === selectedMonth && date.getFullYear() === selectedYear;
         const isToday =

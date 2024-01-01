@@ -58,7 +58,9 @@ export default function WeeklyView({
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 w-[1214px] h-min-[923px]">
+
+      <div className="relative">
+        <div className="grid grid-cols-7 w-[1175px] h-min-[923px] py-3 ">
         {Array.from({ length: 7 }, (_, columnIndex) => (
           <div key={columnIndex} className=''>
             {hours.map((hour) => (
@@ -68,61 +70,69 @@ export default function WeeklyView({
         ))}
         </div>
         
-      </div>
+        <div className="grid grid-cols-7 w-[1175px] h-min-[923px] absolute top-5 left-2">
+  {weekDates.map((date: Date, index) => {
+    const isCurrentMonth =
+      date.getMonth() + 1 === selectedMonth && date.getFullYear() === selectedYear;
+    const isToday =
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear();
 
-   
+    const isSelectedDate =
+      selectedDate &&
+      date.getDate() === selectedDate.getDate() &&
+      date.getMonth() === selectedDate.getMonth() &&
+      date.getFullYear() === selectedDate.getFullYear();
 
-      <div className="grid grid-cols-7 w-[1214px] h-min-[923px]">
-        {weekDates.map((date: Date, index) => {
-          const isCurrentMonth =
-            date.getMonth() + 1 === selectedMonth && date.getFullYear() === selectedYear;
-          const isToday =
-            date.getDate() === today.getDate() &&
-            date.getMonth() === today.getMonth() &&
-            date.getFullYear() === today.getFullYear();
+    const filterDate = (todos: Todo[], selectedDate: Date | null, selectedHour: number): Todo[] => {
+      if (!selectedDate) {
+        return [];
+      }
 
-          const isSelectedDate =
-            selectedDate &&
-            date.getDate() === selectedDate.getDate() &&
-            date.getMonth() === selectedDate.getMonth() &&
-            date.getFullYear() === selectedDate.getFullYear();
+      return todos.filter((todo) => {
+        const todoDate = new Date(todo.date);
 
-          const filterDate = (todos: Todo[], selectedDate: Date | null, selectedHour: number): Todo[] => {
-            if (!selectedDate) {
-              return [];
-            }
+        return (
+          todoDate.getDate() === selectedDate.getDate() &&
+          todoDate.getMonth() === selectedDate.getMonth() &&
+          todoDate.getFullYear() === selectedDate.getFullYear() &&
+          Number(todo.time.split(":")[0]) === selectedHour
+        );
+      });
+    };
 
-            return todos.filter((todo) => {
-              const todoDate = new Date(todo.date);
+    return (
+      <div key={index}>
+        <div>
+          {hours.map((hour) => {
+            const filteredTodos = filterDate(todoData, date, hour);
 
-              return (
-                todoDate.getDate() === selectedDate.getDate() &&
-                todoDate.getMonth() === selectedDate.getMonth() &&
-                todoDate.getFullYear() === selectedDate.getFullYear() &&
-                Number(todo.time.split(":")[0]) === selectedHour
-              );
-            });
-          };
-          
-          return (
-            <div key={index}>
-              <div key={index}>
-                <div className='flex flex-row justify-center'>
-                  <div className='flex justify-center'>
-                    {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
+            return (
+              <div key={hour}>
+                {filteredTodos.length > 0 ? (
+                  filteredTodos.map((item: Todo, itemIndex: number) => (
+                    <div key={itemIndex} className='flex flex-row h-[80px] gap-4'>
+                      <div>{item.title}</div>
+                      <div>{item.time}</div>
+                    </div>
+                  ))
+                ) : (
+                  <div key={hour} className='flex flex-row gap-4'>
+                    <div className='w-[1024px] h-[80px] grid '>No task</div>
                   </div>
-                  <div>
-                    {dayList[date.getDay()].medium}
-                  </div>
-                </div>
+                )}
               </div>
-              <div>
-                
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
+    );
+  })}
+</div>
+
     </div>
-  );
+  </div>
+  </div>
+);
 }

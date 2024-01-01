@@ -2,6 +2,7 @@
 
 import React from 'react';
 import SmallCalendar from './SmallCalendar';
+import DayHeader from './DayHeader';
 
 type Props = {
   selectedYear: number;
@@ -17,9 +18,9 @@ const YearView: React.FC<Props> = ({ selectedYear, targetCalendarDates }) => {
       {months.map((month) => {
         return (
           <div key={month}>
-            <h2 className="text-lg font-semibold mb-2">{`${month}월`}</h2>
+            <h2 className="text-lg font-semibold mb-2 flex justify-center">{`${month}월`}</h2>
+            <DayHeader className='grid grid-cols-7 text-[10px] pl-4' form='short'/>
             <SmallCalendar
-              dates={targetCalendarDates}
               selectedMonth={month}
               selectedYear={selectedYear}
               today={new Date()} // 각 월에 따른 today 전달
