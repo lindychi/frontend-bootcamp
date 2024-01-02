@@ -238,4 +238,28 @@ export const todoDateList: TodoItem[] = [
     endedAt: new Date("2024-01-02T13:33:00"),
     category: categoryList[3],
   },
+  {
+    id: 27,
+    title: "건축물 대장 확인",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T13:36:00"),
+    endedAt: new Date("2024-01-02T13:43:00"),
+    category: categoryList[0],
+  },
+  {
+    id: 28,
+    title: "김*원님 작업지시서 작성",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T14:15:00"),
+    endedAt: new Date("2024-01-02T14:29:00"),
+    category: categoryList[2],
+  },
+  {
+    id: 29,
+    title: "김*원님 작업지시서 전달, 손*서님 수선 문의 전달",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T14:30:00"),
+    endedAt: new Date("2024-01-02T15:01:00"),
+    category: categoryList[2],
+  },
 ];

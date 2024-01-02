@@ -32,11 +32,13 @@ export default function DayColumn({ year, month, day, index = 0 }: Props) {
               left:
                 todo.conflictLength === 0
                   ? 0
-                  : `${(todo.conflictIndex / todo.conflictLength) * 100}%`,
+                  : `${
+                      (todo.conflictIndex / (todo.conflictLength + 1)) * 100
+                    }%`,
               width:
                 todo.conflictLength === 0
                   ? "100%"
-                  : `${(1 / todo.conflictLength) * 100}%`,
+                  : `${(1 / (todo.conflictLength + 1)) * 100}%`,
             }}
           >
             <div

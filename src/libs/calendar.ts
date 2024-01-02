@@ -67,79 +67,83 @@ export const getTodoHeight = (todo: TodoItem) => {
   return height;
 };
 
+export const getMinute = (minute: number) => {
+  return minute * 60 * 1000;
+};
+
+export const getStartEndTime = (todo: TodoItem) => {
+  const todoStart = todo.startedAt.getTime();
+  const minimumEndTime = todoStart + getMinute(30);
+  const realEndTime = todo.endedAt?.getTime() ?? minimumEndTime;
+  const todoEnd = realEndTime > minimumEndTime ? realEndTime : minimumEndTime;
+  return [todoStart, todoEnd];
+};
+
+export const sortTime = (a: TodoItem, b: TodoItem) =>
+  a.startedAt.getTime() > b.startedAt.getTime() ? 1 : -1;
+
+export const compareConflict = <T extends TodoItem>(
+  todo: TodoItem,
+  todoList: T[]
+): T[] => {
+  const [todoStart, todoEnd] = getStartEndTime(todo);
+  const conflictList = todoList.filter((currentTodo) => {
+    if (currentTodo.id === todo.id) {
+      return false;
+    }
+
+    const [currentStart, currentEnd] = getStartEndTime(currentTodo);
+    return (
+      (todoStart < currentEnd && todoEnd > currentStart) ||
+      (todoEnd > currentStart && todoStart < currentEnd)
+    );
+  });
+
+  return conflictList;
+};
+
 export const getConflictTodoList = (
   todoList: TodoItem[]
 ): ConflictTodoItem[] => {
   const conflictTodoList: ConflictTodoItem[] = [];
 
-  todoList
-    .sort((a, b) => (a.startedAt.getTime() > b.startedAt.getTime() ? 1 : -1))
-    .forEach((todo, index) => {
-      const todoStart = todo.startedAt.getTime();
-      const todoEnd = todo.endedAt?.getTime() ?? todoStart + 30 * 60 * 1000;
-      const conflictList = todoList.filter((currentTodo) => {
-        if (currentTodo.id === todo.id) {
-          return false;
-        }
+  // 최초에 인덱스 지정을 위해서 비교하는 부분
+  todoList.sort(sortTime).forEach((todo) => {
+    const conflictList = compareConflict(todo, todoList);
 
-        const currentStart = currentTodo.startedAt.getTime();
-        const currentEnd =
-          currentTodo.endedAt?.getTime() ?? currentStart + 30 * 60 * 1000;
-
-        return (
-          (todoStart < currentEnd && todoEnd > currentStart) ||
-          (todoEnd > currentStart && todoStart < currentEnd)
-        );
-      });
-
-      if (conflictList.length === 0) {
-        conflictTodoList.push({
-          ...todo,
-          conflictLength: 0,
-          conflictIndex: 0,
-        });
-        return;
-      }
-
-      const conflictIndexList = conflictList.map(
-        (todo) =>
-          conflictTodoList.find((conflictTodo) => conflictTodo.id === todo.id)
-            ?.conflictIndex ?? -1
-      );
-      let currentConflictIndex = 0;
-
-      for (let i = 0; i < conflictIndexList.length + 1; i++) {
-        if (!conflictIndexList.includes(i)) {
-          currentConflictIndex = i;
-          break;
-        }
-      }
-
+    if (conflictList.length === 0) {
       conflictTodoList.push({
         ...todo,
-        conflictLength: conflictList.length,
-        conflictIndex: currentConflictIndex,
+        conflictLength: 0,
+        conflictIndex: 0,
       });
-    });
+      return;
+    }
 
-  const lengthCalculatedList = conflictTodoList.map((todo) => {
-    const todoStart = todo.startedAt.getTime();
-    const todoEnd = todo.endedAt?.getTime() ?? todoStart + 30 * 60 * 1000;
+    const conflictIndexList = conflictList.map(
+      (todo) =>
+        conflictTodoList.find((conflictTodo) => conflictTodo.id === todo.id)
+          ?.conflictIndex ?? -1
+    );
+    let currentConflictIndex = 0;
 
-    const conflictList = conflictTodoList.filter((currentTodo) => {
-      if (currentTodo.id === todo.id) {
-        return false;
+    for (let i = 0; i < conflictIndexList.length + 1; i++) {
+      if (!conflictIndexList.includes(i)) {
+        currentConflictIndex = i;
+        break;
       }
+    }
 
-      const currentStart = currentTodo.startedAt.getTime();
-      const currentEnd =
-        currentTodo.endedAt?.getTime() ?? currentStart + 30 * 60 * 1000;
-
-      return (
-        (todoStart < currentEnd && todoEnd > currentStart) ||
-        (todoEnd > currentStart && todoStart < currentEnd)
-      );
+    conflictTodoList.push({
+      ...todo,
+      conflictLength: conflictList.length,
+      conflictIndex: currentConflictIndex,
     });
+  });
+
+  // 계산된 인덱스에 따라서 재배열 하는 부분
+  const lengthCalculatedList = conflictTodoList.map((todo) => {
+    const conflictList = compareConflict(todo, conflictTodoList);
 
     const conflictIndexList = conflictList.map(
       (todo) =>
@@ -151,29 +155,14 @@ export const getConflictTodoList = (
     return { ...todo, conflictLength: uniqueList.length };
   });
 
+  // 범위가 엮여있는 위치간에는 최대 길이를 적용하는 부분
   return lengthCalculatedList.map((todo) => {
-    const todoStart = todo.startedAt.getTime();
-    const todoEnd = todo.endedAt?.getTime() ?? todoStart + 30 * 60 * 1000;
-
-    const conflictList = conflictTodoList.filter((currentTodo) => {
-      if (currentTodo.id === todo.id) {
-        return false;
-      }
-
-      const currentStart = currentTodo.startedAt.getTime();
-      const currentEnd =
-        currentTodo.endedAt?.getTime() ?? currentStart + 30 * 60 * 1000;
-
-      return (
-        (todoStart < currentEnd && todoEnd > currentStart) ||
-        (todoEnd > currentStart && todoStart < currentEnd)
-      );
-    });
+    const conflictList = compareConflict(todo, lengthCalculatedList);
 
     return {
       ...todo,
       conflictLength: Math.max(
-        conflictList.length,
+        todo.conflictLength,
         ...conflictList.map((todo) => todo.conflictLength)
       ),
     };
@@ -183,7 +172,6 @@ export const getConflictTodoList = (
 export function getWeekDates(year: number, month: number, day: number): Date[] {
   // JavaScript의 Date는 월이 0에서 시작하므로, 입력받은 month에서 1을 빼야 합니다.
   const inputDate = new Date(year, month, day);
-  console.log(inputDate);
 
   // 일요일을 주의 시작으로 설정합니다.
   // getDay()는 일요일을 0으로 반환합니다.
