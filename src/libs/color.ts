@@ -20,7 +20,7 @@ function rgbToHex({ r, g, b }: RGBColor): string {
     "#" +
     [r, g, b]
       .map((x) => {
-        const hex = x.toString(16).split(".")[0];
+        const hex = (x > 255 ? 255 : x).toString(16).split(".")[0];
         return hex.length === 1 ? "0" + hex : hex;
       })
       .join("")

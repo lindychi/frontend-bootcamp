@@ -39,8 +39,7 @@ export const categoryList: Category[] = [
   {
     id: 4,
     name: "부트캠프",
-    // 파란색 추천해줘
-    color: "#2C5A41",
+    color: "#2563eb",
   },
 ];
 
@@ -229,6 +228,14 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T12:06:00"),
     endedAt: new Date("2024-01-02T12:17:00"),
+    category: categoryList[3],
+  },
+  {
+    id: 26,
+    title: "주력 추가, 일정 우측에 시간 출력",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T12:46:00"),
+    endedAt: new Date("2024-01-02T13:33:00"),
     category: categoryList[3],
   },
 ];
