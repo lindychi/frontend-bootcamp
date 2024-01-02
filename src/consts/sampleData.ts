@@ -223,4 +223,12 @@ export const todoDateList: TodoItem[] = [
     endedAt: new Date("2024-01-02T12:06:00"),
     category: categoryList[0],
   },
+  {
+    id: 25,
+    title: "일력 시간 겹칠 시, 구분 출력 개선",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T12:06:00"),
+    endedAt: new Date("2024-01-02T12:17:00"),
+    category: categoryList[3],
+  },
 ];
