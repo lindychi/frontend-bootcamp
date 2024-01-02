@@ -14,6 +14,11 @@ export type TodoItem = {
   title: string;
   createdAt: string;
   startedAt: Date;
-  endedAt: Date;
+  endedAt?: Date;
   category?: Category;
+};
+
+export type ConflictTodoItem = TodoItem & {
+  conflictLength: number;
+  conflictIndex: number;
 };

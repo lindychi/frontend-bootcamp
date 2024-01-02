@@ -1,4 +1,4 @@
-import { TodoItem } from "../types/common";
+import { ConflictTodoItem, TodoItem } from "../types/common";
 
 export function getCalendarDates(year: number, month: number): Date[] {
   const dates: Date[] = [];
@@ -53,6 +53,10 @@ export const getMonthString = (selectedMonth: number) => {
 };
 
 export const getTodoHeight = (todo: TodoItem) => {
+  if (!todo.endedAt) {
+    return 30;
+  }
+
   const diff = todo.endedAt.getTime() - todo.startedAt.getTime();
   const height = diff / 1000 / 60;
 
@@ -61,4 +65,117 @@ export const getTodoHeight = (todo: TodoItem) => {
   }
 
   return height;
+};
+
+export const getConflictTodoList = (
+  todoList: TodoItem[]
+): ConflictTodoItem[] => {
+  const conflictTodoList: ConflictTodoItem[] = [];
+
+  todoList
+    .sort((a, b) => (a.startedAt.getTime() > b.startedAt.getTime() ? 1 : -1))
+    .forEach((todo, index) => {
+      const todoStart = todo.startedAt.getTime();
+      const todoEnd = todo.endedAt?.getTime() ?? todoStart + 30 * 60 * 1000;
+      const conflictList = todoList.filter((currentTodo) => {
+        if (currentTodo.id === todo.id) {
+          return false;
+        }
+
+        const currentStart = currentTodo.startedAt.getTime();
+        const currentEnd =
+          currentTodo.endedAt?.getTime() ?? currentStart + 30 * 60 * 1000;
+
+        return (
+          (todoStart < currentEnd && todoEnd > currentStart) ||
+          (todoEnd > currentStart && todoStart < currentEnd)
+        );
+      });
+
+      if (conflictList.length === 0) {
+        conflictTodoList.push({
+          ...todo,
+          conflictLength: 0,
+          conflictIndex: 0,
+        });
+        return;
+      }
+
+      const conflictIndexList = conflictList.map(
+        (todo) =>
+          conflictTodoList.find((conflictTodo) => conflictTodo.id === todo.id)
+            ?.conflictIndex ?? -1
+      );
+      let currentConflictIndex = 0;
+
+      for (let i = 0; i < conflictIndexList.length + 1; i++) {
+        if (!conflictIndexList.includes(i)) {
+          currentConflictIndex = i;
+          break;
+        }
+      }
+
+      conflictTodoList.push({
+        ...todo,
+        conflictLength: conflictList.length,
+        conflictIndex: currentConflictIndex,
+      });
+    });
+
+  const lengthCalculatedList = conflictTodoList.map((todo) => {
+    const todoStart = todo.startedAt.getTime();
+    const todoEnd = todo.endedAt?.getTime() ?? todoStart + 30 * 60 * 1000;
+
+    const conflictList = conflictTodoList.filter((currentTodo) => {
+      if (currentTodo.id === todo.id) {
+        return false;
+      }
+
+      const currentStart = currentTodo.startedAt.getTime();
+      const currentEnd =
+        currentTodo.endedAt?.getTime() ?? currentStart + 30 * 60 * 1000;
+
+      return (
+        (todoStart < currentEnd && todoEnd > currentStart) ||
+        (todoEnd > currentStart && todoStart < currentEnd)
+      );
+    });
+
+    const conflictIndexList = conflictList.map(
+      (todo) =>
+        conflictTodoList.find((conflictTodo) => conflictTodo.id === todo.id)
+          ?.conflictIndex ?? -1
+    );
+    const uniqueList = Array.from(new Set(conflictIndexList));
+
+    return { ...todo, conflictLength: uniqueList.length };
+  });
+
+  return lengthCalculatedList.map((todo) => {
+    const todoStart = todo.startedAt.getTime();
+    const todoEnd = todo.endedAt?.getTime() ?? todoStart + 30 * 60 * 1000;
+
+    const conflictList = conflictTodoList.filter((currentTodo) => {
+      if (currentTodo.id === todo.id) {
+        return false;
+      }
+
+      const currentStart = currentTodo.startedAt.getTime();
+      const currentEnd =
+        currentTodo.endedAt?.getTime() ?? currentStart + 30 * 60 * 1000;
+
+      return (
+        (todoStart < currentEnd && todoEnd > currentStart) ||
+        (todoEnd > currentStart && todoStart < currentEnd)
+      );
+    });
+
+    return {
+      ...todo,
+      conflictLength: Math.max(
+        conflictList.length,
+        ...conflictList.map((todo) => todo.conflictLength)
+      ),
+    };
+  });
 };
