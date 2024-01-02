@@ -11,7 +11,7 @@ export default function WeekCalendar({ year, month, day }: Props) {
   const weekList = getWeekDates(year, month, day);
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full h-[calc(100vh-70px)]">
       <div className="flex w-full">
         <div className="w-[70px]"></div>
         {weekList.map((date) => (
@@ -25,7 +25,7 @@ export default function WeekCalendar({ year, month, day }: Props) {
           </div>
         ))}
       </div>
-      <div className="flex w-full">
+      <div className="flex w-full h-[calc(100%)] overflow-y-scroll">
         <TimeSlotLabel />
 
         <div className="w-full grid grid-cols-7">
