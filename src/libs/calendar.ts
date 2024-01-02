@@ -1,3 +1,5 @@
+import { TodoItem } from "../types/common";
+
 export function getCalendarDates(year: number, month: number): Date[] {
   const dates: Date[] = [];
 
@@ -48,4 +50,15 @@ export const getMonthString = (selectedMonth: number) => {
     "December",
   ];
   return months[selectedMonth - 1] || "";
+};
+
+export const getTodoHeight = (todo: TodoItem) => {
+  const diff = todo.endedAt.getTime() - todo.startedAt.getTime();
+  const height = diff / 1000 / 60;
+
+  if (height < 30) {
+    return 30;
+  }
+
+  return height;
 };
