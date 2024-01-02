@@ -50,7 +50,11 @@ export default function MonthCalendar({ year, month }: Props) {
               </div>
               <div className="absolute bottom-2 text-xs w-[calc(100%-8px)] bg-inherit">
                 {todoList
-                  .filter((todo) => todo.startedAt.getDate() === date.getDate())
+                  .filter(
+                    (todo) =>
+                      todo.startedAt.getMonth() === date.getMonth() &&
+                      todo.startedAt.getDate() === date.getDate()
+                  )
                   .sort((a, b) => a.startedAt.getTime() - b.startedAt.getTime())
                   .map((todo) => (
                     <div
