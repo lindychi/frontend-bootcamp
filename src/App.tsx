@@ -14,10 +14,10 @@ import YearCalendar from "./components/YearCalendar";
 import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
 import Plus from "./icons/Plus";
+import DayCalendar from "./components/DayCalendar";
 
 function App() {
-  const [selectedMonth, setSelectedMonth] = React.useState(1);
-  const [selectedYear, setSelectedYear] = React.useState(2024);
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
   const [selectedCalendarType, setSelectedCalendarType] = React.useState(
     calendarTypeList[0]
   );
@@ -30,11 +30,14 @@ function App() {
           <div className="self-stretch h-[47px] px-4 py-2.5 flex-col justify-start items-start gap-2.5 flex">
             <div className="justify-start items-start gap-2.5 inline-flex">
               <div className="text-zinc-800 text-lg font-medium">
-                {getMonthString(selectedMonth)}
+                {getMonthString(selectedDate.getMonth())}
               </div>
             </div>
           </div>
-          <SmallMonthCalendar year={selectedYear} month={selectedMonth} />
+          <SmallMonthCalendar
+            year={selectedDate.getFullYear()}
+            month={selectedDate.getMonth()}
+          />
         </div>
 
         {/* 우측 항목 */}
@@ -54,11 +57,13 @@ function App() {
               </div>
               <div className="justify-start items-start gap-2.5 flex">
                 <div className="flex gap-1 items-center">
-                  <span className="text-zinc-800 text-3xl font-medium">
-                    {getMonthString(selectedMonth)}
-                  </span>
+                  {selectedCalendarType.key === "month" && (
+                    <span className="text-zinc-800 text-3xl font-medium">
+                      {getMonthString(selectedDate.getMonth())}
+                    </span>
+                  )}
                   <span className="text-zinc-800 text-3xl font-normal">
-                    {selectedYear}
+                    {selectedDate.getFullYear()}
                   </span>
                 </div>
               </div>
@@ -84,10 +89,20 @@ function App() {
             </div>
           </div>
           {selectedCalendarType.key === "month" && (
-            <MonthCalendar year={selectedYear} month={selectedMonth} />
+            <MonthCalendar
+              year={selectedDate.getFullYear()}
+              month={selectedDate.getMonth() + 1}
+            />
           )}
           {selectedCalendarType.key === "year" && (
-            <YearCalendar year={selectedYear} />
+            <YearCalendar year={selectedDate.getFullYear()} />
+          )}
+          {selectedCalendarType.key === "day" && (
+            <DayCalendar
+              year={selectedDate.getFullYear()}
+              month={selectedDate.getMonth()}
+              day={selectedDate.getDate()}
+            />
           )}
         </div>
       </div>
