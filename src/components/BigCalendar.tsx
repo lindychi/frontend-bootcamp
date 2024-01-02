@@ -4,7 +4,8 @@ import DayHeader from './DayHeader';
 
 type Todo = {
   title: string;
-  time: string;
+  startTime: string;
+  endTime: string;
   date: Date;
 };
 
@@ -75,7 +76,7 @@ const BigCalendar: React.FC<Props> = ({
               {filterDate(todoData, date).map((item, index) => (
                 <div key={index} className="flex flex-row gap-4">
                   <div>{item.title}</div>
-                  <div>{item.time}</div>
+                  <div>{item.startTime}</div>
                 </div>
               ))}
             </div>

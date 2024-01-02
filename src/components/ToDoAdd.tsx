@@ -1,23 +1,30 @@
 import React, { useState } from 'react';
 
-type ToDo = {
+type Todo = {
   title: string;
-  time: string;
+  startTime: string;
+  endTime: string;
   date: Date;
 };
 
 type ToDoAddProps = {
-  setTodoData: React.Dispatch<React.SetStateAction<ToDo[]>>;
+  setTodoData: React.Dispatch<React.SetStateAction<Todo[]>>;
 };
 
 const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
   const [title, setTitle] = useState('');
   const [selectedDate, setDate] = useState<Date | null>(null);
-  const [selectedTime, setTime] = useState<string>('08:00');
+  const [selectedStartTime, setStartTime] = useState<string>('08:00');
+   const [selectedEndTime, setEndTime] = useState<string>('08:30');
 
   const handleAddTodo = () => {
-    if (title && selectedDate && selectedTime) {
-      const newTodo = { title, time: selectedTime, date: selectedDate as Date };
+    if (title && selectedDate && selectedStartTime && selectedEndTime) {
+      const newTodo = {
+        title,
+        startTime: selectedStartTime,
+        endTime: selectedEndTime,
+        date: selectedDate as Date,
+      };
 
       // 이 부분에서 로컬 스토리지에 데이터 저장
       const existingTodos = JSON.parse(localStorage.getItem('todos') || '[]');
@@ -29,7 +36,8 @@ const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
 
       setTitle('');
       setDate(null);
-      setTime('08:00');
+      setStartTime('08:00');
+      setEndTime('08:30');
     }
   };
 
@@ -50,11 +58,17 @@ const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
          setDate(new Date(selectedDateValue));
         }}
       />
-      Time{' '}
+       Start Time{' '}
       <input
         type="time"
-        value={selectedTime}
-        onChange={(event) => setTime(event.target.value)}
+        value={selectedStartTime}
+        onChange={(event) => setStartTime(event.target.value)}
+      />
+      End Time{' '}
+      <input
+        type="time"
+        value={selectedEndTime}
+        onChange={(event) => setEndTime(event.target.value)}
       />
       <button
         className="bg-primary text-white"

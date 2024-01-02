@@ -6,7 +6,8 @@ import clsx from 'clsx';
 
 type Todo = {
   title: string;
-  time: string;
+  startTime: string;
+  endTime: string;
   date: Date;
 };
 
@@ -31,7 +32,8 @@ const filterDate = (todos: Todo[], selectedDate: Date | null, selectedHour: numb
       todoDate.getDate() === selectedDate.getDate() &&
       todoDate.getMonth() === selectedDate.getMonth() &&
       todoDate.getFullYear() === selectedDate.getFullYear() &&
-      Number(todo.time.split(":")[0])=== selectedHour      
+      todo.startTime && // Check if startTime is defined
+      Number(todo.startTime.split(":")[0]) === selectedHour      
     );
   });
 };
@@ -76,7 +78,7 @@ const DayView: React.FC<Props> = ({
             })}
           >
             <div>{item.title}</div>
-            <div>{item.time}</div>
+            <div>{item.startTime}</div>
           </div>
         ))}
 

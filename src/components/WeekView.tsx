@@ -4,7 +4,8 @@ import DayView from './DayView';
 
 type Todo = {
   title: string;
-  time: string;
+  startTime: string;
+  endTime: string;
   date: Date;
 };
 
@@ -97,7 +98,8 @@ export default function WeeklyView({
           todoDate.getDate() === selectedDate.getDate() &&
           todoDate.getMonth() === selectedDate.getMonth() &&
           todoDate.getFullYear() === selectedDate.getFullYear() &&
-          Number(todo.time.split(":")[0]) === selectedHour
+          todo.startTime && 
+      Number(todo.startTime.split(":")[0]) === selectedHour 
         );
       });
     };
@@ -114,7 +116,7 @@ export default function WeeklyView({
                   filteredTodos.map((item: Todo, itemIndex: number) => (
                     <div key={itemIndex} className='flex flex-row h-[80px] gap-4'>
                       <div>{item.title}</div>
-                      <div>{item.time}</div>
+                      <div>{item.startTime}</div>
                     </div>
                   ))
                 ) : (

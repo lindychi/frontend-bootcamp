@@ -27,7 +27,7 @@ function App() {
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
   const [selectedView, setSelectedView] = useState<string>('month');
-  const [todoData, setTodoData] = useState<{ title: string; time: string; date: Date }[]>([]);
+  const [todoData, setTodoData] = useState<{ title: string; startTime: string; endTime: string; date: Date }[]>([]);
   const tomorrow = new Date();
 tomorrow.setDate(today.getDate() + 1);
 
@@ -160,7 +160,8 @@ export default App;
 
 interface Todo {
   title: string;
-  time: string;
+  startTime: string;
+  endTime: string;
   date: Date;
 }
 

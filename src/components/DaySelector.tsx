@@ -2,7 +2,8 @@ import React from 'react';
 
 type DayViewProps = {
   title: string;
-  time: string;
+  startTime: string;
+  endTime: string;
   date: Date;
 };
 
@@ -25,7 +26,7 @@ const DayListView: React.FC<DayListViewProps> = ({ todoData, selectedDate }) => 
       .map((todo, index) => (
         <div key={index}>
           {/* 여기에 할 일 정보를 표시합니다. */}
-          {todo.title} - {todo.time}
+          {todo.title} - {todo.startTime}
         </div>
       ))}
   </div>
