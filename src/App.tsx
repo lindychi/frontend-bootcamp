@@ -66,7 +66,7 @@ function App() {
             <select
               name="calendarType"
               id=""
-              className="h-[36px] border solid border-primary text-primary rounded px-1 py-1 items-center text-sm"
+              className="h-[36px] border solid border-primary text-primary rounded pr-3 py-1 items-center text-center text-sm"
             >
               <option value="month">Month</option>
               <option value="year">Year</option>
@@ -89,16 +89,18 @@ function App() {
         </div>
 
         {/* 월력 */}
-        <div className="calendarS flex flex-wrap w-100%">
-          {monthsArray.map((month) => (
-            <div key={month}>
-              <CalendarS
-                selectedMonth={month}
-                selectedYear={selectedYear}
-                dayList={dayList}
-              />
-            </div>
-          ))}
+        <div className=" px-10 py-">
+          <div className="calendar_s flex flex-wrap justify-around w-100%">
+            {monthsArray.map((month) => (
+              <div key={month}>
+                <CalendarS
+                  selectedMonth={month}
+                  selectedYear={selectedYear}
+                  dayList={dayList}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* <div>
@@ -135,10 +137,12 @@ function App() {
         {/* 빅달력_날짜    */}
 
         {/* 연력*/}
-        <div className="flex">
-          {" "}
-          <div></div>
-          <div></div>
+        <div>
+          <CalendarS
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            dayList={dayList}
+          />
         </div>
       </div>
     </div>
