@@ -1,3 +1,5 @@
+import { dayList } from "../consts/calendar";
+
 import { ConflictTodoItem, TodoItem } from "../types/common";
 
 export function getCalendarDates(year: number, month: number): Date[] {
@@ -185,7 +187,7 @@ export function getWeekDates(year: number, month: number, day: number): Date[] {
   const weekDates: Date[] = [];
 
   // 일요일부터 토요일까지의 날짜를 배열에 추가
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < dayList.length; i++) {
     const dayDate = new Date(startOfWeek);
     dayDate.setDate(startOfWeek.getDate() + i);
     weekDates.push(dayDate);

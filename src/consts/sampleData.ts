@@ -262,4 +262,12 @@ export const todoDateList: TodoItem[] = [
     endedAt: new Date("2024-01-02T15:01:00"),
     category: categoryList[2],
   },
+  {
+    id: 30,
+    title: "달력 중복 출력 개선",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T15:01:00"),
+    endedAt: new Date("2024-01-02T15:48:00"),
+    category: categoryList[3],
+  },
 ];
