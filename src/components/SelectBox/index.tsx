@@ -16,7 +16,7 @@ export default function SelectBox({ options, selectedOption, onClick }: Props) {
 
   return (
     <div
-      className="w-[75px] p-2 rounded-[3px] border border-primary justify-center items-center gap-1 flex relative"
+      className="w-[75px] p-2 rounded-[3px] border border-primary justify-center items-center gap-1 flex relative cursor-pointer"
       onClick={() => {
         setIsOpen((prev) => !prev);
       }}
