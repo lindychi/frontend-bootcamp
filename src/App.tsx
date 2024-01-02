@@ -31,7 +31,7 @@ function App() {
           <div className="self-stretch h-[47px] px-4 py-2.5 flex-col justify-start items-start gap-2.5 flex">
             <div className="justify-start items-start gap-2.5 inline-flex">
               <div className="text-zinc-800 text-lg font-medium">
-                {getMonthString(selectedDate.getMonth())}
+                {getMonthString(selectedDate.getMonth() + 1)}
               </div>
             </div>
           </div>
@@ -58,9 +58,9 @@ function App() {
               </div>
               <div className="justify-start items-start gap-2.5 flex">
                 <div className="flex gap-1 items-center">
-                  {selectedCalendarType.key === "month" && (
+                  {selectedCalendarType.key !== "year" && (
                     <span className="text-zinc-800 text-3xl font-medium">
-                      {getMonthString(selectedDate.getMonth())}
+                      {getMonthString(selectedDate.getMonth() + 1)}
                     </span>
                   )}
                   <span className="text-zinc-800 text-3xl font-normal">
