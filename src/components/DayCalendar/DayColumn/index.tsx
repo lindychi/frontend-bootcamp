@@ -24,6 +24,7 @@ export default function DayColumn({ year, month, day, index = 0 }: Props) {
       {todoList.map((todo) => {
         return (
           <div
+            key={todo.id}
             className="absolute p-0.5"
             style={{
               top: todo.startedAt.getHours() * 60 + todo.startedAt.getMinutes(),

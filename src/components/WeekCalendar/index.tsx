@@ -15,7 +15,7 @@ export default function WeekCalendar({ year, month, day }: Props) {
       <div className="flex w-full">
         <div className="w-[70px]"></div>
         {weekList.map((date) => (
-          <div className="w-[calc(100%/7)] text-center">
+          <div key={date.getTime()} className="w-[calc(100%/7)] text-center">
             <div className="text-neutral-500 text-xs font-medium">
               {date.getDate()}
             </div>
@@ -31,6 +31,7 @@ export default function WeekCalendar({ year, month, day }: Props) {
         <div className="w-full grid grid-cols-7">
           {weekList.map((date, index) => (
             <DayColumn
+              key={index}
               year={date.getFullYear()}
               month={date.getMonth()}
               day={date.getDate()}
