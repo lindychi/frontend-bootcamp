@@ -37,6 +37,7 @@ export default function SelectBox({ options, selectedOption, onClick }: Props) {
       >
         {options.map((option) => (
           <div
+            key={option.key}
             className="p-2 hover:bg-primary hover:bg-opacity-10"
             onClick={() => {
               onClick(option);

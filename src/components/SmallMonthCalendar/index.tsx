@@ -13,7 +13,10 @@ export default function SmallMonthCalendar({ year, month }: Props) {
       <div className="self-stretch flex-col justify-start items-start flex">
         <div className="self-stretch opacity-70 justify-around items-start inline-flex">
           {dayList.map((dayName) => (
-            <div className="p-1 justify-start items-start gap-2.5 flex">
+            <div
+              key={dayName.medium}
+              className="p-1 justify-start items-start gap-2.5 flex"
+            >
               <div className="h-[25px] p-[5px] justify-center items-center gap-2.5 flex">
                 <div className="justify-start items-start gap-2.5 flex">
                   <div className="text-zinc-800 text-[10px] font-medium">
@@ -26,7 +29,16 @@ export default function SmallMonthCalendar({ year, month }: Props) {
         </div>
         <div className="self-stretch justify-between items-start grid grid-cols-7">
           {targetCalendarDates.map((date: Date) => (
-            <div className="w-full h-full p-1 justify-center items-start gap-2.5 inline-flex">
+            <div
+              key={
+                date.getFullYear() +
+                "-" +
+                date.getMonth() +
+                "-" +
+                date.getDate()
+              }
+              className="w-full h-full p-1 justify-center items-start gap-2.5 inline-flex"
+            >
               <div
                 className={clsx("h-[25px] p-[5px]", {
                   "bg-primary rounded-[99px] justify-center items-center gap-2.5 flex":

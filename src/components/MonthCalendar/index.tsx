@@ -54,6 +54,7 @@ export default function MonthCalendar({ year, month }: Props) {
                   .sort((a, b) => a.startedAt.getTime() - b.startedAt.getTime())
                   .map((todo) => (
                     <div
+                      key={todo.id}
                       className="w-full flex justify-between font-bold bg-inherit hover:brightness-75 rounded-md px-1 transition-all cursor-pointer"
                       style={{
                         color: todo.category?.color,
