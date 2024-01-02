@@ -55,7 +55,11 @@ export default function DayColumn({ year, month, day, index = 0 }: Props) {
                     "white",
               }}
             >
-              <div className="truncate w-[calc(100%-10px)]">{todo.title}</div>
+              <div className="truncate w-[calc(100%-15px)]">{todo.title}</div>
+              <div>
+                {todo.startedAt.getHours().toString().padStart(2, "0")}:
+                {todo.startedAt.getMinutes().toString().padStart(2, "0")}
+              </div>
             </div>
           </div>
         );
