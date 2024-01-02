@@ -1,11 +1,21 @@
 import { Category, TodoItem } from "../types/common";
 
-/* 12월 31일부터 1월 7일까지 하루에 여러 일정이 있어도 상관없으니 샘플 데이터를 추가해줘 */
-
 export const getMonthTodoList = (year: number, month: number) => {
   const todoList = todoDateList.filter((todo) => {
     const todoDate = new Date(todo.startedAt);
     return todoDate.getFullYear() === year && todoDate.getMonth() + 1 === month;
+  });
+  return todoList;
+};
+
+export const getDayTodoList = (year: number, month: number, day: number) => {
+  const todoList = todoDateList.filter((todo) => {
+    const todoDate = new Date(todo.startedAt);
+    return (
+      todoDate.getFullYear() === year &&
+      todoDate.getMonth() + 1 === month &&
+      todoDate.getDate() === day
+    );
   });
   return todoList;
 };
@@ -36,8 +46,9 @@ export const todoDateList: TodoItem[] = [
     id: 2,
     title: "2024년 1월 1일에 해야할 일",
     createdAt: "2024-01-01",
-    startedAt: new Date("2024-01-01"),
-    endedAt: new Date("2024-01-01"),
+    startedAt: new Date("2024-01-01T09:00:00"),
+    endedAt: new Date("2024-01-01T10:30:00"),
+    category: categoryList[0],
   },
   {
     id: 3,
