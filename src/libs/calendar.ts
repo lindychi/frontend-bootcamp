@@ -179,3 +179,29 @@ export const getConflictTodoList = (
     };
   });
 };
+
+export function getWeekDates(year: number, month: number, day: number): Date[] {
+  // JavaScript의 Date는 월이 0에서 시작하므로, 입력받은 month에서 1을 빼야 합니다.
+  const inputDate = new Date(year, month, day);
+  console.log(inputDate);
+
+  // 일요일을 주의 시작으로 설정합니다.
+  // getDay()는 일요일을 0으로 반환합니다.
+  const dayOfWeek = inputDate.getDay();
+
+  // 주의 첫 날(일요일)을 찾습니다.
+  const startOfWeek = new Date(inputDate);
+  startOfWeek.setDate(inputDate.getDate() - dayOfWeek);
+
+  // 주간 날짜를 저장할 배열
+  const weekDates: Date[] = [];
+
+  // 일요일부터 토요일까지의 날짜를 배열에 추가
+  for (let i = 0; i < 7; i++) {
+    const dayDate = new Date(startOfWeek);
+    dayDate.setDate(startOfWeek.getDate() + i);
+    weekDates.push(dayDate);
+  }
+
+  return weekDates;
+}

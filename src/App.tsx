@@ -10,11 +10,12 @@ import SelectBox from "./components/SelectBox";
 import MonthCalendar from "./components/MonthCalendar";
 import SmallMonthCalendar from "./components/SmallMonthCalendar";
 import YearCalendar from "./components/YearCalendar";
+import DayCalendar from "./components/DayCalendar";
+import WeekCalendar from "./components/WeekCalendar";
 
 import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
 import Plus from "./icons/Plus";
-import DayCalendar from "./components/DayCalendar";
 
 function App() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
@@ -99,6 +100,13 @@ function App() {
           )}
           {selectedCalendarType.key === "day" && (
             <DayCalendar
+              year={selectedDate.getFullYear()}
+              month={selectedDate.getMonth()}
+              day={selectedDate.getDate()}
+            />
+          )}
+          {selectedCalendarType.key === "week" && (
+            <WeekCalendar
               year={selectedDate.getFullYear()}
               month={selectedDate.getMonth()}
               day={selectedDate.getDate()}
