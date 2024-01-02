@@ -31,6 +31,12 @@ export const categoryList: Category[] = [
     name: "휴일",
     color: "#2C5A41",
   },
+  {
+    id: 3,
+    name: "Robustique",
+    // 초록색으로 추천해줘
+    color: "#2C5A41",
+  },
 ];
 
 export const todoDateList: TodoItem[] = [
@@ -172,5 +178,13 @@ export const todoDateList: TodoItem[] = [
     startedAt: new Date("2023-12-24T15:00:00"),
     endedAt: new Date("2023-12-2415:30:00"),
     category: categoryList[0],
+  },
+  {
+    id: 20,
+    title: "김*원님 작업지지서 송달",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T10:00:00"),
+    endedAt: new Date("2024-01-02T10:30:00"),
+    category: categoryList[2],
   },
 ];
