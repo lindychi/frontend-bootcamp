@@ -33,12 +33,16 @@ export default function DayCalendar({ year, month, day }: Props) {
             >
               <div
                 key={todo.id}
-                className="brightness-125 p-1 text-sm rounded border h-full"
+                className="brightness-125 px-1 text-sm rounded border h-full flex items-start"
                 style={{
                   backgroundColor: todo.category?.color,
-                  borderColor: todo.category?.color
-                    ? reduceBrightness(todo.category?.color, 0.75) ?? "black"
-                    : "black",
+                  borderColor: isBrightness(todo.category?.color ?? "#000000")
+                    ? reduceBrightness(
+                        todo.category?.color ?? "#000000",
+                        0.75
+                      ) ?? "black"
+                    : reduceBrightness(todo.category?.color ?? "#000000", 2) ??
+                      "white",
                   color: isBrightness(todo.category?.color ?? "#000000")
                     ? reduceBrightness(
                         todo.category?.color ?? "#000000",
