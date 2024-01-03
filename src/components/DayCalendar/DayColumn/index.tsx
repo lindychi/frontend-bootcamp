@@ -1,18 +1,42 @@
 import React, { useEffect, useState } from "react";
+import clsx from "clsx";
+import { HttpStatusCode } from "axios";
+
+import { getDayTodoList } from "../../../consts/sampleData";
+
 import {
   getConflictTodoList,
   getTodoHeight,
   getTodoTop,
 } from "../../../libs/calendar";
 import { isBrightness, reduceBrightness } from "../../../libs/color";
-import { getDayTodoList } from "../../../consts/sampleData";
-import clsx from "clsx";
+
+import { ConflictTodoItem } from "../../../types/common";
+
+import { getDayEvents } from "../../../services/eventService";
 
 type Props = { year: number; month: number; day: number; index?: number };
 
 export default function DayColumn({ year, month, day, index = 0 }: Props) {
   const [today, setToday] = useState(new Date());
   const todoList = getConflictTodoList(getDayTodoList(year, month + 1, day));
+  const [dbTodoList, setDbTodoList] = useState<ConflictTodoItem[]>([] as any[]);
+
+  const loadTodayEvents = async () => {
+    const result = await getDayEvents({ year, month: month + 1, day });
+    if (result.status === HttpStatusCode.Ok) {
+      setDbTodoList(
+        getConflictTodoList([
+          ...result.data.map((todo) => ({
+            ...todo,
+            startedAt: new Date(todo.startedAt),
+            endedAt: todo.endedAt ? new Date(todo.endedAt) : undefined,
+          })),
+          ...todoList,
+        ])
+      );
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -20,6 +44,10 @@ export default function DayColumn({ year, month, day, index = 0 }: Props) {
     }, 1000 * 60);
 
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    loadTodayEvents();
   }, []);
 
   return (
@@ -34,11 +62,11 @@ export default function DayColumn({ year, month, day, index = 0 }: Props) {
           ])}
         ></div>
       ))}
-      {todoList.map((todo) => {
+      {dbTodoList.map((todo) => {
         return (
           <div
             key={todo.id}
-            className="absolute p-0.5"
+            className="absolute p-[1px]"
             style={{
               top: getTodoTop(todo, year, month, day),
               height: `${getTodoHeight(todo, year, month, day)}px`,
