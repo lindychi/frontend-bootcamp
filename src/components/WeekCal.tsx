@@ -4,7 +4,7 @@ import React from 'react'
 
 type Props = {}
 
-export default function WeekCalendar({}: Props) {
+export default function WeekCal({}: Props) {
 
 return (
   

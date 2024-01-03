@@ -5,7 +5,7 @@ import clsx from 'clsx';
 
 type Props = {}
 
-export default function month({}: Props) {
+export default function monthCal({}: Props) {
 const [selectedMonth, setSelectedMonth] = React.useState(12);
 const [selectedYear, setSelectedYear] = React.useState(2023);
 const targetCalendarDates: Date[] = getCalendarDates(
@@ -13,11 +13,11 @@ const targetCalendarDates: Date[] = getCalendarDates(
   selectedMonth
 );
 return (
-  // <div>month</div>
+  
   <div className="mediumDates w-[1214px] h-[923px] grid grid-cols-7 py-[3px] px-[4px]">
   {targetCalendarDates.map((date: Date) => (
     <div
-      key={date.getTime()} // 각 날짜에 대한 고유한 key
+      key={date.getDate()} // 각 날짜에 대한 고유한 key
       className={clsx(
         "inner-date",
         "p-[4px]",
@@ -27,8 +27,9 @@ return (
         "solid",
         "rgba(157, 158, 159, 0.60)",
         {
-          "bg-white": date.getMonth() === new Date().getMonth(),
-          "bg-gray-100": date.getMonth() !== new Date().getMonth(),
+          "text-gray-800": date.getMonth() === selectedMonth - 1,
+          "text-gray-400": date.getMonth() !== selectedMonth - 1,
+          
         }
       )}
     >

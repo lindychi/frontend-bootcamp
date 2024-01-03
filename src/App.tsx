@@ -11,7 +11,7 @@ import Search from "./icons/Search";
 import Plus from "./icons/Plus";
 import SevenDays from "./components/SevenDays";
 
-import WeekCalendar from "./components/WeekCalendar";
+import WeekCalendar from "./components/WeekCal";
 import CalendarS from "./components/CalendarS";
 
 function App() {
@@ -21,11 +21,11 @@ function App() {
     selectedYear,
     selectedMonth
   );
-  const monthsArray = Array.from({ length: 12 }, (_, index) => index + 1);
 
   return (
     <div className="calendar flex justify-start w-[1465px] h-[auto] border solid rgba(157, 158, 159, 0.60)">
       <div className="sidebar flex-col w-[250px] border-r solid rgba(157, 158, 159, 0.60)">
+        {/* 미니캘린더 */}
         <div>
           <CalendarS
             selectedMonth={selectedMonth}
@@ -33,12 +33,6 @@ function App() {
             dayList={dayList}
           />
         </div>
-
-        {/* <div>
-          {dayList.map((day, index) => (
-            <div key={index}>{day.short}</div>
-          ))}
-        </div> */}
 
         {/* 미니캘린더 하단*/}
         <div className="schedule w-[250px] h-[409px] py-[10px] px-[16px] gap-[10px]">
@@ -48,7 +42,7 @@ function App() {
 
       <div className="content w-[1214px]">
         {/* 상단 헤더 */}
-        <div className="content_top flex w-100% h-[77px] p-[16px] justify-between ">
+        <div className="content_top flex w-100% h-[77px] p-[16px] justify-between border-b ">
           <div className="left-content flex justify-between gap-4 items-center">
             <div>
               <Hamburger />
@@ -77,6 +71,7 @@ function App() {
         Month <Arrow /> 
       </div>*/}
           </div>
+
           {/* Add event */}
           <div className="right-contents flex justify-between gap-[16px] items-center">
             <div>
@@ -88,8 +83,26 @@ function App() {
           </div>
         </div>
 
-        {/* 월력 */}
-        <div className=" px-10 py-">
+        {/* 일력 */}
+        {/* <div className="dayCal-Container flex">
+          <div className="timeBox flex-col w-[80px] text-s px-5 border-r bg-red-200 text-xs">0000</div>
+          <div className="weekBox w-full min-h-[80px] p-5 border-b text-start">Lorem ipsum dolor sit met consectetur </div> 
+        </div>
+      */}
+
+        {Array.from({ length: 24 }, (_, index) => (
+          <div key={index} className="dayCal-Container flex">
+            <div className="timeBox flex-col w-[80px] text-s px-5 border-r bg-red-200 text-xs">
+              0000
+            </div>
+            <div className="weekBox w-full min-h-[80px] p-5 border-b text-start">
+              Lorem ipsum dolor sit met consectetur
+            </div>
+          </div>
+        ))}
+
+        {/* 연력 */}
+        {/* <div className=" px-10 py-">
           <div className="calendar_s flex flex-wrap justify-around w-100%">
             {monthsArray.map((month) => (
               <div key={month}>
@@ -101,7 +114,7 @@ function App() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* <div>
           <CalendarS selectedMonth={selectedMonth} selectedYear=
@@ -135,15 +148,6 @@ function App() {
           ))}
         </div> */}
         {/* 빅달력_날짜    */}
-
-        {/* 연력*/}
-        <div>
-          <CalendarS
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
-            dayList={dayList}
-          />
-        </div>
       </div>
     </div>
   );
