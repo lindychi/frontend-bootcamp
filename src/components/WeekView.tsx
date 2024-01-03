@@ -45,10 +45,16 @@ const WeekView: React.FC<WeekViewProps> = ({
         })}
       </div>
       <div className="flex flex-row">
-        <div className="w-[60px] h-[1920px] flex flex-col">
+        <div className="w-[80px] h-[1920px] flex flex-col">
           {hours.map((hour) => (
-            <div key={hour} className="h-[80px]">
-              {hour < 10 ? `0${hour}:00` : `${hour}:00`}
+            <div key={hour} className="h-[80px] text-xl text-right">
+              {hour === 0
+                ? null
+                : hour < 12
+                ? `오전 ${hour}시`
+                : hour === 12
+                ? "오후 12시"
+                : `오후 ${hour - 12}시`}
             </div>
           ))}
         </div>

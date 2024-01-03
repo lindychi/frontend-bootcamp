@@ -135,7 +135,19 @@ function App() {
     }
     return "";
   };
-
+  const getTodayDayOfWeek = (): string => {
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const today = new Date().getDay();
+    return daysOfWeek[today];
+  };
   return (
     <div className="flex flex-row h-screen">
       <CalendarSection
@@ -156,7 +168,9 @@ function App() {
                 ? `${selectedYear}`
                 : currentView === View.Week
                 ? `${getMonthString(selectedMonth)} ${selectedYear}`
-                : "Day View"}
+                : currentView === View.Day
+                ? `${getMonthString(selectedMonth)} ${selectedYear}`
+                : ""}
             </div>
 
             <DropDown
