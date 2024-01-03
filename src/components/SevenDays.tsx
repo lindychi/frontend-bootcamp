@@ -7,9 +7,9 @@ type Props = {
 
 export default function SevenDays({ dayList }: Props) {
   return (
-    <div className="mediumDay flex text-center">
+    <div className="mediumDay w-[1150px] flex text-center">
       {dayList.map(({ medium }, index) => (
-        <div key={index} className="day w-full px-16 border-r text-s">
+        <div key={index} className="day w-full px-16 py-2  text-xs">
           {medium}
         </div>
 

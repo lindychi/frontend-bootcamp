@@ -11,8 +11,11 @@ import Search from "./icons/Search";
 import Plus from "./icons/Plus";
 import SevenDays from "./components/SevenDays";
 
-import WeekCalendar from "./components/WeekCal";
+import WeekCal from "./components/WeekCal";
 import CalendarS from "./components/CalendarS";
+import MonthCal from "./components/MonthCal";
+import YearCal from "./components/YearCal";
+import DayCal from "./components/DayCal";
 
 function App() {
   const [selectedMonth, setSelectedMonth] = React.useState(1);
@@ -21,6 +24,12 @@ function App() {
     selectedYear,
     selectedMonth
   );
+
+  const [selectedOption, setSelectedOption] = useState("month"); // Track selected option
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedOption(e.target.value);
+  };
 
   return (
     <div className="calendar flex justify-start w-[1465px] h-[auto] border solid rgba(157, 158, 159, 0.60)">
@@ -57,16 +66,18 @@ function App() {
             </div>
 
             {/* Month 셀렉박스*/}
-            <select
-              name="calendarType"
-              id=""
-              className="h-[36px] border solid border-primary text-primary rounded pr-3 py-1 items-center text-center text-sm"
-            >
-              <option value="month">Month</option>
-              <option value="year">Year</option>
-              <option value="week">week</option>
-              <option value="day">day</option>
-            </select>
+            <div className="custom-select">
+              <select
+                name="calendarType"
+                onChange={handleChange}   //이 부분 추가 
+                className="h-[36px] border solid border-primary text-primary rounded px-3 items-center text-sm"
+              >
+                <option value="month">Month</option>
+                <option value="year">Year</option>
+                <option value="week">week</option>
+                <option value="day">day</option>
+              </select>
+            </div>
             {/* <div className="flex gap-[4px] w-[75px] h-[35px] border solid border-primary text-primary rounded p-[8px] items-center text-sm">
         Month <Arrow /> 
       </div>*/}
@@ -83,14 +94,16 @@ function App() {
           </div>
         </div>
 
-        {/* 일력 */}
-        {/* <div className="dayCal-Container flex">
-          <div className="timeBox flex-col w-[80px] text-s px-5 border-r bg-red-200 text-xs">0000</div>
-          <div className="weekBox w-full min-h-[80px] p-5 border-b text-start">Lorem ipsum dolor sit met consectetur </div> 
+        {/* 선택된 옵션에 따라 조건부 렌더링 */}
+        <div>
+          {selectedOption === "month" && <MonthCal />}
+          {selectedOption === "year" && <YearCal />}
+          {selectedOption === "week" && <WeekCal />}
+          {selectedOption === "day" && <DayCal />}
         </div>
-      */}
 
-        {Array.from({ length: 24 }, (_, index) => (
+        {/* 일력 */}
+        {/* {Array.from({ length: 24 }, (_, index) => (
           <div key={index} className="dayCal-Container flex">
             <div className="timeBox flex-col w-[80px] text-s px-5 border-r bg-red-200 text-xs">
               0000
@@ -99,7 +112,7 @@ function App() {
               Lorem ipsum dolor sit met consectetur
             </div>
           </div>
-        ))}
+        ))} */}
 
         {/* 연력 */}
         {/* <div className=" px-10 py-">
