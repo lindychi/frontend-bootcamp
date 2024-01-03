@@ -145,8 +145,8 @@ function App() {
         events={sortedEvents}
       />
 
-      <div>
-        <div className="w-[1600px] h-[90px] flex flex-row justify-between p-3 items-center border border-state-300 rounded-tr-lg">
+      <div className="w-full h-full">
+        <div className="w-full h-[90px] flex flex-row justify-between p-3 items-center border border-state-300 rounded-tr-lg">
           <div className="flex justify-start gap-5 ">
             <Hamburger />
             <div className="text-4xl">
@@ -155,7 +155,7 @@ function App() {
                 : currentView === View.Year
                 ? `${selectedYear}`
                 : currentView === View.Week
-                ? `This Week in ${getMonthString(selectedMonth)}`
+                ? `${getMonthString(selectedMonth)} ${selectedYear}`
                 : "Day View"}
             </div>
 

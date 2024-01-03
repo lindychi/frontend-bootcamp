@@ -85,7 +85,9 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
               {events.map((event, index) => (
                 <tr key={index} className="border-b">
                   <td className="p-2">{event.name}</td>
-                  <td className="p-2">{event.date}</td>
+                  <td className="p-2">
+                    {new Date(event.date).toLocaleDateString()}
+                  </td>
                   <td className="p-2">{event.time}</td>
                 </tr>
               ))}

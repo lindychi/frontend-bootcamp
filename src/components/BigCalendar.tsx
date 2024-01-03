@@ -13,19 +13,27 @@ const BigCalendar: React.FC<BigCalendarProps> = ({
   getSecondDateClass,
   events,
 }) => {
-  const getEventForDate = (
-    date: Date
-  ): { name: string; time: string } | null => {
-    const eventForDate = events.find((event) => {
-      const eventDate = new Date(event.date);
-      return (
-        eventDate.getDate() === date.getDate() &&
-        eventDate.getMonth() === date.getMonth() &&
-        eventDate.getFullYear() === date.getFullYear()
-      );
+  const groupAndSortEvents = () => {
+    const groupedEvents: { [key: string]: any[] } = {};
+    events.forEach((event) => {
+      const dateKey = event.date.split("T")[0]; // yyyy-mm-dd 형식으로 날짜 추출
+      if (!groupedEvents[dateKey]) {
+        groupedEvents[dateKey] = [];
+      }
+      groupedEvents[dateKey].push(event);
     });
-    return eventForDate || null;
+    for (const key in groupedEvents) {
+      groupedEvents[key].sort((a, b) => {
+        const timeA = new Date(`1970-01-01T${a.time}`);
+        const timeB = new Date(`1970-01-01T${b.time}`);
+        return timeA.getTime() - timeB.getTime();
+      });
+    }
+
+    return groupedEvents;
   };
+
+  const groupedAndSortedEvents = groupAndSortEvents();
 
   return (
     <>
@@ -47,15 +55,12 @@ const BigCalendar: React.FC<BigCalendarProps> = ({
           >
             {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
 
-            {events && (
-              <div>
-                {getEventForDate(date) && (
-                  <div>
-                    {getEventForDate(date)?.name} at{" "}
-                    {getEventForDate(date)?.time}
-                  </div>
-                )}
-              </div>
+            {groupedAndSortedEvents[date.toISOString().split("T")[0]]?.map(
+              (event: any, eventIndex: number) => (
+                <div key={eventIndex}>
+                  {event.name} {event.time}
+                </div>
+              )
             )}
           </div>
         ))}
