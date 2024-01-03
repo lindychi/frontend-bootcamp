@@ -1,5 +1,9 @@
-import React from "react";
-import { getConflictTodoList, getTodoHeight } from "../../../libs/calendar";
+import React, { useEffect, useState } from "react";
+import {
+  getConflictTodoList,
+  getTodoHeight,
+  getTodoTop,
+} from "../../../libs/calendar";
 import { isBrightness, reduceBrightness } from "../../../libs/color";
 import { getDayTodoList } from "../../../consts/sampleData";
 import clsx from "clsx";
@@ -7,7 +11,16 @@ import clsx from "clsx";
 type Props = { year: number; month: number; day: number; index?: number };
 
 export default function DayColumn({ year, month, day, index = 0 }: Props) {
+  const [today, setToday] = useState(new Date());
   const todoList = getConflictTodoList(getDayTodoList(year, month + 1, day));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setToday(new Date());
+    }, 1000 * 60);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="relative w-full">
@@ -27,8 +40,8 @@ export default function DayColumn({ year, month, day, index = 0 }: Props) {
             key={todo.id}
             className="absolute p-0.5"
             style={{
-              top: todo.startedAt.getHours() * 60 + todo.startedAt.getMinutes(),
-              height: `${getTodoHeight(todo)}px`,
+              top: getTodoTop(todo, year, month, day),
+              height: `${getTodoHeight(todo, year, month, day)}px`,
               left:
                 todo.conflictLength === 0
                   ? 0
@@ -67,6 +80,18 @@ export default function DayColumn({ year, month, day, index = 0 }: Props) {
           </div>
         );
       })}
+      {today.getFullYear() === year &&
+        today.getMonth() === month &&
+        today.getDate() === day && (
+          <div
+            className="absolute h-[2px] bg-red-600 w-full"
+            style={{
+              top: today.getHours() * 60 + today.getMinutes(),
+            }}
+          >
+            <div className="absolute w-3 h-3 bg-red-600 rounded-full -left-1.5 -top-[5px]"></div>
+          </div>
+        )}
     </div>
   );
 }

@@ -10,11 +10,16 @@ export const getMonthTodoList = (year: number, month: number) => {
 
 export const getDayTodoList = (year: number, month: number, day: number) => {
   const todoList = todoDateList.filter((todo) => {
-    const todoDate = new Date(todo.startedAt);
+    const startDate = todo.startedAt;
+    const endDate = todo.endedAt;
     return (
-      todoDate.getFullYear() === year &&
-      todoDate.getMonth() + 1 === month &&
-      todoDate.getDate() === day
+      (startDate.getFullYear() === year &&
+        startDate.getMonth() + 1 === month &&
+        startDate.getDate() === day) ||
+      (endDate &&
+        endDate.getFullYear() === year &&
+        endDate.getMonth() + 1 === month &&
+        endDate.getDate() === day)
     );
   });
   return todoList;
@@ -40,6 +45,16 @@ export const categoryList: Category[] = [
     id: 4,
     name: "부트캠프",
     color: "#2563eb",
+  },
+  {
+    id: 5,
+    name: "투스카이",
+    color: "#7dd3fc",
+  },
+  {
+    id: 6,
+    name: "창부캠",
+    color: "#f5a3c7",
   },
 ];
 
@@ -269,5 +284,125 @@ export const todoDateList: TodoItem[] = [
     startedAt: new Date("2024-01-02T15:01:00"),
     endedAt: new Date("2024-01-02T15:48:00"),
     category: categoryList[3],
+  },
+  {
+    id: 31,
+    title: "에어컨 예약 시도 및 취소",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T16:22:00"),
+    endedAt: new Date("2024-01-02T16:27:00"),
+    category: categoryList[0],
+  },
+  {
+    id: 32,
+    title: "Bastion 호스트 제거 이미지 적용",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T16:27:00"),
+    endedAt: new Date("2024-01-02T18:51:00"),
+    category: categoryList[4],
+  },
+  {
+    id: 33,
+    title: "치맥 /w 홍*태님, 현*환님",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T18:51:00"),
+    endedAt: new Date("2024-01-02T19:51:00"),
+    category: categoryList[4],
+  },
+  {
+    id: 34,
+    title: "귀가",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T19:51:00"),
+    endedAt: new Date("2024-01-02T20:11:00"),
+    category: categoryList[0],
+  },
+  {
+    id: 35,
+    title: "마케팅 수강",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T20:11:00"),
+    endedAt: new Date("2024-01-03T01:30:00"),
+    category: categoryList[5],
+  },
+  {
+    id: 36,
+    title: "클래스 리뷰 #6",
+    createdAt: "2024-01-02",
+    startedAt: new Date("2024-01-02T20:11:00"),
+    endedAt: new Date("2024-01-02T22:56:00"),
+    category: categoryList[5],
+  },
+  {
+    id: 37,
+    title: "출근",
+    createdAt: "2024-01-03",
+    startedAt: new Date("2024-01-03T08:55:00"),
+    endedAt: new Date("2024-01-03T09:35:00"),
+    category: categoryList[0],
+  },
+  {
+    id: 38,
+    title: "수면",
+    createdAt: "2024-01-03",
+    startedAt: new Date("2024-01-03T01:30:00"),
+    endedAt: new Date("2024-01-03T08:15:00"),
+    category: categoryList[0],
+  },
+  {
+    id: 39,
+    title: "샤워",
+    createdAt: "2024-01-03",
+    startedAt: new Date("2024-01-03T08:15:00"),
+    endedAt: new Date("2024-01-03T08:35:00"),
+    category: categoryList[0],
+  },
+  {
+    id: 40,
+    title: "Query Editor short url, image 업데이트",
+    createdAt: "2024-01-03",
+    startedAt: new Date("2024-01-03T09:35:00"),
+    endedAt: new Date("2024-01-03T11:00:00"),
+    category: categoryList[4],
+  },
+  {
+    id: 41,
+    title: "컴피 방문(손*서님 수선, 조*찬님 창갈이)",
+    createdAt: "2024-01-03",
+    startedAt: new Date("2024-01-03T12:00:00"),
+    endedAt: new Date("2024-01-03T12:55:00"),
+    category: categoryList[2],
+  },
+  {
+    id: 42,
+    title: "점심 식사",
+    createdAt: "2024-01-03",
+    startedAt: new Date("2024-01-03T11:25:00"),
+    endedAt: new Date("2024-01-03T11:55:00"),
+    category: categoryList[0],
+  },
+  {
+    id: 43,
+    title: "Daytona 2.4.10 배포 작업",
+    createdAt: "2024-01-03",
+    startedAt: new Date("2024-01-03T18:00:00"),
+    endedAt: new Date("2024-01-03T18:30:00"),
+    category: categoryList[4],
+  },
+  {
+    id: 44,
+    title: "샌디 FO 국제화 작업",
+    createdAt: "2024-01-03",
+    startedAt: new Date("2024-01-03T13:00:00"),
+    endedAt: new Date("2024-01-03T19:00:00"),
+    category: categoryList[4],
+  },
+  {
+    id: 45,
+    title: "카카오 작업",
+    createdAt: "2024-01-03",
+    startedAt: new Date("2024-01-03T13:00:00"),
+    endedAt: new Date("2024-01-03T19:00:00"),
+    category: categoryList[4],
   },
 ];

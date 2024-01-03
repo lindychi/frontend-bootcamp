@@ -54,12 +54,41 @@ export const getMonthString = (selectedMonth: number) => {
   return months[selectedMonth - 1] || "";
 };
 
-export const getTodoHeight = (todo: TodoItem) => {
+export const getTodoTop = (
+  todo: TodoItem,
+  year: number,
+  month: number,
+  day: number
+) => {
+  const dayStart = new Date(year, month, day, 0, 0, 0, 0).getTime();
+  const startTime = todo.startedAt.getTime();
+
+  if (startTime < dayStart) {
+    return 0;
+  } else {
+    return todo.startedAt.getHours() * 60 + todo.startedAt.getMinutes();
+  }
+};
+
+export const getTodoHeight = (
+  todo: TodoItem,
+  year: number,
+  month: number,
+  day: number
+) => {
   if (!todo.endedAt) {
     return 30;
   }
 
-  const diff = todo.endedAt.getTime() - todo.startedAt.getTime();
+  const dayStart = new Date(year, month, day, 0, 0, 0, 0).getTime();
+  const dayEnd = new Date(year, month, day, 23, 59, 59, 999).getTime();
+
+  const startTime = todo.startedAt.getTime();
+  const endTime = todo.endedAt.getTime();
+
+  const diff =
+    (dayEnd < endTime ? dayEnd : endTime) -
+    (dayStart > startTime ? dayStart : startTime);
   const height = diff / 1000 / 60;
 
   if (height < 30) {
