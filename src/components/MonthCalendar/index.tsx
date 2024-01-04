@@ -11,8 +11,8 @@ import DayListHeader from "../DayListHeader";
 type Props = { year: number; month: number };
 
 export default function MonthCalendar({ year, month }: Props) {
-  const targetCalendarDates = getCalendarDates(year, month);
-  const todoList = getMonthTodoList(year, month);
+  const targetCalendarDates = getCalendarDates(year, month + 1);
+  const todoList = getMonthTodoList(year, month + 1);
   const maxTodoCount = 4;
 
   return (
@@ -42,10 +42,10 @@ export default function MonthCalendar({ year, month }: Props) {
                 className={clsx([
                   "self-stretch grow shrink basis-0 px-1 py-[3px] bg-white border border-gray-300 border-opacity-60 flex-col justify-start items-start gap-2.5 flex h-full relative",
                   {
-                    "bg-zinc-100 opacity-50": date.getMonth() !== month - 1,
+                    "bg-zinc-100 opacity-50": date.getMonth() !== month,
                   },
                   {
-                    "bg-white": date.getMonth() === month - 1,
+                    "bg-white": date.getMonth() === month,
                   },
                 ])}
               >

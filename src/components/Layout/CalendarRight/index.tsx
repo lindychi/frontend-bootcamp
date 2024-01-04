@@ -1,24 +1,25 @@
 import React from "react";
 import clsx from "clsx";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
-import Hamburger from "../../../icons/Hamburger";
-import { CalendarType } from "../../../types/common";
-import { getMonthString } from "../../../libs/calendar";
-import SelectBox from "../../SelectBox";
-import { useNavigate } from "react-router-dom";
-import Search from "../../../icons/Search";
-import Plus from "../../../icons/Plus";
-import MonthCalendar from "../../MonthCalendar";
-import YearCalendar from "../../YearCalendar";
-import DayCalendar from "../../DayCalendar";
-import WeekCalendar from "../../WeekCalendar";
 import { calendarTypeList } from "../../../consts/calendar";
 
-type Props = { calendarType: CalendarType };
+import { getMonthString } from "../../../libs/calendar";
 
-export default function CalendarRightLayout({ calendarType }: Props) {
+import SelectBox from "../../SelectBox";
+
+import Search from "../../../icons/Search";
+import Plus from "../../../icons/Plus";
+
+import Hamburger from "../../../icons/Hamburger";
+
+type Props = {};
+
+export default function CalendarRightLayout({}: Props) {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const navigate = useNavigate();
+  const location = useLocation();
+  const calendarType = location.pathname.split("/")[1] ?? "month";
 
   return (
     <div
@@ -121,29 +122,8 @@ export default function CalendarRightLayout({ calendarType }: Props) {
           </div>
         </div>
       </div>
-      {calendarType === "month" && (
-        <MonthCalendar
-          year={selectedDate.getFullYear()}
-          month={selectedDate.getMonth() + 1}
-        />
-      )}
-      {calendarType === "year" && (
-        <YearCalendar year={selectedDate.getFullYear()} />
-      )}
-      {calendarType === "day" && (
-        <DayCalendar
-          year={selectedDate.getFullYear()}
-          month={selectedDate.getMonth()}
-          day={selectedDate.getDate()}
-        />
-      )}
-      {calendarType === "week" && (
-        <WeekCalendar
-          year={selectedDate.getFullYear()}
-          month={selectedDate.getMonth()}
-          day={selectedDate.getDate()}
-        />
-      )}
+
+      <Outlet />
     </div>
   );
 }
