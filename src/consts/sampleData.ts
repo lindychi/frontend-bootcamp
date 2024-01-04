@@ -1,4 +1,4 @@
-import { Category, TodoItem } from "../types/common";
+import { Category, EventItem } from "../types/common";
 
 export const getMonthTodoList = (year: number, month: number) => {
   const todoList = todoDateList.filter((todo) => {
@@ -27,38 +27,38 @@ export const getDayTodoList = (year: number, month: number, day: number) => {
 
 export const categoryList: Category[] = [
   {
-    id: 1,
+    id: "1",
     title: "일상",
     color: "#E7C160",
   },
   {
-    id: 2,
+    id: "2",
     title: "휴일",
     color: "#2C5A41",
   },
   {
-    id: 3,
+    id: "3",
     title: "Robustique",
     color: "#2C5A41",
   },
   {
-    id: 4,
+    id: "4",
     title: "부트캠프",
     color: "#2563eb",
   },
   {
-    id: 5,
+    id: "5",
     title: "투스카이",
     color: "#7dd3fc",
   },
   {
-    id: 6,
+    id: "6",
     title: "창부캠",
     color: "#f5a3c7",
   },
 ];
 
-export const todoDateList: TodoItem[] = [
+export const todoDateList: EventItem[] = [
   /* 2023년 12월부터 2024년 1월까지 샘플 데이터 만들어줘 */
   {
     id: 1,

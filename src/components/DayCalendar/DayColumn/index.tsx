@@ -11,7 +11,7 @@ import {
 } from "../../../libs/calendar";
 import { isBrightness, reduceBrightness } from "../../../libs/color";
 
-import { ConflictTodoItem } from "../../../types/common";
+import { ConflictEventItem } from "../../../types/common";
 
 import { getDayEvents } from "../../../services/eventService";
 
@@ -20,7 +20,9 @@ type Props = { year: number; month: number; day: number; index?: number };
 export default function DayColumn({ year, month, day, index = 0 }: Props) {
   const [today, setToday] = useState(new Date());
   const todoList = getConflictTodoList(getDayTodoList(year, month + 1, day));
-  const [dbTodoList, setDbTodoList] = useState<ConflictTodoItem[]>([] as any[]);
+  const [dbTodoList, setDbTodoList] = useState<ConflictEventItem[]>(
+    [] as any[]
+  );
 
   const loadTodayEvents = async () => {
     const result = await getDayEvents({ year, month: month + 1, day });

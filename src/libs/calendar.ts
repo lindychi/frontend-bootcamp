@@ -1,6 +1,6 @@
 import { dayList } from "../consts/calendar";
 
-import { ConflictTodoItem, TodoItem } from "../types/common";
+import { ConflictEventItem, EventItem } from "../types/common";
 
 export function getCalendarDates(year: number, month: number): Date[] {
   const dates: Date[] = [];
@@ -55,7 +55,7 @@ export const getMonthString = (selectedMonth: number) => {
 };
 
 export const getTodoTop = (
-  todo: TodoItem,
+  todo: EventItem,
   year: number,
   month: number,
   day: number
@@ -71,7 +71,7 @@ export const getTodoTop = (
 };
 
 export const getTodoHeight = (
-  todo: TodoItem,
+  todo: EventItem,
   year: number,
   month: number,
   day: number
@@ -102,7 +102,7 @@ export const getMinute = (minute: number) => {
   return minute * 60 * 1000;
 };
 
-export const getStartEndTime = (todo: TodoItem) => {
+export const getStartEndTime = (todo: EventItem) => {
   const todoStart = todo.startedAt.getTime();
   const minimumEndTime = todoStart + getMinute(30);
   const realEndTime = todo.endedAt?.getTime() ?? minimumEndTime;
@@ -110,11 +110,11 @@ export const getStartEndTime = (todo: TodoItem) => {
   return [todoStart, todoEnd];
 };
 
-export const sortTime = (a: TodoItem, b: TodoItem) =>
+export const sortTime = (a: EventItem, b: EventItem) =>
   a.startedAt.getTime() > b.startedAt.getTime() ? 1 : -1;
 
-export const compareConflict = <T extends TodoItem>(
-  todo: TodoItem,
+export const compareConflict = <T extends EventItem>(
+  todo: EventItem,
   todoList: T[]
 ): T[] => {
   const [todoStart, todoEnd] = getStartEndTime(todo);
@@ -134,9 +134,9 @@ export const compareConflict = <T extends TodoItem>(
 };
 
 export const getConflictTodoList = (
-  todoList: TodoItem[]
-): ConflictTodoItem[] => {
-  const conflictTodoList: ConflictTodoItem[] = [];
+  todoList: EventItem[]
+): ConflictEventItem[] => {
+  const conflictTodoList: ConflictEventItem[] = [];
 
   // 최초에 인덱스 지정을 위해서 비교하는 부분
   todoList.sort(sortTime).forEach((todo) => {
@@ -173,7 +173,7 @@ export const getConflictTodoList = (
   });
 
   // 계산된 인덱스에 따라서 재배열 하는 부분
-  const lengthCalculatedList = conflictTodoList.map((todo) => {
+  let lengthCalculatedList = conflictTodoList.map((todo) => {
     const conflictList = compareConflict(todo, conflictTodoList);
 
     const conflictIndexList = conflictList.map(
@@ -186,9 +186,28 @@ export const getConflictTodoList = (
     return { ...todo, conflictLength: uniqueList.length };
   });
 
-  // 범위가 엮여있는 위치간에는 최대 길이를 적용하는 부분
-  return lengthCalculatedList.map((todo) => {
+  const maxLengthCalculatedList = lengthCalculatedList.map((todo) => {
     const conflictList = compareConflict(todo, lengthCalculatedList);
+
+    if (
+      todo.conflictLength <
+      Math.max(
+        todo.conflictLength,
+        ...conflictList.map((todo) => todo.conflictLength)
+      )
+    ) {
+      lengthCalculatedList = lengthCalculatedList.map((prevTodo) =>
+        prevTodo.id === todo.id
+          ? {
+              ...prevTodo,
+              conflictLength: Math.max(
+                prevTodo.conflictLength,
+                ...conflictList.map((todo) => todo.conflictLength)
+              ),
+            }
+          : prevTodo
+      );
+    }
 
     return {
       ...todo,
@@ -198,6 +217,9 @@ export const getConflictTodoList = (
       ),
     };
   });
+
+  // 범위가 엮여있는 위치간에는 최대 길이를 적용하는 부분
+  return maxLengthCalculatedList;
 };
 
 export function getWeekDates(year: number, month: number, day: number): Date[] {

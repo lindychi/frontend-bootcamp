@@ -1,5 +1,5 @@
 import request from "../libs/request";
-import { TodoItem } from "../types/common";
+import { EventItem } from "../types/common";
 
 export type DateNumberRequest = {
   year?: number;
@@ -8,5 +8,5 @@ export type DateNumberRequest = {
 };
 
 export const getDayEvents = async (params: DateNumberRequest) => {
-  return request.get<TodoItem[]>("/event", { params });
+  return request.get<EventItem[]>("/event", { params });
 };

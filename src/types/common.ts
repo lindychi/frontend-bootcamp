@@ -4,12 +4,12 @@ export type KeyValue = {
 };
 
 export type Category = {
-  id: number;
+  id: string;
   title: string;
   color: string;
 };
 
-export type TodoItem = {
+export type EventItem = {
   id: number;
   title: string;
   createdAt: string;
@@ -18,7 +18,7 @@ export type TodoItem = {
   categories?: Category;
 };
 
-export type ConflictTodoItem = TodoItem & {
+export type ConflictEventItem = EventItem & {
   conflictLength: number;
   conflictIndex: number;
 };
