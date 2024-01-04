@@ -68,14 +68,14 @@ export default function MonthCalendar({ year, month }: Props) {
                         key={todo.id}
                         className="w-full flex justify-between font-bold bg-inherit hover:brightness-75 rounded-md px-1 transition-all cursor-pointer"
                         style={{
-                          color: todo.category?.color,
+                          color: todo.categories?.color,
                         }}
                       >
                         <div className="flex items-center gap-1 w-[calc(100%-40px)]">
-                          {todo.category?.color && (
+                          {todo.categories?.color && (
                             <div
                               className="min-w-2 min-h-2 w-2 h-2 rounded-full brightness-125"
-                              style={{ background: todo.category.color }}
+                              style={{ background: todo.categories.color }}
                             ></div>
                           )}
                           <div className="truncate w-[calc(100%)]">

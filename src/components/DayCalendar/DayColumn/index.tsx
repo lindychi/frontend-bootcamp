@@ -86,16 +86,20 @@ export default function DayColumn({ year, month, day, index = 0 }: Props) {
               key={todo.id}
               className="brightness-125 px-1 text-sm rounded border h-full flex items-start"
               style={{
-                backgroundColor: todo.category?.color,
-                borderColor: isBrightness(todo.category?.color ?? "#000000")
-                  ? reduceBrightness(todo.category?.color ?? "#000000", 0.5) ??
-                    "black"
-                  : reduceBrightness(todo.category?.color ?? "#000000", 2) ??
+                backgroundColor: todo.categories?.color,
+                borderColor: isBrightness(todo.categories?.color ?? "#000000")
+                  ? reduceBrightness(
+                      todo.categories?.color ?? "#000000",
+                      0.5
+                    ) ?? "black"
+                  : reduceBrightness(todo.categories?.color ?? "#000000", 2) ??
                     "white",
-                color: isBrightness(todo.category?.color ?? "#000000")
-                  ? reduceBrightness(todo.category?.color ?? "#000000", 0.5) ??
-                    "black"
-                  : reduceBrightness(todo.category?.color ?? "#000000", 2) ??
+                color: isBrightness(todo.categories?.color ?? "#000000")
+                  ? reduceBrightness(
+                      todo.categories?.color ?? "#000000",
+                      0.5
+                    ) ?? "black"
+                  : reduceBrightness(todo.categories?.color ?? "#000000", 2) ??
                     "white",
               }}
             >

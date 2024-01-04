@@ -73,7 +73,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-01",
     startedAt: new Date("2024-01-01T09:00:00"),
     endedAt: new Date("2024-01-01T10:30:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 3,
@@ -172,7 +172,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2023-12-24",
     startedAt: new Date("2023-12-24T00:00:00"),
     endedAt: new Date("2023-12-24T23:59:59"),
-    category: categoryList[1],
+    categories: categoryList[1],
   },
   {
     id: 17,
@@ -180,7 +180,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2023-12-25",
     startedAt: new Date("2023-12-25T00:00:00"),
     endedAt: new Date("2023-12-25T23:59:59"),
-    category: categoryList[1],
+    categories: categoryList[1],
   },
   {
     id: 18,
@@ -188,7 +188,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2023-12-24",
     startedAt: new Date("2023-12-24T09:00:00"),
     endedAt: new Date("2023-12-24T09:30:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 19,
@@ -196,14 +196,14 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2023-12-24",
     startedAt: new Date("2023-12-24T15:00:00"),
     endedAt: new Date("2023-12-2415:30:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 20,
     title: "컴피 사장님 새해 인사",
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T10:16:00"),
-    category: categoryList[2],
+    categories: categoryList[2],
   },
   {
     id: 21,
@@ -211,7 +211,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T10:00:00"),
     endedAt: new Date("2024-01-02T10:30:00"),
-    category: categoryList[2],
+    categories: categoryList[2],
   },
   {
     id: 22,
@@ -219,7 +219,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T10:20:00"),
     endedAt: new Date("2024-01-02T10:25:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 23,
@@ -227,7 +227,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T10:30:00"),
     endedAt: new Date("2024-01-02T11:31:00"),
-    category: categoryList[3],
+    categories: categoryList[3],
   },
   {
     id: 24,
@@ -235,7 +235,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T11:41:00"),
     endedAt: new Date("2024-01-02T12:06:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 25,
@@ -243,7 +243,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T12:06:00"),
     endedAt: new Date("2024-01-02T12:17:00"),
-    category: categoryList[3],
+    categories: categoryList[3],
   },
   {
     id: 26,
@@ -251,7 +251,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T12:46:00"),
     endedAt: new Date("2024-01-02T13:33:00"),
-    category: categoryList[3],
+    categories: categoryList[3],
   },
   {
     id: 27,
@@ -259,7 +259,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T13:36:00"),
     endedAt: new Date("2024-01-02T13:43:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 28,
@@ -267,7 +267,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T14:15:00"),
     endedAt: new Date("2024-01-02T14:29:00"),
-    category: categoryList[2],
+    categories: categoryList[2],
   },
   {
     id: 29,
@@ -275,7 +275,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T14:30:00"),
     endedAt: new Date("2024-01-02T15:01:00"),
-    category: categoryList[2],
+    categories: categoryList[2],
   },
   {
     id: 30,
@@ -283,7 +283,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T15:01:00"),
     endedAt: new Date("2024-01-02T15:48:00"),
-    category: categoryList[3],
+    categories: categoryList[3],
   },
   {
     id: 31,
@@ -291,7 +291,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T16:22:00"),
     endedAt: new Date("2024-01-02T16:27:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 32,
@@ -299,7 +299,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T16:27:00"),
     endedAt: new Date("2024-01-02T18:51:00"),
-    category: categoryList[4],
+    categories: categoryList[4],
   },
   {
     id: 33,
@@ -307,7 +307,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T18:51:00"),
     endedAt: new Date("2024-01-02T19:51:00"),
-    category: categoryList[4],
+    categories: categoryList[4],
   },
   {
     id: 34,
@@ -315,7 +315,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T19:51:00"),
     endedAt: new Date("2024-01-02T20:11:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 35,
@@ -323,7 +323,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T20:11:00"),
     endedAt: new Date("2024-01-03T01:30:00"),
-    category: categoryList[5],
+    categories: categoryList[5],
   },
   {
     id: 36,
@@ -331,7 +331,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-02",
     startedAt: new Date("2024-01-02T20:11:00"),
     endedAt: new Date("2024-01-02T22:56:00"),
-    category: categoryList[5],
+    categories: categoryList[5],
   },
   {
     id: 37,
@@ -339,7 +339,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-03",
     startedAt: new Date("2024-01-03T08:55:00"),
     endedAt: new Date("2024-01-03T09:35:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 38,
@@ -347,7 +347,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-03",
     startedAt: new Date("2024-01-03T01:30:00"),
     endedAt: new Date("2024-01-03T08:15:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 39,
@@ -355,7 +355,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-03",
     startedAt: new Date("2024-01-03T08:15:00"),
     endedAt: new Date("2024-01-03T08:35:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 40,
@@ -363,7 +363,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-03",
     startedAt: new Date("2024-01-03T09:35:00"),
     endedAt: new Date("2024-01-03T11:00:00"),
-    category: categoryList[4],
+    categories: categoryList[4],
   },
   {
     id: 41,
@@ -371,7 +371,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-03",
     startedAt: new Date("2024-01-03T12:00:00"),
     endedAt: new Date("2024-01-03T12:55:00"),
-    category: categoryList[2],
+    categories: categoryList[2],
   },
   {
     id: 42,
@@ -379,7 +379,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-03",
     startedAt: new Date("2024-01-03T11:25:00"),
     endedAt: new Date("2024-01-03T11:55:00"),
-    category: categoryList[0],
+    categories: categoryList[0],
   },
   {
     id: 43,
@@ -387,7 +387,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-03",
     startedAt: new Date("2024-01-03T18:00:00"),
     endedAt: new Date("2024-01-03T18:30:00"),
-    category: categoryList[4],
+    categories: categoryList[4],
   },
   {
     id: 44,
@@ -395,7 +395,7 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-03",
     startedAt: new Date("2024-01-03T13:00:00"),
     endedAt: new Date("2024-01-03T18:30:00"),
-    category: categoryList[4],
+    categories: categoryList[4],
   },
   {
     id: 46,
@@ -403,6 +403,6 @@ export const todoDateList: TodoItem[] = [
     createdAt: "2024-01-03",
     startedAt: new Date("2024-01-03T17:10:00"),
     endedAt: new Date("2024-01-03T18:30:00"),
-    category: categoryList[4],
+    categories: categoryList[4],
   },
 ];
