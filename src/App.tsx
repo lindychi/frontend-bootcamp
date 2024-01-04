@@ -10,7 +10,7 @@ import { Category } from "./types/common";
 import { getMonthString } from "./libs/calendar";
 
 import { getCategories } from "./services/categoryService";
-import { AddTodoRequest, addTodo } from "./services/todoService";
+import { AddTodoRequest } from "./services/todoService";
 
 import SelectBox from "./components/SelectBox";
 import MonthCalendar from "./components/MonthCalendar";
@@ -18,6 +18,7 @@ import SmallMonthCalendar from "./components/SmallMonthCalendar";
 import YearCalendar from "./components/YearCalendar";
 import DayCalendar from "./components/DayCalendar";
 import WeekCalendar from "./components/WeekCalendar";
+import AddTodo from "./components/AddTodo";
 
 import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
@@ -37,6 +38,16 @@ function App() {
     const result = await getCategories();
     if (result.status === HttpStatusCode.Ok) {
       setCategories(result.data);
+    }
+  };
+
+  const handleShowAddTodo = (category: Category) => {
+    if (addTodoRequest.category === category.id) {
+      setAddTodoRequest({});
+    } else {
+      setAddTodoRequest({
+        category: category.id,
+      });
     }
   };
 
@@ -81,61 +92,35 @@ function App() {
                     "text-xl cursor-pointer transition-all",
                     { "rotate-45": addTodoRequest.category === category.id },
                   ])}
-                  onClick={() => {
-                    if (addTodoRequest.category === category.id) {
-                      setAddTodoRequest({});
-                    } else {
-                      setAddTodoRequest({
-                        category: category.id,
-                      });
-                    }
-                  }}
+                  onClick={() => handleShowAddTodo(category)}
                 >
                   +
                 </div>
 
                 <div
                   className={clsx([
-                    "absolute left-[105%] bg-white rounded-xl shadow-2xl z-10 transition-all overflow-hidden duration-300 -translate-y-1/2 top-1/2",
+                    "absolute left-[105%] bg-white rounded-xl z-10 transition-all overflow-hidden duration-300 -translate-y-1/2 top-1/2",
                     {
-                      "w-0": addTodoRequest.category !== category.id,
-                      "w-[320px]": addTodoRequest.category === category.id,
+                      "w-0 shadow-none":
+                        addTodoRequest.category !== category.id,
+                      "w-[320px] shadow-2xl":
+                        addTodoRequest.category === category.id,
                     },
                   ])}
                 >
-                  <div className="flex p-4 w-[320px] gap-2 items-center">
-                    <label htmlFor="title">할 일</label>
-                    <input
-                      type="text"
-                      id="title"
-                      name="title"
-                      required
-                      className="border-b"
-                      value={addTodoRequest.title || ""}
-                      onChange={(e) => {
-                        setAddTodoRequest({
-                          ...addTodoRequest,
-                          title: e.target.value,
-                        });
-                      }}
-                    />
-                    <button
-                      className="text-white hover:brightness-75 px-2 py-1"
-                      style={{ backgroundColor: category.color }}
-                      onClick={async () => {
-                        const result = await addTodo(
-                          addTodoRequest as AddTodoRequest
-                        );
-                        if (result.status === HttpStatusCode.Ok) {
-                          setAddTodoRequest({});
-                        } else {
-                          alert("추가 실패");
-                        }
-                      }}
-                    >
-                      추가
-                    </button>
-                  </div>
+                  <AddTodo
+                    addTodoRequest={addTodoRequest}
+                    category={category}
+                    onChange={(text: string) => {
+                      setAddTodoRequest({
+                        ...addTodoRequest,
+                        title: text,
+                      });
+                    }}
+                    onCancel={() => {
+                      setAddTodoRequest({});
+                    }}
+                  />
                 </div>
               </div>
             </div>
