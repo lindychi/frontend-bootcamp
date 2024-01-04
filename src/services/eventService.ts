@@ -10,3 +10,13 @@ export type DateNumberRequest = {
 export const getDayEvents = async (params: DateNumberRequest) => {
   return request.get<EventItem[]>("/event", { params });
 };
+
+export type EventIdRequest = {
+  eventId: string;
+};
+
+export const stopEvent = (params: EventIdRequest) =>
+  request.post("/event/stop", params);
+
+export const completeEvent = (params: EventIdRequest) =>
+  request.post("/event/complete", params);

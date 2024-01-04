@@ -14,7 +14,7 @@ export type CategoryWithTodo = Category & {
 };
 
 export type EventItem = {
-  id: number;
+  id: string;
   title: string;
   createdAt: string;
   startedAt: Date;
@@ -27,7 +27,7 @@ export type ConflictEventItem = EventItem & {
   conflictIndex: number;
 };
 
-export type TodoProgress = "planned" | "ongoing";
+export type TodoProgress = "planned" | "ongoing" | "done";
 
 export type Todo = {
   id: string;

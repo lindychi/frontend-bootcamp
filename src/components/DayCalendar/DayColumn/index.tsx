@@ -4,16 +4,13 @@ import { HttpStatusCode } from "axios";
 
 import { getDayTodoList } from "../../../consts/sampleData";
 
-import {
-  getConflictTodoList,
-  getTodoHeight,
-  getTodoTop,
-} from "../../../libs/calendar";
-import { isBrightness, reduceBrightness } from "../../../libs/color";
+import { getConflictTodoList } from "../../../libs/calendar";
 
 import { ConflictEventItem } from "../../../types/common";
 
 import { getDayEvents } from "../../../services/eventService";
+
+import EventColumn from "../EventColumn";
 
 type Props = { year: number; month: number; day: number; index?: number };
 
@@ -66,52 +63,13 @@ export default function DayColumn({ year, month, day, index = 0 }: Props) {
       ))}
       {dbTodoList.map((todo) => {
         return (
-          <div
+          <EventColumn
             key={todo.id}
-            className="absolute p-[1px]"
-            style={{
-              top: getTodoTop(todo, year, month, day),
-              height: `${getTodoHeight(todo, year, month, day)}px`,
-              left:
-                todo.conflictLength === 0
-                  ? 0
-                  : `${
-                      (todo.conflictIndex / (todo.conflictLength + 1)) * 100
-                    }%`,
-              width:
-                todo.conflictLength === 0
-                  ? "100%"
-                  : `${(1 / (todo.conflictLength + 1)) * 100}%`,
-            }}
-          >
-            <div
-              key={todo.id}
-              className="brightness-125 px-1 text-sm rounded border h-full flex items-start"
-              style={{
-                backgroundColor: todo.categories?.color,
-                borderColor: isBrightness(todo.categories?.color ?? "#000000")
-                  ? reduceBrightness(
-                      todo.categories?.color ?? "#000000",
-                      0.5
-                    ) ?? "black"
-                  : reduceBrightness(todo.categories?.color ?? "#000000", 2) ??
-                    "white",
-                color: isBrightness(todo.categories?.color ?? "#000000")
-                  ? reduceBrightness(
-                      todo.categories?.color ?? "#000000",
-                      0.5
-                    ) ?? "black"
-                  : reduceBrightness(todo.categories?.color ?? "#000000", 2) ??
-                    "white",
-              }}
-            >
-              <div className="truncate w-[calc(100%-15px)]">{todo.title}</div>
-              <div>
-                {todo.startedAt.getHours().toString().padStart(2, "0")}:
-                {todo.startedAt.getMinutes().toString().padStart(2, "0")}
-              </div>
-            </div>
-          </div>
+            event={todo}
+            year={year}
+            month={month}
+            day={day}
+          />
         );
       })}
       {today.getFullYear() === year &&
