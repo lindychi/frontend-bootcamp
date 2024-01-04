@@ -76,15 +76,11 @@ export const getTodoHeight = (
   month: number,
   day: number
 ) => {
-  if (!todo.endedAt) {
-    return 30;
-  }
-
   const dayStart = new Date(year, month, day, 0, 0, 0, 0).getTime();
   const dayEnd = new Date(year, month, day, 23, 59, 59, 999).getTime();
 
   const startTime = todo.startedAt.getTime();
-  const endTime = todo.endedAt.getTime();
+  const endTime = todo.endedAt?.getTime() ?? new Date().getTime();
 
   const diff =
     (dayEnd < endTime ? dayEnd : endTime) -
@@ -105,7 +101,7 @@ export const getMinute = (minute: number) => {
 export const getStartEndTime = (todo: EventItem) => {
   const todoStart = todo.startedAt.getTime();
   const minimumEndTime = todoStart + getMinute(30);
-  const realEndTime = todo.endedAt?.getTime() ?? minimumEndTime;
+  const realEndTime = todo.endedAt?.getTime() ?? new Date().getTime();
   const todoEnd = realEndTime > minimumEndTime ? realEndTime : minimumEndTime;
   return [todoStart, todoEnd];
 };
