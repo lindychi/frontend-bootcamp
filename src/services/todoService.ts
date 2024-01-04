@@ -9,3 +9,12 @@ export type AddTodoRequest = {
 export const addTodo = async (params: AddTodoRequest) => {
   return request.post<Todo>("/todo", params);
 };
+
+export type StartTodoRequest = {
+  todoId: string;
+  categoryId: string;
+  title: string;
+};
+
+export const startTodo = async (params: StartTodoRequest) =>
+  request.post("/todo/start", params);

@@ -27,9 +27,13 @@ export type ConflictEventItem = EventItem & {
   conflictIndex: number;
 };
 
+export type TodoProgress = "planned" | "ongoing";
+
 export type Todo = {
-  id: number;
+  id: string;
   title: string;
   createdAt: string;
+  categoryId: string;
   categories: Category;
+  progress: TodoProgress;
 };

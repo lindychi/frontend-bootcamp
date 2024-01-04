@@ -125,23 +125,12 @@ function App() {
                 </div>
               </div>
               {category.todos?.map((todo) => (
-                <div
-                  key={todo.id}
-                  className="flex justify-between bg-inherit hover:brightness-75 rounded-md px-1 transition-all cursor-pointer"
-                  style={{
-                    color: todo.categories?.color,
+                <ExecutableTodoItem
+                  todo={todo}
+                  onSuccess={() => {
+                    loadCategories();
                   }}
-                >
-                  <div className="flex items-center gap-1 w-[calc(100%)]">
-                    {todo.categories?.color && (
-                      <div
-                        className="min-w-2 min-h-2 w-2 h-2 rounded-full brightness-125"
-                        style={{ background: todo.categories.color }}
-                      ></div>
-                    )}
-                    <div className="truncate w-[calc(100%)]">{todo.title}</div>
-                  </div>
-                </div>
+                />
               ))}
             </div>
           ))}
