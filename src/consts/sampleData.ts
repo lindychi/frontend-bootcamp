@@ -28,32 +28,32 @@ export const getDayTodoList = (year: number, month: number, day: number) => {
 export const categoryList: Category[] = [
   {
     id: 1,
-    name: "일상",
+    title: "일상",
     color: "#E7C160",
   },
   {
     id: 2,
-    name: "휴일",
+    title: "휴일",
     color: "#2C5A41",
   },
   {
     id: 3,
-    name: "Robustique",
+    title: "Robustique",
     color: "#2C5A41",
   },
   {
     id: 4,
-    name: "부트캠프",
+    title: "부트캠프",
     color: "#2563eb",
   },
   {
     id: 5,
-    name: "투스카이",
+    title: "투스카이",
     color: "#7dd3fc",
   },
   {
     id: 6,
-    name: "창부캠",
+    title: "창부캠",
     color: "#f5a3c7",
   },
 ];

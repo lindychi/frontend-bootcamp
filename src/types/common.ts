@@ -5,7 +5,7 @@ export type KeyValue = {
 
 export type Category = {
   id: number;
-  name: string;
+  title: string;
   color: string;
 };
 

@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
+import { HttpStatusCode } from "axios";
 import "./App.css";
 
 import { calendarTypeList } from "./consts/calendar";
 
+import { Category } from "./types/common";
+
 import { getMonthString } from "./libs/calendar";
+
+import { getCategories } from "./services/categoryService";
 
 import SelectBox from "./components/SelectBox";
 import MonthCalendar from "./components/MonthCalendar";
@@ -22,6 +27,18 @@ function App() {
   const [selectedCalendarType, setSelectedCalendarType] = React.useState(
     calendarTypeList[0]
   );
+  const [categories, setCategories] = React.useState<Category[]>([]);
+
+  const loadCategories = async () => {
+    const result = await getCategories();
+    if (result.status === HttpStatusCode.Ok) {
+      setCategories(result.data);
+    }
+  };
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
 
   return (
     <div className="min-w-screen min-h-screen h-fit">
@@ -39,6 +56,28 @@ function App() {
             year={selectedDate.getFullYear()}
             month={selectedDate.getMonth()}
           />
+
+          {categories.map((category) => (
+            <div
+              key={category.id}
+              className="self-stretch h-[47px] px-4 py-2.5 flex-col justify-start items-start gap-2.5 flex"
+            >
+              <div className="inline-flex justify-between w-full">
+                <div className="justify-start items-center gap-2.5 inline-flex">
+                  <div
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: category.color }}
+                  ></div>
+                  <div className="text-zinc-800 text-lg font-medium">
+                    {category.title}
+                  </div>
+                </div>
+                <div className="text-xl cursor-pointer" onClick={() => {}}>
+                  +
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* 우측 항목 */}
@@ -79,7 +118,7 @@ function App() {
             <div className="justify-start items-center gap-4 flex">
               <Search />
 
-              <div className="w-[98px] p-2 bg-primary rounded-[3px] justify-center items-center gap-1 flex">
+              <div className="w-[98px] p-2 bg-primary rounded-[3px] justify-center items-center gap-1 flex relative">
                 <div className="justify-start items-start gap-2.5 flex">
                   <div className="text-white text-xs font-medium">
                     Add event
