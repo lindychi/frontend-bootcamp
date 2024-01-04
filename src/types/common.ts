@@ -9,6 +9,10 @@ export type Category = {
   color: string;
 };
 
+export type CategoryWithTodo = Category & {
+  todos: Todo[];
+};
+
 export type EventItem = {
   id: number;
   title: string;

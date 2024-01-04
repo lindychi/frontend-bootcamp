@@ -5,11 +5,11 @@ import "./App.css";
 
 import { calendarTypeList } from "./consts/calendar";
 
-import { Category } from "./types/common";
+import { Category, CategoryWithTodo } from "./types/common";
 
 import { getMonthString } from "./libs/calendar";
 
-import { getCategories } from "./services/categoryService";
+import { getCategoriesWithTodo } from "./services/categoryService";
 import { AddTodoRequest } from "./services/todoService";
 
 import SelectBox from "./components/SelectBox";
@@ -29,13 +29,13 @@ function App() {
   const [selectedCalendarType, setSelectedCalendarType] = React.useState(
     calendarTypeList[0]
   );
-  const [categories, setCategories] = React.useState<Category[]>([]);
+  const [categories, setCategories] = React.useState<CategoryWithTodo[]>([]);
   const [addTodoRequest, setAddTodoRequest] = React.useState<
     Partial<AddTodoRequest>
   >({});
 
   const loadCategories = async () => {
-    const result = await getCategories();
+    const result = await getCategoriesWithTodo();
     if (result.status === HttpStatusCode.Ok) {
       setCategories(result.data);
     }
@@ -75,7 +75,7 @@ function App() {
           {categories.map((category) => (
             <div
               key={category.id}
-              className="self-stretch h-[47px] px-4 py-2.5 flex-col justify-start items-start gap-2.5 flex"
+              className="self-stretch px-4 py-2.5 flex-col justify-start items-start gap-2.5 flex"
             >
               <div className="inline-flex justify-between w-full relative">
                 <div className="justify-start items-center gap-2.5 inline-flex">
@@ -117,12 +117,32 @@ function App() {
                         title: text,
                       });
                     }}
-                    onCancel={() => {
+                    onSuccess={() => {
                       setAddTodoRequest({});
+                      loadCategories();
                     }}
                   />
                 </div>
               </div>
+              {category.todos?.map((todo) => (
+                <div
+                  key={todo.id}
+                  className="flex justify-between bg-inherit hover:brightness-75 rounded-md px-1 transition-all cursor-pointer"
+                  style={{
+                    color: todo.categories?.color,
+                  }}
+                >
+                  <div className="flex items-center gap-1 w-[calc(100%)]">
+                    {todo.categories?.color && (
+                      <div
+                        className="min-w-2 min-h-2 w-2 h-2 rounded-full brightness-125"
+                        style={{ background: todo.categories.color }}
+                      ></div>
+                    )}
+                    <div className="truncate w-[calc(100%)]">{todo.title}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           ))}
         </div>

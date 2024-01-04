@@ -9,20 +9,24 @@ type Props = {
   addTodoRequest: Partial<AddTodoRequest>;
   category: Category;
   onChange: (text: string) => void;
-  onCancel: () => void;
+  onSuccess: () => void;
 };
 
 export default function AddTodo({
   addTodoRequest,
   category,
   onChange,
-  onCancel,
+  onSuccess,
 }: Props) {
   const handleAddTodo = async () => {
-    const result = await addTodo(addTodoRequest as AddTodoRequest);
-    if (result.status === HttpStatusCode.Ok) {
-      onCancel();
-    } else {
+    try {
+      const result = await addTodo(addTodoRequest as AddTodoRequest);
+      if (result.status === HttpStatusCode.Ok) {
+        onSuccess();
+      } else {
+        alert("추가 실패");
+      }
+    } catch (e) {
       alert("추가 실패");
     }
   };
