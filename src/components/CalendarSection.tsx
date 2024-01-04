@@ -57,7 +57,8 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
             <ul className="list-disc pl-5">
               {todayEvents.map((event, index) => (
                 <li key={index} className="mb-1">
-                  {event.name} - {event.date} - {event.time}
+                  {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
+                  {event.time}
                 </li>
               ))}
             </ul>
@@ -65,7 +66,8 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
             <ul className="list-disc pl-5">
               {events.map((event, index) => (
                 <li key={index} className="mb-1">
-                  {event.name} - {event.date} - {event.time}
+                  {event.name} - {new Date(event.date).toLocaleDateString()} -{" "}
+                  {event.time}
                 </li>
               ))}
             </ul>

@@ -16,6 +16,13 @@ const DayView: React.FC = () => {
   };
 
   const hours: number[] = Array.from({ length: 24 }, (_, i) => i);
+  const minutesPerHour: number = 60;
+  const totalSlots: number = hours.length * minutesPerHour;
+
+  const currentTime: Date = new Date();
+  const currentHour: number = currentTime.getHours();
+  const currentMinute: number = currentTime.getMinutes();
+  const currentSlot: number = currentHour * minutesPerHour + currentMinute;
 
   return (
     <div>
@@ -34,7 +41,25 @@ const DayView: React.FC = () => {
           ))}
         </div>
         <div>
-          <div className="w-[1640px] min-h-[1940px] grid grid-cols-1 border-dashed border-2 border-state-600"></div>
+          <div className="relative">
+            <div className="w-[1640px] min-h-[1940px] grid grid-cols-1 border-dashed border-2 border-state-600">
+              {hours.map((hour) => (
+                <div
+                  key={hour}
+                  className="h-[80px] border-dashed border-b border-state-600 last:border-b-0 relative"
+                >
+                  {hour === currentHour && (
+                    <div
+                      className="h-[1px] w-full bg-red-500 absolute top-0 left-[1px]"
+                      style={{
+                        top: `${(currentMinute / 60) * 80}px`,
+                      }}
+                    ></div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

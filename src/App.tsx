@@ -45,6 +45,7 @@ function App() {
       date: string;
       name: string;
       time: string;
+      endTime: string;
     }[]
   >([]);
 
@@ -95,6 +96,7 @@ function App() {
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
   const [eventTime, setEventTime] = useState("");
+  const [eventEndTime, setEventEndTime] = useState("");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -120,6 +122,7 @@ function App() {
       date: newDate.toISOString(),
       name: eventName,
       time: eventTime,
+      endTime: eventEndTime,
     };
 
     setEvents([...events, newEvent]);
@@ -169,7 +172,7 @@ function App() {
                 : currentView === View.Week
                 ? `${getMonthString(selectedMonth)} ${selectedYear}`
                 : currentView === View.Day
-                ? `${getMonthString(selectedMonth)} ${selectedYear}`
+                ? `${getTodayDayOfWeek()} `
                 : ""}
             </div>
 
@@ -223,6 +226,12 @@ function App() {
                         placeholder="Time"
                         value={eventTime}
                         onChange={(e) => setEventTime(e.target.value)}
+                      />
+                      <input
+                        type="time"
+                        placeholder="End Time"
+                        value={eventEndTime}
+                        onChange={(e) => setEventEndTime(e.target.value)}
                       />
                       <button type="submit" className="save-button">
                         Save
