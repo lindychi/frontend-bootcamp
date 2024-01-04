@@ -37,3 +37,5 @@ export type Todo = {
   categories: Category;
   progress: TodoProgress;
 };
+
+export type CalendarType = "year" | "month" | "week" | "day";
