@@ -22,3 +22,10 @@ export type ConflictTodoItem = TodoItem & {
   conflictLength: number;
   conflictIndex: number;
 };
+
+export type Todo = {
+  id: number;
+  title: string;
+  createdAt: string;
+  categories: Category;
+};
