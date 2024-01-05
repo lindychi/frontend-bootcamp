@@ -4,10 +4,9 @@ import { HttpStatusCode } from "axios";
 import "./App.css";
 import { useRoutes } from "react-router-dom";
 import { routes } from "./routes";
+import { useQuery } from "react-query";
 
-import { calendarTypeList } from "./consts/calendar";
-
-import { Category, CategoryWithTodo } from "./types/common";
+import { Category } from "./types/common";
 
 import { getMonthString } from "./libs/calendar";
 
@@ -21,10 +20,6 @@ import ExecutableTodoItem from "./components/ExecutableTodoItem";
 function App() {
   const router = useRoutes(routes);
   const [selectedDate, setSelectedDate] = React.useState(new Date());
-  const [selectedCalendarType, setSelectedCalendarType] = React.useState(
-    calendarTypeList[0]
-  );
-  const [categories, setCategories] = React.useState<CategoryWithTodo[]>([]);
   const [addTodoRequest, setAddTodoRequest] = React.useState<
     Partial<AddTodoRequest>
   >({});
@@ -32,9 +27,11 @@ function App() {
   const loadCategories = async () => {
     const result = await getCategoriesWithTodo();
     if (result.status === HttpStatusCode.Ok) {
-      setCategories(result.data);
+      return result.data;
     }
   };
+
+  const { data: categories } = useQuery(["categories"], loadCategories);
 
   const handleShowAddTodo = (category: Category) => {
     if (addTodoRequest.category === category.id) {
@@ -67,7 +64,7 @@ function App() {
             month={selectedDate.getMonth()}
           />
 
-          {categories.map((category) => (
+          {categories?.map((category) => (
             <div
               key={category.id}
               className="self-stretch px-4 py-2.5 flex-col justify-start items-start gap-2.5 flex"

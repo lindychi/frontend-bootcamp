@@ -1,15 +1,27 @@
 import React from "react";
+import { useMutation, useQueryClient } from "react-query";
+import clsx from "clsx";
 
 import { Todo } from "../../types/common";
 
-import { FaPlayCircle } from "react-icons/fa";
-import clsx from "clsx";
 import { startTodo } from "../../services/todoService";
+
+import { FaPlayCircle } from "react-icons/fa";
 
 type Props = { todo: Todo; onSuccess?: () => void };
 
 export default function ExecutableTodoItem({ todo, onSuccess }: Props) {
   const [isHover, setIsHover] = React.useState(false);
+
+  const queryClient = useQueryClient();
+  const { mutate: startTodoMutate } = useMutation(startTodo, {
+    onSuccess: () => {
+      // startTodo 성공 후 쿼리 재실행
+      onSuccess?.();
+      queryClient.invalidateQueries(["day"]);
+      queryClient.invalidateQueries(["categories"]);
+    },
+  });
 
   return (
     <div
@@ -40,12 +52,11 @@ export default function ExecutableTodoItem({ todo, onSuccess }: Props) {
           <div
             onClick={() => {
               try {
-                startTodo({
+                startTodoMutate({
                   todoId: todo.id,
                   categoryId: todo.categoryId,
                   title: todo.title,
                 });
-                onSuccess?.();
               } catch (e) {
                 console.log(e);
               }

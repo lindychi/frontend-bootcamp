@@ -1,5 +1,5 @@
 import React from "react";
-import { HttpStatusCode } from "axios";
+import { useMutation, useQueryClient } from "react-query";
 
 import { Category } from "../../types/common";
 
@@ -18,18 +18,21 @@ export default function AddTodo({
   onChange,
   onSuccess,
 }: Props) {
-  const handleAddTodo = async () => {
-    try {
-      const result = await addTodo(addTodoRequest as AddTodoRequest);
-      if (result.status === HttpStatusCode.Ok) {
-        onSuccess();
-      } else {
-        alert("추가 실패");
-      }
-    } catch (e) {
+  const queryClient = useQueryClient();
+  const {
+    data,
+    isLoading,
+    mutate: mutateAddTodo,
+  } = useMutation(addTodo, {
+    onSuccess: () => {
+      // addTodo 성공 후 쿼리 재실행
+      onSuccess();
+      queryClient.invalidateQueries(["categories"]);
+    },
+    onError: () => {
       alert("추가 실패");
-    }
-  };
+    },
+  });
 
   return (
     <div className="flex p-4 w-[320px] gap-2 items-center">
@@ -48,7 +51,9 @@ export default function AddTodo({
       <button
         className="text-white hover:brightness-75 px-2 py-1"
         style={{ backgroundColor: category.color }}
-        onClick={handleAddTodo}
+        onClick={() => {
+          mutateAddTodo(addTodoRequest as AddTodoRequest);
+        }}
       >
         추가
       </button>

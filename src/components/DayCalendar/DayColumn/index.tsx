@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { HttpStatusCode } from "axios";
-
-import { getDayTodoList } from "../../../consts/sampleData";
+import { useQuery } from "react-query";
 
 import { getConflictTodoList } from "../../../libs/calendar";
-
-import { ConflictEventItem } from "../../../types/common";
 
 import { getDayEvents } from "../../../services/eventService";
 
@@ -16,26 +13,25 @@ type Props = { year: number; month: number; day: number; index?: number };
 
 export default function DayColumn({ year, month, day, index = 0 }: Props) {
   const [today, setToday] = useState(new Date());
-  const todoList = getConflictTodoList(getDayTodoList(year, month + 1, day));
-  const [dbTodoList, setDbTodoList] = useState<ConflictEventItem[]>(
-    [] as any[]
-  );
 
   const loadTodayEvents = async () => {
     const result = await getDayEvents({ year, month: month + 1, day });
     if (result.status === HttpStatusCode.Ok) {
-      setDbTodoList(
-        getConflictTodoList([
-          ...result.data.map((todo) => ({
-            ...todo,
-            startedAt: new Date(todo.startedAt),
-            endedAt: todo.endedAt ? new Date(todo.endedAt) : undefined,
-          })),
-          ...todoList,
-        ])
-      );
+      return getConflictTodoList([
+        ...result.data.map((todo) => ({
+          ...todo,
+          startedAt: new Date(todo.startedAt),
+          endedAt: todo.endedAt ? new Date(todo.endedAt) : undefined,
+        })),
+      ]);
     }
   };
+
+  const {
+    data: eventDataList,
+    error,
+    isLoading,
+  } = useQuery(["day", year, month, day], loadTodayEvents);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -61,7 +57,7 @@ export default function DayColumn({ year, month, day, index = 0 }: Props) {
           ])}
         ></div>
       ))}
-      {dbTodoList.map((todo) => {
+      {eventDataList?.map((todo) => {
         return (
           <EventColumn
             key={todo.id}

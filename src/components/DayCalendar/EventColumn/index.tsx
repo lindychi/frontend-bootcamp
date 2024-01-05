@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import { useMutation, useQueryClient } from "react-query";
 
 import { ConflictEventItem } from "../../../types/common";
 
@@ -19,6 +20,30 @@ type Props = {
 
 export default function EventColumn({ event, year, month, day }: Props) {
   const [isHover, setIsHover] = React.useState(false);
+
+  const queryClient = useQueryClient();
+  const {
+    data,
+    isLoading,
+    mutate: stopEventMutate,
+  } = useMutation(stopEvent, {
+    onSuccess: () => {
+      // stopEvent 성공 후 쿼리 재실행
+      queryClient.invalidateQueries(["day", year, month, day]);
+    },
+  });
+
+  const {
+    data: completeEventData,
+    isLoading: completeEventIsLoading,
+    mutate: completeEventMutate,
+  } = useMutation(completeEvent, {
+    onSuccess: () => {
+      // completeEvent 성공 후 쿼리 재실행
+      queryClient.invalidateQueries(["day", year, month, day]);
+      queryClient.invalidateQueries(["categories"]);
+    },
+  });
 
   return (
     <div
@@ -73,7 +98,7 @@ export default function EventColumn({ event, year, month, day }: Props) {
             className="cursor-pointer"
             onClick={() => {
               try {
-                const result = stopEvent({ eventId: event.id });
+                stopEventMutate({ eventId: event.id });
               } catch (e) {
                 console.log(e);
               }
@@ -87,7 +112,7 @@ export default function EventColumn({ event, year, month, day }: Props) {
             className="cursor-pointer"
             onClick={() => {
               try {
-                const result = completeEvent({ eventId: event.id });
+                completeEventMutate({ eventId: event.id });
               } catch (e) {
                 console.log(e);
               }
