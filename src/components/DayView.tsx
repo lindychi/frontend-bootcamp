@@ -38,25 +38,22 @@ const filterDate = (todos: Todo[], selectedDate: Date | null, selectedHour: numb
   });
 };
 
-const calculateTopPosition = (startTime: string): string => {
-  const [startHour, startMinute] = startTime.split(":").map(Number);
-  const totalMinutes = startHour * 60 + startMinute;
-  return `${totalMinutes / 60 * 80}px`;
-};
 
-const calculateHeight = (startTime: string, endTime: string): string => {
+
+const calculateHeight = (startTime: string, endTime: string): number => {
   const [startHour, startMinute] = startTime.split(":").map(Number);
   const [endHour, endMinute] = endTime.split(":").map(Number);
   const totalStartMinutes = startHour * 60 + startMinute;
   const totalEndMinutes = endHour * 60 + endMinute;
   const minutesDiff = totalEndMinutes - totalStartMinutes;
-  
+
   // 1시간 당 픽셀로 계산하여 반환 (예: 30분에 40px)
   const pixelPerHour = 80;
   const heightInPixel = (minutesDiff / 60) * pixelPerHour;
 
-  return `${heightInPixel}px`;
+  return heightInPixel;
 };
+
 
 const DayView: React.FC<Props> = ({
   todoData,
@@ -78,54 +75,42 @@ const DayView: React.FC<Props> = ({
         </div>
       ))}
     </div>
-    <div className="relative"> 
-      <div className='p-3'>
-        {hours.map((hour) => (
-          <div key={hour} className="outer-box w-[1024px] h-[80px]"></div>
-        ))}
-
-
-
-        
-      </div>
-      
-
-      
-     <div className='absolute top-3 left-3'>
+    <div className="relative">
+  <div className="p-3">
     {hours.map((hour) => (
-      <div key={hour} className="flex flex-col w-[1024px] ">
+      <div key={hour} className="outer-box w-[1024px] h-[80px]"></div>
+    ))}
+  </div>
+
+  <div className="">
+    {hours.map((hour) => (
+      <div key={hour} className="flex flex-col w-[1024px]  ">
         {filterDate(todoData, today, hour).map((item: Todo, index: number) => (
           <div
             key={index}
-            className={clsx('event-box','flex flex-row gap-4', {
+            className={clsx('event-box', 'flex flex-row ', {
               'bg-primary text-white': hour === today.getHours(),
             })}
-            style={{
-              top: calculateTopPosition(item.startTime), 
-              height: calculateHeight(item.startTime, item.endTime),
-            }}
+            
           >
-             <div className="bg-green-500">            
-            <div>{item.title}</div>
-            <div>{item.startTime}-{item.endTime}</div>
-          </div>
+            <div className="absolute bg-green-500 gap-2 " 
+            style={{ 
+              top: `${hour * 80+13}px`, 
+              left : '20px' ,
+              height: (calculateHeight(item.startTime, item.endTime) as unknown as number) 
+              }}>
+              <div>{item.title}</div>
+              <div>
+                {item.startTime}-{item.endTime}
+              </div>
+            </div>
           </div>
         ))}
-
-        {filterDate(todoData, today, hour).length === 0 && (
-          <div
-            key={hour}
-            className={clsx('flex flex-row gap-4 ', {
-              'bg-primary text-white': hour === today.getHours(),
-            })}
-          >
-            <div className='w-[1024px] h-[80px] grid items-center'>No Task</div>
-          </div>
-        )}
       </div>
     ))}
   </div>
-    </div>
+</div>
+
    
     </div>
   );
