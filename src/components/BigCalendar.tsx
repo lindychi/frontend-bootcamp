@@ -74,8 +74,11 @@ const BigCalendar: React.FC<Props> = ({
               {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
 
               {filterDate(todoData, date).map((item, index) => (
-                <div key={index} className="flex flex-row gap-4">
-                  <div>{item.title}</div>
+                <div key={index} className="flex flex-row justify-between">
+                  <div className='flex flex-row items-center gap-2'>
+                    <div className='flex  w-2 h-2 rounded-lg bg-yellow-500'></div>
+                    <div>{item.title}</div>
+                  </div>
                   <div>{item.startTime}</div>
                 </div>
               ))}

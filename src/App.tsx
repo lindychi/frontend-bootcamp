@@ -66,12 +66,14 @@ tomorrow.setDate(today.getDate() + 1);
         today={new Date()}
       />
     </div>
+    <div className='flex flex-col gap-3'>
     <ToDoAdd setTodoData={setTodoData} /> 
     <div className='bg-yellow-100 h-40'>
     <DaySelector title="TODAY" todoData={todoData} selectedDate={today} />
     </div>
     <div className='bg-green-100 h-40'>
     <DaySelector title="TOMORROW" todoData={todoData} selectedDate={tomorrow} />
+    </div>
     </div>
   </div>
   <div className="w-[1214px] outer-box ">
