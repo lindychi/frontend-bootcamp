@@ -2,22 +2,45 @@ import React from 'react'
 
 type Props = {}
 
-export default function 
-({}: Props) {
-
+export default function DayCal({}: Props) {
   return (
     <div>
-      {/* 일력 */}
-      {Array.from({ length: 24 }, (_, index) => (
-          <div key={index} className="dayCal-Container flex">
-            <div className="timeBox flex-col w-[80px] text-s px-5 border-r bg-red-200 text-xs">
-              0000
-            </div>
-            <div className="weekBox w-full min-h-[80px] p-5 border-b text-start">
-              Lorem ipsum dolor sit met consectetur
-            </div>
-          </div>
-        ))}    
-    </div>
-  )
+    {Array(24).fill(0).map((_, index) => (
+      <div key={index}>
+        <div className="dayCal-Container  relative flex w-full">
+          <div className="timeBox w-[80px] border-r border-dashed "></div>
+          <div className="time absolute top-[70px] text-xs px-6"> {index === 23 ? '' : ('00' + ((index + 1) % 24)).slice(-2) + ':00'}</div>
+          <div className="weekBox w-full min-h-[80px] p-5 border-b border-dashed text-start"></div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
 }
+
+
+
+//     <div>
+//       <div className="dayCal-Container relative flex w-full">
+//         <div className="timeBox  w-[80px] border-r bg-red-300">
+//         </div>
+//         <div className="time absolute top-[70px] text-xs px-6">0000</div>
+        
+//         <div className="weekBox w-full min-h-[80px] p-5 border-b text-start bg-red-500"></div>
+//         </div>
+//     </div>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
