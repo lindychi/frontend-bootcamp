@@ -9,8 +9,8 @@ import SevenDays from './SevenDays';
 type Props = {}
 
 export default function MonthCal({}: Props) {
-const [selectedMonth, setSelectedMonth] = React.useState(12);
-const [selectedYear, setSelectedYear] = React.useState(2023);
+const [selectedMonth, setSelectedMonth] = React.useState(1);
+const [selectedYear, setSelectedYear] = React.useState(2024);
 const targetCalendarDates: Date[] = getCalendarDates(
   selectedYear,
   selectedMonth
@@ -26,7 +26,7 @@ return (
           key={date.getDate()} // 각 날짜에 대한 고유한 key
           className={clsx(
             "inner-date",
-            "p-[4px]",
+            "p-2.5",
             "font-medium",
             "text-xs",
             "border",
@@ -35,7 +35,8 @@ return (
             {
               "text-gray-800": date.getMonth() === selectedMonth - 1,
               "text-gray-400": date.getMonth() !== selectedMonth - 1,
-              // "bg-blue-500 text-white rounded-2xl": date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth(),
+              "bg-blue-500": date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth(),
+
             }
           )}
         >

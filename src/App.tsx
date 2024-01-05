@@ -59,7 +59,7 @@ function App() {
             <div className="Month-title flex gap-[4px] items-center">
               {/* 월 */}
               <div className="text-3xl text-center font-semibold">
-                {getMonthString(12)}
+                {getMonthString(1)}
               </div>
               {/* 년도 */}
               <div className="year text-3xl  text-center">{selectedYear}</div>
@@ -69,7 +69,7 @@ function App() {
             <div className="custom-select">
               <select
                 name="calendarType"
-                onChange={handleChange}   //이 부분 추가 
+                onChange={handleChange} //이 부분 추가
                 className="h-[36px] border solid border-primary text-primary rounded px-3 items-center text-sm"
               >
                 <option value="month">Month</option>
