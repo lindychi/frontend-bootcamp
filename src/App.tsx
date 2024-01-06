@@ -52,7 +52,13 @@ tomorrow.setDate(today.getDate() + 1);
     setSelectedView(selectedViewValue);
   };
 
-  
+  const startOfWeek = new Date(today);
+  const hours = Array.from({ length: 24 }, (_, index) => index);
+  const weekDates = Array.from({ length: 7 }, (_, index) => {
+    const date = new Date(startOfWeek);
+    date.setDate(startOfWeek.getDate() + index);
+    return date;
+  });
 
   return (
 <div className="flex flex-row outer-box">
@@ -130,8 +136,13 @@ tomorrow.setDate(today.getDate() + 1);
             dates={targetCalendarDates}
           />
         )}
+         <div className='grid grid-cols-7'>
+         
+    </div>
 
         {selectedView === 'day' && (
+          <div className='flex flex-row'>
+            
           <DayView
             todoData={todoData}
             selectedMonth={selectedMonth}
@@ -140,6 +151,7 @@ tomorrow.setDate(today.getDate() + 1);
             selectedDate={selectedDate}
             dates={targetCalendarDates}
           />
+          </div>
         )}
 
 {selectedView === 'year' && (

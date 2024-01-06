@@ -47,12 +47,13 @@ const calculateHeight = (startTime: string, endTime: string): number => {
   const totalEndMinutes = endHour * 60 + endMinute;
   const minutesDiff = totalEndMinutes - totalStartMinutes;
 
-  // 1시간 당 픽셀로 계산하여 반환 (예: 30분에 40px)
+
   const pixelPerHour = 80;
   const heightInPixel = (minutesDiff / 60) * pixelPerHour;
 
   return heightInPixel;
 };
+
 
 
 const DayView: React.FC<Props> = ({
@@ -66,25 +67,26 @@ const DayView: React.FC<Props> = ({
   const hours = Array.from({ length: 24 }, (_, index) => index);
 
   return (
-    <div className='outer-box flex flex-row'>
-
-    <div>
+    <div className='outer-box flex flex-row '>
+      <div>
       {hours.map((hour) => (
         <div key={hour} className="flex flex-col h-[80px]">
           {hour > 9 ? hour : `0${hour}`}:00
         </div>
       ))}
     </div>
+
+    
     <div className="relative">
   <div className="p-3">
     {hours.map((hour) => (
-      <div key={hour} className="outer-box w-[1024px] h-[80px]"></div>
+      <div key={hour} className="outer-box h-[80px]"></div>
     ))}
   </div>
 
   <div className="">
     {hours.map((hour) => (
-      <div key={hour} className="flex flex-col w-[1024px]  ">
+      <div key={hour} className="flex flex-col w-[calc(100vw-330px)]  ">
         {filterDate(todoData, today, hour).map((item: Todo, index: number) => (
           <div
             key={index}
@@ -93,7 +95,7 @@ const DayView: React.FC<Props> = ({
             })}
             
           >
-            <div className="absolute bg-green-500 gap-2 " 
+            <div className="absolute bg-green-500  " 
             style={{ 
               top: `${hour * 80+13}px`, 
               left : '20px' ,
