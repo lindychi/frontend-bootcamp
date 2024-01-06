@@ -34,7 +34,7 @@ const WeekView: React.FC<WeekViewProps> = ({
 
   return (
     <div className="min-w-screen">
-      <div className="min-w-screen grid grid-cols-7 gap-1 border border-state-300 pl-20">
+      <div className="min-w-screen w-full grid grid-cols-7 gap-1 border border-state-300 pl-20">
         {dayList.map((day, index) => {
           const date = targetCalendarDates && targetCalendarDates[index];
           return (
@@ -48,19 +48,21 @@ const WeekView: React.FC<WeekViewProps> = ({
       <div className="flex flex-row">
         <div className="w-[80px] h-[1920px] flex flex-col">
           {hours.map((hour) => (
-            <div key={hour} className="h-[60px] text-xl text-right">
-              {hour === 0
-                ? null
-                : hour < 12
-                ? `오전 ${hour}시`
-                : hour === 12
-                ? "오후 12시"
-                : `오후 ${hour - 12}시`}
+            <div key={hour} className="h-[60px] text-xl text-right relative">
+              <div className="absolute -top-3 right-1">
+                {hour === 0
+                  ? null
+                  : hour < 12
+                  ? `오전 ${hour}시`
+                  : hour === 12
+                  ? "오후 12시"
+                  : `오후 ${hour - 12}시`}
+              </div>
             </div>
           ))}
         </div>
         <div className="relative">
-          <div className="w-[1640px] min-h-[1440px] grid grid-cols-7 border-dashed border-2 border-state-300">
+          <div className="w-[calc(100vw-420px)] min-h-[1440px] grid grid-cols-7 border-dashed border-2 border-state-300">
             {thisWeekDates.map((date: Date, index: number) => (
               <div
                 key={index}
