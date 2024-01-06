@@ -17,12 +17,10 @@ const DayView: React.FC = () => {
 
   const hours: number[] = Array.from({ length: 24 }, (_, i) => i);
   const minutesPerHour: number = 60;
-  const totalSlots: number = hours.length * minutesPerHour;
 
   const currentTime: Date = new Date();
   const currentHour: number = currentTime.getHours();
   const currentMinute: number = currentTime.getMinutes();
-  const currentSlot: number = currentHour * minutesPerHour + currentMinute;
 
   return (
     <div>

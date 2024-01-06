@@ -45,7 +45,7 @@ const WeekView: React.FC<WeekViewProps> = ({
           );
         })}
       </div>
-      <div className="flex flex-row">
+      <div className="min-w-screen flex flex-row">
         <div className="w-[80px] h-[1920px] flex flex-col">
           {hours.map((hour) => (
             <div key={hour} className="h-[60px] text-xl text-right relative">
@@ -128,7 +128,7 @@ const WeekView: React.FC<WeekViewProps> = ({
 
                         const eventDuration =
                           (eventEnd.getTime() - eventStart.getTime()) /
-                          (60 * 1000); // in minutes
+                          (60 * 1000);
 
                         const slotStartTimeInMinutes =
                           slotStartTime.getHours() * 60 +
