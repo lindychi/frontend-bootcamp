@@ -20,7 +20,6 @@ export default function CalendarS({ selectedMonth, selectedYear }: Props) {
     selectedMonth
   );
 
-
   return (
     <div className="calendar_s-container">
       {/* 미니 캘린더-월 */}
@@ -55,8 +54,10 @@ export default function CalendarS({ selectedMonth, selectedYear }: Props) {
                 {
                   "text-gray-800": date.getMonth() === selectedMonth - 1,
                   "text-gray-400": date.getMonth() !== selectedMonth - 1,
-                  "text-white bg-blue-500 rounded-2xl": date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth(),
-                  // "bg-blue-500 text-white rounded-2xl": date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth(),  
+                  "text-white bg-blue-500 rounded-2xl w-6 h-6 flex items-center justify-center":
+                    date.getDate() === new Date().getDate() &&
+                    date.getMonth() === new Date().getMonth(),
+                  // "bg-blue-500 text-white rounded-2xl": date.getDate() === new Date().getDate() && date.getMonth() === new Date().getMonth(),
                 }
               )}
             >
