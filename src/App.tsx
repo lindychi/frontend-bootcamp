@@ -76,9 +76,6 @@ function App() {
                 <option value="day">day</option>
               </select>
             </div>
-            {/* <div className="flex gap-[4px] w-[75px] h-[35px] border solid border-primary text-primary rounded p-[8px] items-center text-sm">
-        Month <Arrow /> 
-      </div>*/}
           </div>
 
           {/* Add event */}
@@ -99,66 +96,6 @@ function App() {
           {selectedOption === "week" && <WeekCal />}
           {selectedOption === "day" && <DayCal />}
         </div>
-
-        {/* 일력 */}
-        {/* {Array.from({ length: 24 }, (_, index) => (
-          <div key={index} className="dayCal-Container flex">
-            <div className="timeBox flex-col w-[80px] text-s px-5 border-r bg-red-200 text-xs">
-              0000
-            </div>
-            <div className="weekBox w-full min-h-[80px] p-5 border-b text-start">
-              Lorem ipsum dolor sit met consectetur
-            </div>
-          </div>
-        ))} */}
-
-        {/* 연력 */}
-        {/* <div className=" px-10 py-">
-          <div className="calendar_s flex flex-wrap justify-around w-100%">
-            {monthsArray.map((month) => (
-              <div key={month}>
-                <CalendarS
-                  selectedMonth={month}
-                  selectedYear={selectedYear}
-                  dayList={dayList}
-                />
-              </div>
-            ))}
-          </div>
-        </div> */}
-
-        {/* <div>
-          <CalendarS selectedMonth={selectedMonth} selectedYear=
-        {selectedYear} dayList={dayList} />
-        </div> */}
-
-        {/* 빅달력_요일 */}
-        {/* <div className="flex w-100% border-y solid rgba(157, 158, 159, 0.60) bg-red-400">
-          <div className="time w-[64px] bg-yellow-300"></div>
-          <div className="weekM w-full">
-            <SevenDays dayList={dayList} />
-          </div>
-        </div>
-        <div>
-          {Array(16)
-            .fill(null)
-            .map((_, index) => (
-              <WeekCalendar key={index} />
-            ))}
-        </div> */}
-
-        {/* 
-        <div className="mediumDay flex items-center justify-between w-100% h-[24px] border solid rgba(157, 158, 159, 0.60)">
-          {dayList.map(({ medium }, index) => (
-            <div
-              key={index}
-              className="day px-[10px] mx-auto text-center text-s"
-            >
-              {medium}
-            </div>
-          ))}
-        </div> */}
-        {/* 빅달력_날짜    */}
       </div>
     </div>
   );
