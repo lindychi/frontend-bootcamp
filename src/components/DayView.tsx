@@ -1,7 +1,10 @@
 // DayView.tsx
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { getDayEvents } from '../services/eventService';
+import { EventItem } from '../types/common';
+import { time } from 'console';
 
 
 type Todo = {
@@ -40,21 +43,26 @@ const filterDate = (todos: Todo[], selectedDate: Date | null, selectedHour: numb
 
 
 
-const calculateHeight = (startTime: string, endTime: string): number => {
-  const [startHour, startMinute] = startTime.split(":").map(Number);
-  const [endHour, endMinute] = endTime.split(":").map(Number);
-  const totalStartMinutes = startHour * 60 + startMinute;
-  const totalEndMinutes = endHour * 60 + endMinute;
-  const minutesDiff = totalEndMinutes - totalStartMinutes;
+const calculateHeight = (startedAt: string, endedAt: string): string => {
+  const startDateTime = new Date(startedAt);
+  const endDateTime = new Date(endedAt);
 
+  const startMinutes = startDateTime.getHours() * 60 + startDateTime.getMinutes();
+  const endMinutes = endDateTime.getHours() * 60 + endDateTime.getMinutes();
 
-  const pixelPerHour = 80;
-  const heightInPixel = (minutesDiff / 60) * pixelPerHour;
+  const minutesDiff = endMinutes - startMinutes;
 
-  return heightInPixel;
+  
+  const heightInPixel = minutesDiff/60 * 80;
+
+  return `${heightInPixel}px`;
 };
 
-
+const extractTotalMinutes = (dateTimeString: string | Date): number => {
+  const dateObject = typeof dateTimeString === 'string' ? new Date(dateTimeString) : dateTimeString;
+  const totalMinutes = dateObject.getHours() * 60 + dateObject.getMinutes();
+  return totalMinutes;
+};
 
 const DayView: React.FC<Props> = ({
   todoData,
@@ -65,6 +73,18 @@ const DayView: React.FC<Props> = ({
   dates,
 }) => {
   const hours = Array.from({ length: 24 }, (_, index) => index);
+  
+  const [events, setEvents] =useState<EventItem[]>([]);
+
+  const loadEvents = async () => {
+    const result =  await getDayEvents({year:2024,month:1,day:5});
+    setEvents(result.data);
+    console.log(result.data)
+  };
+
+  useEffect(()=>{
+    loadEvents();
+  },[])
 
   return (
     <div className='outer-box flex flex-row '>
@@ -78,10 +98,20 @@ const DayView: React.FC<Props> = ({
 
     
     <div className="relative">
-  <div className="p-3">
+  <div className="p-3 ">
     {hours.map((hour) => (
       <div key={hour} className="outer-box h-[80px]"></div>
     ))}
+  </div>
+  <div>
+    {events.map((event:EventItem)=>
+    <div className='absolute' style={{ 
+      top: `${extractTotalMinutes(event.startedAt)/60*80}px`,
+      left : '20px' ,
+      height: event.endedAt ? calculateHeight(event.startedAt.toString(), event.endedAt.toString()) : '0',
+      backgroundColor: event.categories?.color ?? "#fff"
+      }}>{event.title}</div>
+    )}
   </div>
 
   <div className="">
