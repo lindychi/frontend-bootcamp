@@ -9,13 +9,13 @@ import Arrow from "./icons/Arrow";
 import Hamburger from "./icons/Hamburger";
 import Search from "./icons/Search";
 import Plus from "./icons/Plus";
-import SevenDays from "./components/SevenDays";
+import SevenDays from "./Components/SevenDays";
 
-import WeekCal from "./components/WeekCal";
-import CalendarS from "./components/CalendarS";
-import MonthCal from "./components/MonthCal";
-import YearCal from "./components/YearCal";
-import DayCal from "./components/DayCal";
+import WeekCal from "./Components/WeekCal";
+import CalendarS from "./Components/CalendarS";
+import MonthCal from "./Components/MonthCal";
+import YearCal from "./Components/YearCal";
+import DayCal from "./Components/DayCal";
 
 function App() {
   const [selectedMonth, setSelectedMonth] = React.useState(1);

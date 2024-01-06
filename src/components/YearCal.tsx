@@ -1,5 +1,5 @@
 import React from 'react'
-import CalendarS from "../components/CalendarS";
+import CalendarS from "../Components/CalendarS";
 
 import { dayList } from "../consts/calendar";
 import { getCalendarDates, getMonthString } from "../libs/calendar";
