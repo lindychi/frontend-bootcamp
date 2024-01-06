@@ -46,7 +46,7 @@ const WeekView: React.FC<WeekViewProps> = ({
         })}
       </div>
       <div className="min-w-screen flex flex-row">
-        <div className="w-[80px] h-[1920px] flex flex-col">
+        <div className="w-[90px] h-[1920px] flex flex-col">
           {hours.map((hour) => (
             <div key={hour} className="h-[60px] text-xl text-right relative">
               <div className="absolute -top-3 right-1">
