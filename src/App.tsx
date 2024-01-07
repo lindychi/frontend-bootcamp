@@ -54,6 +54,7 @@ function App() {
       date: string;
       name: string;
       time: string;
+      endTime: string;
     }[]
   >([]);
 
@@ -112,17 +113,30 @@ function App() {
     e.preventDefault();
 
     const [hours, minutes] = eventTime.split(":").map(Number);
+    const [endHours, endMinutes] = eventEndTime.split(":").map(Number);
 
     const newDate = new Date(eventDate);
+    const startDate = new Date(
+      newDate.getFullYear(),
+      newDate.getMonth(),
+      newDate.getDate(),
+      hours,
+      minutes
+    );
 
-    newDate.setHours(hours);
-    newDate.setMinutes(minutes);
+    let endDate = new Date(
+      newDate.getFullYear(),
+      newDate.getMonth(),
+      newDate.getDate(),
+      endHours,
+      endMinutes
+    );
 
     const newEvent = {
-      date: newDate.toISOString(),
+      date: startDate.toISOString(),
       name: eventName,
       time: eventTime,
-      endTime: eventEndTime,
+      endTime: endDate.toISOString(),
     };
 
     setEvents([...events, newEvent]);
@@ -246,7 +260,6 @@ function App() {
 
         {currentView === View.Month ? (
           <BigCalendar
-            dayList={dayList}
             targetCalendarDates={targetCalendarDates}
             getSecondDateClass={getSecondDateClass}
             events={events}

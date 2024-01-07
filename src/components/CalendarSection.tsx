@@ -15,9 +15,6 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
   events,
 }) => {
   const today = new Date();
-  const todayString = `${today.getFullYear()}-${
-    today.getMonth() + 1
-  }-${today.getDate()}`;
 
   const todayEvents = events.filter((event) => {
     const eventDate = new Date(event.date);
