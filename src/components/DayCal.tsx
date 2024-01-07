@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getDayEvents } from "../services/eventService";
 import { EventItem } from "../types/common";
-import { start } from "repl";
+
 
 type Props = {};
 
@@ -16,15 +16,51 @@ export default function DayCal({}: Props) {
   useEffect(() => {
     loadEvents();
   }, []);
+// 함수를 통해 top 위치 계산
+  const calculateTopPosition = (startedAt: Date) => {
+  const startedTime = new Date(startedAt);
+  const hours = startedTime.getHours();
+  const minutes = startedTime.getMinutes();
+  return hours * 60 + minutes; // 77ㅔㅌ은 상단 여백
+};
+
+const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
+  if (!endedAt) {
+    return 0; // 종료 시간이 없으면 높이 0
+  }
+  const startedTime = new Date(startedAt);
+  const endedTime = new Date(endedAt);
+  const duration = endedTime.getTime() - startedTime.getTime();
+  const minutes = duration / (1000 * 60);
+  return minutes; // 분 단위로 높이 계산
+};
+
 
   return (
-    <div className="relative">
-      <div>
-        {events.map((event) => (
-          <div className="absolute" style={{ top: "5px" }}>
-            {event.title}
-          </div>
-        ))}
+    <div>
+      <div className="todo relative">
+        <div>
+          {events.map((event) => (
+            <div 
+              key={event.id}
+              className="absolute truncate w-[80px]" 
+              style={{ 
+                top: calculateTopPosition(event.startedAt),
+                left: "64px",
+                fontSize:'15px',
+                backgroundColor: event.categories?.color || "initial",
+                borderRadius:"5px",
+                height: `${calculateEventHeight(event.startedAt, event.endedAt)}px`,
+                zIndex: "1",  // z-index 설정-다른요소들보다 위에
+                width:"200px",
+                
+                
+              }}
+            >
+              {event.title}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div>
@@ -45,6 +81,10 @@ export default function DayCal({}: Props) {
             </div>
           ))}
       </div>
+
+
+      
+      
     </div>
   );
 }
@@ -63,6 +103,6 @@ export default function DayCal({}: Props) {
 // }
 
 // class name= Absolute
-// slytle = {{  top = start
+// style = {{  top = start
 
-// height = startend}}
+// height = started}}
