@@ -63,7 +63,7 @@ const DayView: React.FC = () => {
                     currentMinute >= 0 &&
                     currentMinute < 60 && (
                       <div
-                        className="h-[1px] w-full bg-red-500 left-[1px] absolute"
+                        className="h-[1px] w-full bg-red-500 left-[1px] absolute z-10"
                         style={{
                           top: `${((hour * 60 + currentMinute) / 60) * 60}px`,
                         }}
@@ -90,7 +90,7 @@ const DayView: React.FC = () => {
                   return (
                     <div
                       key={event.id}
-                      className="absolute bg-blue-300 text-white p-2 rounded"
+                      className=" bg-blue-300 text-white p-2 rounded absolute z-0"
                       style={{
                         top: `${eventTop}px`,
                         height: `${eventHeight}px`,
