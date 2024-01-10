@@ -53,12 +53,16 @@ tomorrow.setDate(today.getDate() + 1);
   };
 
   const startOfWeek = new Date(today);
-  const hours = Array.from({ length: 24 }, (_, index) => index);
-  const weekDates = Array.from({ length: 7 }, (_, index) => {
-    const date = new Date(startOfWeek);
-    date.setDate(startOfWeek.getDate() + index);
-    return date;
-  });
+const dayOfWeek = today.getDay();
+const diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+startOfWeek.setDate(diff);
+
+const hours = Array.from({ length: 24 }, (_, index) => index);
+const weekDates = Array.from({ length: 7 }, (_, index) => {
+  const date = new Date(startOfWeek);
+  date.setDate(startOfWeek.getDate() + index);
+  return date;
+});
 
   return (
 <div className="flex flex-row outer-box">
@@ -82,7 +86,7 @@ tomorrow.setDate(today.getDate() + 1);
     </div>
     </div>
   </div>
-  <div className="w-[1214px] outer-box ">
+  <div className="w-[1214px] ">
    <div className="flex flex-row place-content-between items-center p-4">
      <div className="flex flex-row items-center gap-4 ">
        <Hamburger />
@@ -127,29 +131,39 @@ tomorrow.setDate(today.getDate() + 1);
         )}
 
         {selectedView === 'week' && (
-          <WeekView
-            todoData={todoData}
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
-            today={today}
-            selectedDate={selectedDate}
-            dates={targetCalendarDates}
-          />
+         <div className='flex flex-row'>
+          
+            <div className='py-5'>
+              {hours.map((hour) => (
+              <div key={hour} className="flex flex-col py-1 h-[60px]">
+            {hour > 9 ? hour : `0${hour}`}:00
+            </div>
+             ))}
+           </div>
+         <div className='flex flex-row'>
+            
+            {weekDates.map((day,index) => (
+            <div>
+              <div className='flex justify-center font-bold '>{(day.getDate() > 9 ? day.getDate() : `0${day.getDate()}`)}일</div>
+          <DayView key={index} selectedDate={day}/></div>))}</div>
+
+          </div>
         )}
-         <div className='grid grid-cols-7'>
+        
          
-    </div>
 
         {selectedView === 'day' && (
-          <div className='flex flex-row'>
-            
+          <div className='flex flex-row outer-box '>
+            <div className=''>
+              {hours.map((hour) => (
+              <div key={hour} className="flex flex-col py-1 h-[60px]">
+            {hour > 9 ? hour : `0${hour}`}:00
+            </div>
+             ))}
+           </div>
+
           <DayView
-            todoData={todoData}
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
-            today={today}
-            selectedDate={selectedDate}
-            dates={targetCalendarDates}
+            selectedDate={today}
           />
           </div>
         )}
