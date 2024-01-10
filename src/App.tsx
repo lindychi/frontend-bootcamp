@@ -14,7 +14,6 @@ import SmallCalendar from './components/SmallCalendar';
 import BigCalendar from './components/BigCalendar';
 import ToDoAdd from './components/ToDoAdd';
 import DaySelector from './components/DaySelector';
-import WeekView from './components/WeekView';
 import DayView from './components/DayView';
 import YearView from './components/YearView';
 
@@ -131,21 +130,24 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
         )}
 
         {selectedView === 'week' && (
-         <div className='flex flex-row'>
+         <div className='flex flex-row '>
           
-            <div className='py-5'>
+            <div className='py-2'>
               {hours.map((hour) => (
               <div key={hour} className="flex flex-col py-1 h-[60px]">
             {hour > 9 ? hour : `0${hour}`}:00
             </div>
              ))}
            </div>
-         <div className='flex flex-row'>
+         <div className='grid grid-cols-7 w-[1640px]'>
             
             {weekDates.map((day,index) => (
             <div>
               <div className='flex justify-center font-bold '>{(day.getDate() > 9 ? day.getDate() : `0${day.getDate()}`)}일</div>
-          <DayView key={index} selectedDate={day}/></div>))}</div>
+              <div className=''>
+          <DayView key={index} selectedDate={day}/>
+          </div></div>))}
+          </div>
 
           </div>
         )}
@@ -154,17 +156,18 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
 
         {selectedView === 'day' && (
           <div className='flex flex-row outer-box '>
-            <div className=''>
+            <div>
               {hours.map((hour) => (
               <div key={hour} className="flex flex-col py-1 h-[60px]">
             {hour > 9 ? hour : `0${hour}`}:00
             </div>
              ))}
            </div>
-
+           <div className='w-[1640px]'>
           <DayView
             selectedDate={today}
           />
+          </div>
           </div>
         )}
 

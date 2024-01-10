@@ -61,17 +61,17 @@ const DayView: React.FC<Props> = ({ selectedDate }) => {
 
   return (
   <div className=' flex flex-row '>
-      <div className="relative">
-        <div className="p-3 ">
+      <div className="relative w-full">
+        <div className=" ">
         {hours.map((hour) => (
-        <div key={hour} className="outer-box w-[500px] h-[60px]"></div>
+        <div key={hour} className="outer-box w-full h-[60px]"></div>
         ))}
         </div>
       <div>
     {events.map((event:EventItem)=>
-        <div className='absolute w-[200px] grid items-center justify-center' style={{ 
+        <div className='absolute max-w-full grid items-center justify-center' style={{ 
               top: `${extractTotalMinutes(event.startedAt)}px`,
-              left : '20px' ,
+              left : '5px' ,
               height: event.endedAt ? calculateHeight(event.startedAt.toString(), event.endedAt.toString()) : '0',
               backgroundColor: event.categories?.color ?? "#fff"
               }}>{event.title}</div>
