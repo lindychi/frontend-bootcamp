@@ -5,15 +5,6 @@ import clsx from 'clsx';
 import { getDayEvents } from '../services/eventService';
 import { EventItem } from '../types/common';
 
-
-
-type Todo = {
-  title: string;
-  startTime: string;
-  endTime: string;
-  date: Date;
-};
-
 type Props = {
   selectedDate: Date | null;
 };
@@ -77,6 +68,7 @@ const DayView: React.FC<Props> = ({ selectedDate }) => {
               }}>{event.title}</div>
               )}
         </div>
+        
       </div>
     </div>
   );

@@ -30,6 +30,9 @@ function App() {
   const tomorrow = new Date();
 tomorrow.setDate(today.getDate() + 1);
 
+ 
+
+
   // 선택된 월, 년도에 따른 달력 날짜 계산
   const targetCalendarDates: Date[] = getCalendarDates(selectedYear, selectedMonth);
 
@@ -158,15 +161,26 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
           <div className='flex flex-row outer-box '>
             <div>
               {hours.map((hour) => (
-              <div key={hour} className="flex flex-col py-1 h-[60px]">
+              <div key={hour} className="flex flex-col  h-[60px]">
             {hour > 9 ? hour : `0${hour}`}:00
             </div>
              ))}
            </div>
-           <div className='w-[1640px]'>
+           <div className='w-[1640px] py-2 relative'>
           <DayView
             selectedDate={today}
           />
+          <hr
+  style={{
+    border: 'none',
+    borderTop: '2px solid red', 
+    margin: 0,
+    padding: 0, 
+    width: '100%', 
+    position: 'absolute', 
+    top: `${(today.getHours() * 60) + today.getMinutes()}px`,
+  }}
+/>
           </div>
           </div>
         )}
