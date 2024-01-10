@@ -7,6 +7,6 @@ export type DateNumberRequest = {
   day?: number;
 };
 
-export const getDayEvents = async (params: DateNumberRequest) => {
+export const getEvents = async (params: DateNumberRequest) => {
   return request.get<EventItem[]>("/event", { params });
 };

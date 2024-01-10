@@ -1,54 +1,48 @@
-import React from "react";
-import { dayList } from "../consts/calendar";
+import React, { useState } from "react";
+import { EventItem } from "../types/common";
+import { getEvents } from "../services/eventService";
 
-type WeekViewProps = {
-  dayList: { medium: string }[];
-  targetCalendarDates: Date[] | null;
-  getSecondDateClass: (date: Date) => string;
-  events: { date: string; name: string; time: string; endTime: string }[];
-};
+const WeekView: React.FC = () => {
+  const [events, setEvents] = useState<EventItem[]>([]);
+  const loadEvents = async () => {
+    const result = await getEvents({ year: 2024, month: 1 });
+    setEvents(result.data);
+  };
+  const getTimeSlot = (event: EventItem): string => {
+    // Calculate time slot string for display
+    const startTime = event.startedAt.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const endTime = event.endedAt
+      ? event.endedAt.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      : "";
+    return `${startTime} - ${endTime}`;
+  };
 
-const WeekView: React.FC<WeekViewProps> = ({
-  targetCalendarDates,
-  getSecondDateClass,
-  events,
-}) => {
-  const today = new Date();
-  const startOfWeek = new Date(today);
-  startOfWeek.setDate(today.getDate() - today.getDay());
-
-  const thisWeekDates: Date[] = [];
-  for (let i = 0; i < 7; i++) {
-    const currentDate = new Date(startOfWeek);
-    currentDate.setDate(startOfWeek.getDate() + i);
-    thisWeekDates.push(currentDate);
-  }
-
-  const slotsPerDay = 24;
-  const slotHeightPercentage = 100 / slotsPerDay;
-
-  const startHour = 0;
-  const endHour = 24;
-
-  const hours: number[] = Array.from({ length: 24 }, (_, i) => i);
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
+  const hoursOfDay: number[] = Array.from({ length: 24 }).map(
+    (_, index) => index
+  );
 
   return (
-    <div className="min-w-screen">
-      <div className="min-w-screen w-full grid grid-cols-7 gap-1 border border-state-300 pl-20">
-        {dayList.map((day, index) => {
-          const date = targetCalendarDates && targetCalendarDates[index];
-          return (
-            <div key={day.medium} className="text-center py-2">
-              <div>{date ? date.getDate() : ""}</div>
-              <div>{day.medium}</div>
-            </div>
-          );
-        })}
+    <div>
+      <div className="min-w-screen grid grid-cols-7 gap-1 ml-20">
+        {daysOfWeek.map((day) => (
+          <div key={day} className="text-center py-2 ">
+            {day}
+          </div>
+        ))}
       </div>
-      <div className="min-w-screen flex flex-row">
-        <div className="w-[90px] h-[1920px] flex flex-col">
-          {hours.map((hour) => (
-            <div key={hour} className="h-[60px] text-xl text-right relative">
+
+      <div className="flex">
+        {/* Left: Time slots */}
+        <div className="w-[90px] flex flex-col">
+          {hoursOfDay.map((hour) => (
+            <div key={hour} className="h-[83px] text-xl text-right relative">
               <div className="absolute -top-3 right-1">
                 {hour === 0
                   ? null
@@ -61,106 +55,37 @@ const WeekView: React.FC<WeekViewProps> = ({
             </div>
           ))}
         </div>
-        <div className="relative">
-          <div className="w-[calc(100vw-420px)] min-h-[1440px] grid grid-cols-7 border-dashed border-2 border-state-300">
-            {thisWeekDates.map((date: Date, index: number) => (
-              <div
-                key={index}
-                className="grid"
-                style={{
-                  gridTemplateRows: `repeat(${slotsPerDay}, ${slotHeightPercentage}%)`,
-                }}
-              >
-                {[...Array(slotsPerDay)].map((_, slotIndex) => {
-                  const slotStartTime = new Date(date);
-                  slotStartTime.setHours(startHour + Math.floor(slotIndex));
+        {/* Calendar grid */}
+        <div className="w-[calc(100vw-420px)]">
+          <div className="grid grid-cols-7 ">
+            {daysOfWeek.map((_, dayIndex) =>
+              hoursOfDay.map((_, hourIndex) => (
+                <div
+                  key={`${dayIndex}-${hourIndex}`}
+                  className=" border-dashed border-2 border-gray-200  p-10
+                "
+                >
+                  {events.map((event) => {
+                    const eventStart = event.startedAt.getDay();
+                    const eventEnd = event.endedAt?.getDay();
+                    const eventHour = event.startedAt.getHours();
 
-                  if (slotStartTime.getHours() >= endHour) {
-                    slotStartTime.setHours(slotStartTime.getHours() - endHour);
-                    slotStartTime.setDate(slotStartTime.getDate() + 1);
-                  }
-
-                  const slotEndTime = new Date(slotStartTime);
-                  slotEndTime.setHours(slotStartTime.getHours() + 1);
-
-                  const matchingEvents = events.filter((event) => {
-                    const eventStartTime = new Date(event.date);
-                    const eventEndTime = new Date(event.date);
-                    eventStartTime.setHours(Number(event.time.split(":")[0]));
-                    eventStartTime.setMinutes(Number(event.time.split(":")[1]));
-                    eventEndTime.setHours(Number(event.endTime.split(":")[0]));
-                    eventEndTime.setMinutes(
-                      Number(event.endTime.split(":")[1])
-                    );
-
-                    return (
-                      eventStartTime <= slotEndTime &&
-                      eventEndTime >= slotStartTime
-                    );
-                  });
-
-                  return (
-                    <div
-                      key={slotIndex}
-                      className={`text-left indent-3 py-2 border-dashed border border-state-300 ${getSecondDateClass(
-                        date
-                      )}`}
-                      style={{
-                        position: "relative",
-                      }}
-                    >
-                      {matchingEvents.map((matchingEvent, eventIndex) => {
-                        const eventStart = new Date(matchingEvent.date);
-                        eventStart.setHours(
-                          Number(matchingEvent.time.split(":")[0])
-                        );
-                        eventStart.setMinutes(
-                          Number(matchingEvent.time.split(":")[1])
-                        );
-
-                        const eventEnd = new Date(matchingEvent.date);
-                        eventEnd.setHours(
-                          Number(matchingEvent.endTime.split(":")[0])
-                        );
-                        eventEnd.setMinutes(
-                          Number(matchingEvent.endTime.split(":")[1])
-                        );
-
-                        const eventDuration =
-                          (eventEnd.getTime() - eventStart.getTime()) /
-                          (60 * 1000);
-
-                        const slotStartTimeInMinutes =
-                          slotStartTime.getHours() * 60 +
-                          slotStartTime.getMinutes();
-                        const eventStartInMinutes =
-                          eventStart.getHours() * 60 + eventStart.getMinutes();
-                        const topPosition =
-                          ((eventStartInMinutes - slotStartTimeInMinutes) /
-                            60) *
-                          slotHeightPercentage;
-
-                        return (
-                          <div
-                            key={eventIndex}
-                            className="bg-gray-200 rounded p-1 absolute"
-                            style={{
-                              gridRow: `span ${Math.ceil(
-                                (eventDuration / 60) * slotHeightPercentage
-                              )}`,
-                              top: `${topPosition}px`,
-                            }}
-                          >
-                            {matchingEvent.name} {matchingEvent.time} -{" "}
-                            {matchingEvent.endTime}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
+                    if (eventStart === dayIndex && eventHour === hourIndex) {
+                      return (
+                        <div
+                          key={event.id}
+                          className={`bg-${event.categories?.color}-100 rounded-md p-1`}
+                        >
+                          <p>{event.title}</p>
+                          <p>{getTimeSlot(event)}</p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

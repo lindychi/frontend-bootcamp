@@ -273,12 +273,7 @@ function App() {
         ) : currentView === View.Day ? (
           <DayView />
         ) : (
-          <WeekView
-            dayList={dayList}
-            targetCalendarDates={targetCalendarDates}
-            getSecondDateClass={getSecondDateClass}
-            events={events}
-          />
+          <WeekView />
         )}
       </div>
       <div></div>
