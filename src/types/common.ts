@@ -20,6 +20,7 @@ export type EventItem = {
   startedAt: Date;
   endedAt?: Date;
   categories?: Category;
+  todoId?: string;
 };
 
 export type ConflictEventItem = EventItem & {

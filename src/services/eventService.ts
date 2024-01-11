@@ -20,3 +20,11 @@ export const stopEvent = (params: EventIdRequest) =>
 
 export const completeEvent = (params: EventIdRequest) =>
   request.post("/event/complete", params);
+
+export type AddEventRequest = Omit<
+  EventItem,
+  "id" | "createdAt" | "startedAt" | "categories"
+> & { startedAt?: Date; categoryId?: string };
+
+export const addEvent = (params: AddEventRequest) =>
+  request.post("/event", params);
