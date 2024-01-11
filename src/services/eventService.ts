@@ -10,3 +10,11 @@ export type DateNumberRequest = {
 export const getEvents = async (params: DateNumberRequest) => {
   return request.get<EventItem[]>("/event", { params });
 };
+
+export type AddEventRequest = Omit<
+  EventItem,
+  "id" | "createdAt" | "startedAt" | "categories"
+> & { startedAt?: Date; categoryId?: string };
+
+export const addEvent = (params: AddEventRequest) =>
+  request.post("/event", params);
