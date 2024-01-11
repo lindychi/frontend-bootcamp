@@ -107,7 +107,7 @@ export default function EventColumn({ event, year, month, day }: Props) {
             <FaPauseCircle />
           </div>
         )}
-        {!event?.endedAt && (
+        {!event?.endedAt && event?.todoId && (
           <div
             className="cursor-pointer"
             onClick={() => {

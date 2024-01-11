@@ -43,10 +43,6 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    loadCategories();
-  }, []);
-
   return (
     <div className="min-w-screen min-h-screen h-fit">
       <div className="w-screen min-h-screen h-fit bg-white rounded-md border border-neutral-400 border-opacity-60 justify-start items-start inline-flex">

@@ -7,10 +7,10 @@ import { calendarTypeList } from "../../../consts/calendar";
 import { getMonthString } from "../../../libs/calendar";
 
 import SelectBox from "../../SelectBox";
+import AddEvent from "../../AddEvent";
 
 import Search from "../../../icons/Search";
 import Plus from "../../../icons/Plus";
-
 import Hamburger from "../../../icons/Hamburger";
 
 type Props = {};
@@ -68,57 +68,9 @@ export default function CalendarRightLayout({}: Props) {
             </div>
             <Plus />
 
-            {/* <div className="absolute -top-1 -right-1 bg-white rounded-xl p-4 shadow-2xl z-10">
-                  <div className="flex flex-col">
-                    <div className="flex">
-                      <label htmlFor="title" className="w-[75px]">
-                        제목:
-                      </label>
-                      <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        required
-                        className="border-b"
-                      />
-                    </div>
-                    <div className="flex">
-                      <label htmlFor="startedAt" className="w-[75px]">
-                        시작 시간:
-                      </label>
-                      <input
-                        type="datetime-local"
-                        id="startedAt"
-                        name="startedAt"
-                        required
-                        className="border-b"
-                      />
-                    </div>
-                    <div className="flex">
-                      <label htmlFor="endedAt" className="w-[75px]">
-                        종료 시간:
-                      </label>
-                      <input
-                        type="datetime-local"
-                        id="endedAt"
-                        name="endedAt"
-                        className="border-b"
-                      />
-                    </div>
-                    <div className="flex">
-                      <label htmlFor="category">카테고리:</label>
-                      <select id="category" name="category">
-                        <option value="">Select a category</option>
-                        <option value="work">Work</option>
-                        <option value="personal">Personal</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                    <button className="bg-blue-500 text-white hover:brightness-75">
-                      추가
-                    </button>
-                  </div>
-                </div> */}
+            <div className="absolute -top-1 -right-1 bg-white rounded-xl p-4 shadow-2xl z-10">
+              <AddEvent />
+            </div>
           </div>
         </div>
       </div>
