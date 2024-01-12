@@ -13,6 +13,7 @@ import "./Modal.css";
 import YearView from "./components/YearView";
 import WeekView from "./components/WeekView";
 import DayView from "./components/DayView";
+import WeeklyView from "./components/WeeklyView";
 
 enum View {
   Month = "month",

@@ -1,48 +1,100 @@
-import React, { useState } from "react";
-import { EventItem } from "../types/common";
+import React, { useState, useEffect } from "react";
 import { getEvents } from "../services/eventService";
+import { EventItem } from "../types/common";
+
+interface dayOfWeek {
+  day: string;
+  date: Date;
+}
 
 const WeekView: React.FC = () => {
+  const hours: number[] = Array.from({ length: 24 }, (_, index) => {
+    const hour = index;
+    return hour;
+  });
+
   const [events, setEvents] = useState<EventItem[]>([]);
+
   const loadEvents = async () => {
-    const result = await getEvents({ year: 2024, month: 1 });
+    const result = await getEvents({ year: 2024 });
     setEvents(result.data);
   };
-  const getTimeSlot = (event: EventItem): string => {
-    // Calculate time slot string for display
-    const startTime = event.startedAt.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    const endTime = event.endedAt
-      ? event.endedAt.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        })
-      : "";
-    return `${startTime} - ${endTime}`;
-  };
 
-  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
-  const hoursOfDay: number[] = Array.from({ length: 24 }).map(
-    (_, index) => index
-  );
+  function getStartWeekday(date: Date) {
+    let current_date = date;
+    let weekDay = current_date.getDay();
+    current_date.setDate(current_date.getDate() - weekDay);
+    return new Date(current_date);
+  }
+
+  function getDaysOfWeek() {
+    let daysOfWeek: dayOfWeek[] = [];
+    let startWeekDay = getStartWeekday(new Date());
+    days.forEach(function (day, index) {
+      let currentDate = new Date();
+      currentDate.setDate(startWeekDay.getDate() + index);
+      daysOfWeek.push({
+        day: day,
+        date: currentDate,
+      });
+    });
+    return daysOfWeek;
+  }
+  useEffect(() => {
+    loadEvents();
+  }, []);
+
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
+  const currentDay = today.getDate();
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const daysOfWeek = getDaysOfWeek();
+  const currentDate = new Date();
+
+  const EventsForDay = (dayIndex: number): EventItem[] => {
+    const targetDate = new Date(currentDate);
+    targetDate.setDate(currentDate.getDate() + dayIndex);
+
+    return events.filter((event) => {
+      const eventDate = new Date(event.startedAt);
+      return (
+        eventDate.getFullYear() === targetDate.getFullYear() &&
+        eventDate.getMonth() + 1 === targetDate.getMonth() + 1 &&
+        eventDate.getDate() === targetDate.getDate()
+      );
+    });
+  };
 
   return (
     <div>
       <div className="min-w-screen grid grid-cols-7 gap-1 ml-20">
-        {daysOfWeek.map((day) => (
-          <div key={day} className="text-center py-2 ">
-            {day}
+        {daysOfWeek.map((dayOfWeek) => (
+          <div key={dayOfWeek.day} className="text-center">
+            <div></div>
+            <div>{dayOfWeek.day}</div>
           </div>
         ))}
       </div>
+      <div className="min-w-screen grid grid-cols-7 gap-1 ml-20">
+        {daysOfWeek.map((dayOfWeek) => {
+          const targetDate = dayOfWeek.date;
+          const formattedDate = targetDate
+            .getDate()
+            .toString()
+            .padStart(2, "0");
 
-      <div className="flex">
-        {/* Left: Time slots */}
+          return (
+            <div key={dayOfWeek.day} className="text-center">
+              {formattedDate}
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex flex-row">
         <div className="w-[90px] flex flex-col">
-          {hoursOfDay.map((hour) => (
-            <div key={hour} className="h-[83px] text-xl text-right relative">
+          {hours.map((hour) => (
+            <div key={hour} className="h-[80px] text-xl text-right relative">
               <div className="absolute -top-3 right-1">
                 {hour === 0
                   ? null
@@ -55,37 +107,75 @@ const WeekView: React.FC = () => {
             </div>
           ))}
         </div>
-        {/* Calendar grid */}
-        <div className="w-[calc(100vw-420px)]">
-          <div className="grid grid-cols-7 ">
-            {daysOfWeek.map((_, dayIndex) =>
-              hoursOfDay.map((_, hourIndex) => (
-                <div
-                  key={`${dayIndex}-${hourIndex}`}
-                  className=" border-dashed border-2 border-gray-200  p-10
-                "
-                >
-                  {events.map((event) => {
-                    const eventStart = event.startedAt.getDay();
-                    const eventEnd = event.endedAt?.getDay();
-                    const eventHour = event.startedAt.getHours();
+        <div className="relative">
+          <div className="w-[calc(100vw-420px)] min-h-screen grid grid-cols-7 ">
+            {daysOfWeek.map((dayOfWeek, index) => (
+              <div
+                key={`col-${index}`}
+                className="border-dashed border-2 last:border-b-0"
+              >
+                {hours.map((hour) => (
+                  <div
+                    key={hour}
+                    className="h-[80px] border-dashed border-b border-state-600 last:border-b-0"
+                  >
+                    {hour === new Date().getHours() && (
+                      <div
+                        className="h-[1px] w-full bg-red-500 left-[1px] absolute z-10"
+                        style={{
+                          top: `${
+                            ((hour * 80 + new Date().getMinutes()) / 60) * 60
+                          }px`,
+                        }}
+                      ></div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ))}
+            <div>
+              {events
+                .filter((event) => {
+                  const eventDate = new Date(event.startedAt);
+                  return (
+                    eventDate.getFullYear() === currentYear &&
+                    eventDate.getMonth() + 1 === currentMonth &&
+                    eventDate.getDate() === currentDay
+                  );
+                })
+                .map((event) => {
+                  const startEventTime = new Date(event.startedAt);
+                  const endEventTime = event.endedAt
+                    ? new Date(event.endedAt)
+                    : new Date();
+                  const startHour = startEventTime.getHours();
+                  const startMinute = startEventTime.getMinutes();
+                  const endHour = endEventTime.getHours();
+                  const endMinute = endEventTime.getMinutes();
 
-                    if (eventStart === dayIndex && eventHour === hourIndex) {
-                      return (
-                        <div
-                          key={event.id}
-                          className={`bg-${event.categories?.color}-100 rounded-md p-1`}
-                        >
-                          <p>{event.title}</p>
-                          <p>{getTimeSlot(event)}</p>
-                        </div>
-                      );
-                    }
-                    return null;
-                  })}
-                </div>
-              ))
-            )}
+                  const eventTop = ((startHour * 60 + startMinute) / 60) * 60;
+                  const eventHeight =
+                    ((endHour * 60 + endMinute) / 60) * 60 - eventTop;
+
+                  return (
+                    <div
+                      key={event.id}
+                      className=" bg-blue-300 text-white p-2 rounded absolute z-0"
+                      style={{
+                        top: `${eventTop}px`,
+                        height: `${eventHeight}px`,
+                        width: "116px",
+                        left: "5px",
+                        right: "10px",
+                        backgroundColor:
+                          event.categories?.color || "transparent",
+                      }}
+                    >
+                      {event.title}
+                    </div>
+                  );
+                })}
+            </div>
           </div>
         </div>
       </div>

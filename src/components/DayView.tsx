@@ -6,10 +6,15 @@ const DayView: React.FC = () => {
   const hours: number[] = Array.from({ length: 24 }, (_, i) => i);
 
   const [events, setEvents] = useState<EventItem[]>([]);
+
   const loadEvents = async () => {
-    const result = await getEvents({ year: 2024, month: 1 });
+    const result = await getEvents({ year: 2024 });
     setEvents(result.data);
   };
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
+  const currentDay = today.getDate();
 
   useEffect(() => {
     loadEvents();
@@ -33,7 +38,7 @@ const DayView: React.FC = () => {
         ))}
       </div>
       <div className="relative">
-        <div className="w-[calc(100vw-420px)] min-h-[1440px] grid grid-cols-1 border-dashed border-2 border-state-600">
+        <div className="w-[calc(100vw-420px)] grid grid-cols-1 border-dashed border-2 border-state-600">
           {hours.map((hour) => (
             <div
               key={hour}
@@ -44,7 +49,7 @@ const DayView: React.FC = () => {
                   className="h-[1px] w-full bg-red-500 left-[1px] absolute z-10"
                   style={{
                     top: `${
-                      ((hour * 60 + new Date().getMinutes()) / 60) * 60
+                      ((hour * 80 + new Date().getMinutes()) / 60) * 60
                     }px`,
                   }}
                 ></div>
@@ -55,7 +60,11 @@ const DayView: React.FC = () => {
             {events
               .filter((event) => {
                 const eventDate = new Date(event.startedAt);
-                return eventDate.getDate() === 5;
+                return (
+                  eventDate.getFullYear() === currentYear &&
+                  eventDate.getMonth() + 1 === currentMonth &&
+                  eventDate.getDate() === currentDay
+                );
               })
               .map((event) => {
                 const startEventTime = new Date(event.startedAt);
