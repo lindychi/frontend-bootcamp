@@ -18,10 +18,10 @@ export default function YearCal({}: Props) {
   return (
     <div>
       {/* 연력 */}
-      <div className=" px-10 py-">
-        <div className="calendar_s flex flex-wrap justify-around w-100%">
+      <div>
+        <div className="calendar_s w-full grid grid-cols-4 px-16 py-3 justify-center">
           {monthsArray.map((month) => (
-            <div key={month}>
+            <div className=" px-10 py-3" key={month}>
               <CalendarS
                 selectedMonth={month}
                 selectedYear={selectedYear}

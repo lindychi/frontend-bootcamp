@@ -21,7 +21,7 @@ export default function DayCal({}: Props) {
   const startedTime = new Date(startedAt);
   const hours = startedTime.getHours();
   const minutes = startedTime.getMinutes();
-  return hours * 60 + minutes; // 77ㅔㅌ은 상단 여백
+  return hours * 60 + minutes; 
 };
 
 const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
@@ -41,20 +41,21 @@ const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
       <div className="todo relative">
         <div>
           {events.map((event) => (
-            <div 
+            <div
               key={event.id}
-              className="absolute truncate w-[80px]" 
-              style={{ 
+              className="absolute truncate w-[80px]"
+              style={{
                 top: calculateTopPosition(event.startedAt),
                 left: "64px",
-                fontSize:'15px',
-                backgroundColor: event.categories?.color || "initial",
-                borderRadius:"5px",
-                height: `${calculateEventHeight(event.startedAt, event.endedAt)}px`,
-                zIndex: "1",  // z-index 설정-다른요소들보다 위에
-                width:"200px",
-                
-                
+                fontSize: "15px",
+                backgroundColor: event.categories?.color + "80" || "initial",
+                borderRadius: "5px",
+                height: `${calculateEventHeight(
+                  event.startedAt,
+                  event.endedAt
+                )}px`,
+                zIndex: "1", // z-index 설정-다른요소들보다 위에
+                width: "200px",
               }}
             >
               {event.title}
@@ -70,7 +71,7 @@ const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
             <div key={index}>
               <div className="dayCal-Container  relative flex w-full">
                 <div className="timeBox w-[60px] border-r border-dashed "></div>
-                <div className="time absolute top-[50px] text-xs px-6">
+                <div className="time absolute top-[50px] text-xs px-4">
                   {" "}
                   {index === 23
                     ? ""
@@ -81,10 +82,6 @@ const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
             </div>
           ))}
       </div>
-
-
-      
-      
     </div>
   );
 }

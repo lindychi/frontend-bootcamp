@@ -15,6 +15,7 @@ import MonthCal from "./components/MonthCal";
 import YearCal from "./components/YearCal";
 import DayCal from "./components/DayCal";
 
+
 function App() {
   const [selectedMonth, setSelectedMonth] = React.useState(1);
   const [selectedYear, setSelectedYear] = React.useState(2024);
@@ -24,13 +25,15 @@ function App() {
   );
 
   const [selectedOption, setSelectedOption] = useState("month"); // Track selected option
+  
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(e.target.value);
   };
 
   return (
-    <div className="calendar flex justify-start w-[1465px] h-[auto] border solid rgba(157, 158, 159, 0.60)">
+    <div className="calendar flex justify-start w-100wm h-[auto]  border solid rgba(157, 158, 159, 0.60)">
       <div className="sidebar flex-col w-[250px] border-r solid rgba(157, 158, 159, 0.60)">
         {/* 미니캘린더 */}
         <div>
@@ -41,13 +44,19 @@ function App() {
           />
         </div>
 
-        {/* 미니캘린더 하단*/}
-        <div className="schedule w-[250px] h-[409px] py-[10px] px-[16px] gap-[10px]">
-          Upcoming events
+        {/* 할일flex */}
+        <div className="todoList w-[250px] min-h-[100px] py-[10px] px-[16px] gap-[10px]  bg-red-400">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <div className="w-2 h-2 rounded-full bg-yellow-300"></div>
+              <div className="text-sm pl-2 pt-0.5">일상</div>
+            </div>
+            <button className=" font-medium">+</button>
+          </div>
         </div>
       </div>
 
-      <div className="content w-[1214px]">
+      <div className="content w-full">
         {/* 상단 헤더 */}
         <div className="content_top flex w-100% h-[77px] p-[16px] justify-between border-b ">
           <div className="left-content flex justify-between gap-4 items-center">

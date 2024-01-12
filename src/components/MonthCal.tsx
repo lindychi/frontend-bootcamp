@@ -18,7 +18,7 @@ export default function MonthCal({}: Props) {
       <div className="bg-blue-400">
         <SevenDays dayList={dayList} />
       </div>
-      <div className="mediumDates w-[1214px] h-[923px] grid grid-cols-7">
+      <div className="mediumDates w-full h-[923px] grid grid-cols-7">
         {targetCalendarDates.map((date: Date) => (
           <div
             key={date.getDate()} // 각 날짜에 대한 고유한 key
