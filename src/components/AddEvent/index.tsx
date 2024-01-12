@@ -4,9 +4,9 @@ import { useQuery } from "react-query";
 import { getCategoriesWithTodo } from "../../services/categoryService";
 import { HttpStatusCode } from "axios";
 
-type Props = {};
+type Props = { onClose?: () => void };
 
-export default function AddEvent({}: Props) {
+export default function AddEvent({ onClose }: Props) {
   const [event, setEvent] = useState<Partial<AddEventRequest>>({});
 
   const loadCategories = async () => {
@@ -17,6 +17,23 @@ export default function AddEvent({}: Props) {
   };
 
   const { data: categories } = useQuery(["categories"], loadCategories);
+
+  const handleAddEvent = async () => {
+    try {
+      const reuslt = await addEvent({
+        title: event.title as string,
+        startedAt: event.startedAt as Date,
+        endedAt: event.endedAt,
+        categoryId: event.categoryId,
+      });
+      if (reuslt.status === HttpStatusCode.Ok) {
+        setEvent({});
+        onClose?.();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -92,14 +109,7 @@ export default function AddEvent({}: Props) {
       </div>
       <button
         className="bg-blue-500 text-white hover:brightness-75"
-        onClick={async () => {
-          const result = await addEvent({
-            title: event.title as string,
-            startedAt: event.startedAt as Date,
-            endedAt: event.endedAt,
-            categoryId: event.categoryId,
-          });
-        }}
+        onClick={handleAddEvent}
       >
         추가
       </button>
