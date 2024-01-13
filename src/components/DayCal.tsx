@@ -55,7 +55,7 @@ const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
                   event.endedAt
                 )}px`,
                 zIndex: "1", // z-index 설정-다른요소들보다 위에
-                width: "200px",
+                width: "calc(100% - 68px)",
               }}
             >
               {event.title}
@@ -76,7 +76,7 @@ const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
                   {index === 23
                     ? ""
                     : ("00" + ((index + 1) % 24)).slice(-2) + ":00"}
-                </div>
+                  </div>
                 <div className="weekBox w-full h-[60px] p-5 border-b border-dashed text-start"></div>
               </div>
             </div>

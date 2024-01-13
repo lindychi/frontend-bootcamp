@@ -13,3 +13,4 @@ export type EventItem = {
   categories?: Category;
   todoId?: string;
 };
+
