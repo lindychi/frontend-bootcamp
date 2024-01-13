@@ -19,6 +19,9 @@ const WeekView: React.FC = () => {
     const result = await getEvents({ year: 2024 });
     setEvents(result.data);
   };
+  useEffect(() => {
+    loadEvents();
+  }, []);
 
   function getStartWeekday(date: Date) {
     let current_date = date;
@@ -40,9 +43,6 @@ const WeekView: React.FC = () => {
     });
     return daysOfWeek;
   }
-  useEffect(() => {
-    loadEvents();
-  }, []);
 
   const today = new Date();
   const currentYear = today.getFullYear();
@@ -50,18 +50,21 @@ const WeekView: React.FC = () => {
   const currentDay = today.getDate();
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const daysOfWeek = getDaysOfWeek();
-  const currentDate = new Date();
 
-  const EventsForDay = (dayIndex: number): EventItem[] => {
-    const targetDate = new Date(currentDate);
-    targetDate.setDate(currentDate.getDate() + dayIndex);
+  const eventsForWeek = (targetDate: Date, hour: number): EventItem[] => {
+    const startOfWeek = new Date(targetDate);
+    startOfWeek.setDate(targetDate.getDate() - targetDate.getDay());
+
+    const endOfWeek = new Date(targetDate);
+    endOfWeek.setDate(targetDate.getDate() + (6 - targetDate.getDay()));
 
     return events.filter((event) => {
       const eventDate = new Date(event.startedAt);
       return (
-        eventDate.getFullYear() === targetDate.getFullYear() &&
-        eventDate.getMonth() + 1 === targetDate.getMonth() + 1 &&
-        eventDate.getDate() === targetDate.getDate()
+        eventDate >= startOfWeek &&
+        eventDate <= endOfWeek &&
+        eventDate.getHours() === hour &&
+        eventDate.getDay() === targetDate.getDay()
       );
     });
   };
@@ -108,7 +111,7 @@ const WeekView: React.FC = () => {
           ))}
         </div>
         <div className="relative">
-          <div className="w-[calc(100vw-420px)] min-h-screen grid grid-cols-7 ">
+          <div className="w-[calc(100vw-420px)] min-h-screen grid grid-cols-7">
             {daysOfWeek.map((dayOfWeek, index) => (
               <div
                 key={`col-${index}`}
@@ -117,65 +120,57 @@ const WeekView: React.FC = () => {
                 {hours.map((hour) => (
                   <div
                     key={hour}
-                    className="h-[80px] border-dashed border-b border-state-600 last:border-b-0"
+                    className="h-[80px] border-dashed border-b border-state-600 last:border-b-0 relative"
                   >
                     {hour === new Date().getHours() && (
                       <div
                         className="h-[1px] w-full bg-red-500 left-[1px] absolute z-10"
                         style={{
                           top: `${
-                            ((hour * 80 + new Date().getMinutes()) / 60) * 60
+                            ((hour * 1 + new Date().getMinutes()) / 60) * 60
                           }px`,
                         }}
                       ></div>
+                    )}
+                    {eventsForWeek(dayOfWeek.date, hour).map(
+                      (event, eventIndex) => {
+                        const startEventTime = new Date(event.startedAt);
+                        const endEventTime = event.endedAt
+                          ? new Date(event.endedAt)
+                          : new Date();
+                        const startHour = startEventTime.getHours();
+                        const startMinute = startEventTime.getMinutes();
+                        const endHour = endEventTime.getHours();
+                        const endMinute = endEventTime.getMinutes();
+
+                        const eventTop =
+                          ((startHour * 1 + startMinute) / 60) * 60;
+                        const eventHeight =
+                          ((endHour * 60 + endMinute) / 60) * 60 - eventTop;
+
+                        return (
+                          <div
+                            key={`${event.id}-${eventIndex}`}
+                            className="bg-blue-300 text-white p-2 rounded absolute z-20"
+                            style={{
+                              top: `${eventTop}px`,
+                              height: `${eventHeight}px`,
+                              width: "100px",
+                              left: "5px",
+                              right: "10px",
+                              backgroundColor:
+                                event.categories?.color || "transparent",
+                            }}
+                          >
+                            {event.title}
+                          </div>
+                        );
+                      }
                     )}
                   </div>
                 ))}
               </div>
             ))}
-            <div>
-              {events
-                .filter((event) => {
-                  const eventDate = new Date(event.startedAt);
-                  return (
-                    eventDate.getFullYear() === currentYear &&
-                    eventDate.getMonth() + 1 === currentMonth &&
-                    eventDate.getDate() === currentDay
-                  );
-                })
-                .map((event) => {
-                  const startEventTime = new Date(event.startedAt);
-                  const endEventTime = event.endedAt
-                    ? new Date(event.endedAt)
-                    : new Date();
-                  const startHour = startEventTime.getHours();
-                  const startMinute = startEventTime.getMinutes();
-                  const endHour = endEventTime.getHours();
-                  const endMinute = endEventTime.getMinutes();
-
-                  const eventTop = ((startHour * 60 + startMinute) / 60) * 60;
-                  const eventHeight =
-                    ((endHour * 60 + endMinute) / 60) * 60 - eventTop;
-
-                  return (
-                    <div
-                      key={event.id}
-                      className=" bg-blue-300 text-white p-2 rounded absolute z-0"
-                      style={{
-                        top: `${eventTop}px`,
-                        height: `${eventHeight}px`,
-                        width: "116px",
-                        left: "5px",
-                        right: "10px",
-                        backgroundColor:
-                          event.categories?.color || "transparent",
-                      }}
-                    >
-                      {event.title}
-                    </div>
-                  );
-                })}
-            </div>
           </div>
         </div>
       </div>

@@ -76,9 +76,9 @@ const DayView: React.FC = () => {
                 const endHour = endEventTime.getHours();
                 const endMinute = endEventTime.getMinutes();
 
-                const eventTop = ((startHour * 60 + startMinute) / 60) * 60;
+                const eventTop = ((startHour * 80 + startMinute) / 60) * 60;
                 const eventHeight =
-                  ((endHour * 60 + endMinute) / 60) * 60 - eventTop;
+                  ((endHour * 80 + endMinute) / 60) * 60 - eventTop;
 
                 return (
                   <div
