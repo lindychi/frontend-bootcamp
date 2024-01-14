@@ -214,7 +214,7 @@ function App() {
             <div className="flex-row bg-primary text-white p-2 gap-1">
               <button onClick={openModal}>Add Event</button>
               {isModalOpen && (
-                <div className="modal-background">
+                <div className="modal-background z-10">
                   <div className="modal-content">
                     <span className="close" onClick={closeModal}>
                       &times;

@@ -13,10 +13,14 @@ const WeekView: React.FC = () => {
     return hour;
   });
 
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
+
   const [events, setEvents] = useState<EventItem[]>([]);
 
   const loadEvents = async () => {
-    const result = await getEvents({ year: 2024 });
+    const result = await getEvents({ year: currentYear, month: currentMonth });
     setEvents(result.data);
   };
   useEffect(() => {
@@ -44,27 +48,25 @@ const WeekView: React.FC = () => {
     return daysOfWeek;
   }
 
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth() + 1;
-  const currentDay = today.getDate();
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const daysOfWeek = getDaysOfWeek();
 
   const eventsForWeek = (targetDate: Date, hour: number): EventItem[] => {
-    const startOfWeek = new Date(targetDate);
-    startOfWeek.setDate(targetDate.getDate() - targetDate.getDay());
+    console.log(targetDate);
+    // const startOfWeek = new Date(targetDate);
+    // startOfWeek.setDate(targetDate.getDate() - targetDate.getDay());
 
-    const endOfWeek = new Date(targetDate);
-    endOfWeek.setDate(targetDate.getDate() + (6 - targetDate.getDay()));
+    // const endOfWeek = new Date(targetDate);
+    // endOfWeek.setDate(targetDate.getDate() + (6 - targetDate.getDay()));
 
     return events.filter((event) => {
       const eventDate = new Date(event.startedAt);
       return (
-        eventDate >= startOfWeek &&
-        eventDate <= endOfWeek &&
+        // eventDate >= startOfWeek &&
+        // eventDate <= endOfWeek &&
         eventDate.getHours() === hour &&
-        eventDate.getDay() === targetDate.getDay()
+        // eventDate.getDay() === targetDate.getDay()
+        eventDate.getDate() === targetDate.getDate()
       );
     });
   };
@@ -122,16 +124,6 @@ const WeekView: React.FC = () => {
                     key={hour}
                     className="h-[80px] border-dashed border-b border-state-600 last:border-b-0 relative"
                   >
-                    {hour === new Date().getHours() && (
-                      <div
-                        className="h-[1px] w-full bg-red-500 left-[1px] absolute z-10"
-                        style={{
-                          top: `${
-                            ((hour * 1 + new Date().getMinutes()) / 60) * 60
-                          }px`,
-                        }}
-                      ></div>
-                    )}
                     {eventsForWeek(dayOfWeek.date, hour).map(
                       (event, eventIndex) => {
                         const startEventTime = new Date(event.startedAt);
@@ -166,6 +158,16 @@ const WeekView: React.FC = () => {
                           </div>
                         );
                       }
+                    )}
+                    {hour === new Date().getHours() && (
+                      <div
+                        className="h-[1px] w-full bg-red-500 left-[1px] absolute z-30"
+                        style={{
+                          top: `${
+                            ((hour * 1 + new Date().getMinutes()) / 60) * 60
+                          }px`,
+                        }}
+                      ></div>
                     )}
                   </div>
                 ))}
