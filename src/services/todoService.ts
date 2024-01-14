@@ -18,3 +18,11 @@ export type StartTodoRequest = {
 
 export const startTodo = async (params: StartTodoRequest) =>
   request.post("/todo/start", params);
+
+export type CompleteTodoRequest = {
+  todoId: string;
+};
+
+export const completeTodo = async (params: CompleteTodoRequest) => {
+  return request.post("/todo/complete", params);
+};
