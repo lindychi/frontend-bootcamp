@@ -2,39 +2,42 @@ import React, { useEffect, useState } from "react";
 import { getDayEvents } from "../services/eventService";
 import { EventItem } from "../types/common";
 
-
 type Props = {};
 
 export default function DayCal({}: Props) {
   const [events, setEvents] = useState<EventItem[]>([]);
+  const today = new Date();
 
   const loadEvents = async () => {
-    const result = await getDayEvents({ year: 2024, month: 1, day: 5 });
+    const result = await getDayEvents({
+      year: today.getFullYear(),
+      month: today.getMonth() + 1,
+      day: today.getDate(),
+    });
     setEvents(result.data);
   };
 
   useEffect(() => {
     loadEvents();
   }, []);
-// 함수를 통해 top 위치 계산
+  // 함수를 통해 top 위치 계산
   const calculateTopPosition = (startedAt: Date) => {
-  const startedTime = new Date(startedAt);
-  const hours = startedTime.getHours();
-  const minutes = startedTime.getMinutes();
-  return hours * 60 + minutes; 
-};
+    const startedTime = new Date(startedAt);
+    const hours = startedTime.getHours();
+    const minutes = startedTime.getMinutes();
+    return hours * 60 + minutes;
+  };
 
-const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
-  if (!endedAt) {
-    return 0; // 종료 시간이 없으면 높이 0
-  }
-  const startedTime = new Date(startedAt);
-  const endedTime = new Date(endedAt);
-  const duration = endedTime.getTime() - startedTime.getTime();
-  const minutes = duration / (1000 * 60);
-  return minutes; // 분 단위로 높이 계산
-};
-
+  const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
+    if (!endedAt) {
+      return 0; // 종료 시간이 없으면 높이 0
+    }
+    const startedTime = new Date(startedAt);
+    const endedTime = new Date(endedAt);
+    const duration = endedTime.getTime() - startedTime.getTime();
+    const minutes = duration / (1000 * 60);
+    return minutes; // 분 단위로 높이 계산
+  };
 
   return (
     <div>
@@ -76,7 +79,7 @@ const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
                   {index === 23
                     ? ""
                     : ("00" + ((index + 1) % 24)).slice(-2) + ":00"}
-                  </div>
+                </div>
                 <div className="weekBox w-full h-[60px] p-5 border-b border-dashed text-start"></div>
               </div>
             </div>

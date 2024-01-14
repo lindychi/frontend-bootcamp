@@ -10,10 +10,17 @@ type Props = {};
 
 export default function WeekCal({}: Props) {
   const [events, setEvents] = useState<EventItem[]>([]);
+  const today = new Date();
 
   const loadEvents = async () => {
-    const result = await getDayEvents({ year: 2024, month: 1, day: 5 });
-    setEvents(result.data);
+    [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(async (day) => {
+      const result = await getDayEvents({
+        year: today.getFullYear(),
+        month: today.getMonth() + 1,
+        day,
+      });
+      setEvents((prev) => [...prev, ...result.data]);
+    });
   };
 
   useEffect(() => {
@@ -24,49 +31,32 @@ export default function WeekCal({}: Props) {
     const startedTime = new Date(startedAt);
     const hours = startedTime.getHours();
     const minutes = startedTime.getMinutes();
-    return hours * 60 + minutes; 
+    return hours * 60 + minutes;
   };
-  
+
   const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
     if (!endedAt) {
       return 0; // 종료 시간이 없으면 높이 0
     }
     const startedTime = new Date(startedAt);
     const endedTime = new Date(endedAt);
-    const duration = endedTime.getTime() - startedTime.getTime();
+    const checkMaxEndedTime =
+      endedTime.getDate() === startedTime.getDate()
+        ? endedTime
+        : new Date(
+            startedTime.getFullYear(),
+            startedTime.getMonth(),
+            startedTime.getDate(),
+            23,
+            59,
+            59
+          );
+    const duration = checkMaxEndedTime.getTime() - startedTime.getTime();
     const minutes = duration / (1000 * 60);
     return minutes; // 분 단위로 높이 계산
   };
   return (
     <div>
-      <div className="todo relative">
-        <div>
-          {events.map((event) => (
-            <div
-              key={event.id}
-              className="absolute truncate w-[80px]"
-              style={{
-                top: calculateTopPosition(event.startedAt) + 25,
-                // top: '125px',
-                left: "64px",
-                fontSize: "15px",
-                backgroundColor: event.categories?.color + "80" || "initial",
-                borderRadius: "5px",
-                height: `${calculateEventHeight(
-                  event.startedAt,
-                  event.endedAt
-                )}px`,
-                zIndex: "1", // z-index 설정-다른요소들보다 위에
-                width: "full",
-              }}
-            >
-              {event.title}
-            </div>
-          ))}
-        </div>
-      </div>
-        
-      
       <div className="flex border-b">
         <div className="w-[64px] "></div>
         <div className="flex w-[1150px]">
@@ -93,7 +83,7 @@ export default function WeekCal({}: Props) {
           {dayList.map((day: DateName, dayIndex) => (
             <div
               key={dayIndex}
-              className={`${day.short} w-full border-r flex flex-col`}
+              className={`${day.short} w-full border-r flex flex-col relative`}
             >
               {[...Array(24)].map((_, index) => (
                 <div key={index} className="flex relative ">
@@ -107,6 +97,32 @@ export default function WeekCal({}: Props) {
                   ></div>
                 </div>
               ))}
+
+              {events
+                .filter((event) => {
+                  return new Date(event.startedAt).getDay() === dayIndex;
+                })
+                .map((event) => (
+                  <div
+                    key={event.id}
+                    className="absolute truncate w-full"
+                    style={{
+                      top: calculateTopPosition(event.startedAt) + 25,
+                      // top: '125px',
+                      fontSize: "15px",
+                      backgroundColor:
+                        event.categories?.color + "80" || "initial",
+                      borderRadius: "5px",
+                      height: `${calculateEventHeight(
+                        event.startedAt,
+                        event.endedAt
+                      )}px`,
+                      zIndex: "1", // z-index 설정-다른요소들보다 위에
+                    }}
+                  >
+                    {event.title}
+                  </div>
+                ))}
             </div>
           ))}
         </div>
