@@ -1,56 +1,109 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { getEvents } from "../services/eventService";
+import { EventItem } from "../types/common";
 
-interface CalendarEvent {
-  id: number;
-  title: string;
-  date: string; // 날짜 형식으로 저장 (예: "2024-01-10")
-  time: string; // 시간 형식으로 저장 (예: "14:00")
-  // 다른 필요한 이벤트 정보들...
+interface dayOfWeek {
+  day: string;
+  date: Date;
 }
 
 const WeeklyView: React.FC = () => {
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
-
-  // 주간 이벤트를 가져오는 함수 (예시)
-  const fetchWeeklyEvents = () => {
-    // 이 곳에서 API를 호출하거나 로컬 데이터를 가져와서 events 상태를 업데이트합니다.
-    // 예시 데이터
-    const sampleEvents: CalendarEvent[] = [
-      { id: 1, title: "Meeting", date: "2024-01-10", time: "10:00" },
-      { id: 2, title: "Gym", date: "2024-01-11", time: "15:30" },
-      // 추가 이벤트들...
-    ];
-    setEvents(sampleEvents);
-  };
-
-  useEffect(() => {
-    fetchWeeklyEvents();
-  }, []); // 컴포넌트가 마운트될 때 한 번만 실행
-
-  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-  const hoursOfDay = Array.from({ length: 24 }, (_, index) => {
-    const hour = index; // 9부터 시작하도록 설정
+  const hours: number[] = Array.from({ length: 24 }, (_, index) => {
+    const hour = index;
     return hour;
   });
 
-  // 주간 캘린더 UI 렌더링
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
+
+  const [events, setEvents] = useState<EventItem[]>([]);
+
+  const loadEvents = async () => {
+    const result = await getEvents({ year: currentYear, month: currentMonth });
+    setEvents(result.data);
+  };
+  useEffect(() => {
+    loadEvents();
+  }, []);
+
+  function getStartWeekday(date: Date) {
+    let current_date = date;
+    let weekDay = current_date.getDay();
+    current_date.setDate(current_date.getDate() - weekDay);
+    return new Date(current_date);
+  }
+
+  function getDaysOfWeek() {
+    let daysOfWeek: dayOfWeek[] = [];
+    let startWeekDay = getStartWeekday(new Date());
+    days.forEach(function (day, index) {
+      let currentDate = new Date();
+      currentDate.setDate(startWeekDay.getDate() + index);
+      daysOfWeek.push({
+        day: day,
+        date: currentDate,
+      });
+    });
+    return daysOfWeek;
+  }
+
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const daysOfWeek = getDaysOfWeek();
+
+  const eventsForWeek = (targetDate: Date, hour: number): EventItem[] => {
+    console.log(targetDate);
+    // const startOfWeek = new Date(targetDate);
+    // startOfWeek.setDate(targetDate.getDate() - targetDate.getDay());
+
+    // const endOfWeek = new Date(targetDate);
+    // endOfWeek.setDate(targetDate.getDate() + (6 - targetDate.getDay()));
+
+    return events.filter((event) => {
+      const eventDate = new Date(event.startedAt);
+      return (
+        // eventDate >= startOfWeek &&
+        // eventDate <= endOfWeek &&
+        eventDate.getHours() === hour &&
+        // eventDate.getDay() === targetDate.getDay()
+        eventDate.getDate() === targetDate.getDate()
+      );
+    });
+  };
+
   return (
     <div>
       <div className="min-w-screen grid grid-cols-7 gap-1 ml-20">
-        {daysOfWeek.map((day, index) => (
-          <div key={index} className="flex-1 p-2 text-center">
-            {day}
+        {daysOfWeek.map((dayOfWeek) => (
+          <div key={dayOfWeek.day} className="text-center">
+            <div></div>
+            <div>{dayOfWeek.day}</div>
           </div>
         ))}
       </div>
+      <div className="min-w-screen grid grid-cols-7 gap-1 ml-20">
+        {daysOfWeek.map((dayOfWeek) => {
+          const targetDate = dayOfWeek.date;
+          const formattedDate = targetDate
+            .getDate()
+            .toString()
+            .padStart(2, "0");
+
+          return (
+            <div key={dayOfWeek.day} className="text-center">
+              {formattedDate}
+            </div>
+          );
+        })}
+      </div>
       <div className="flex flex-row">
         <div className="w-[90px] flex flex-col">
-          {hoursOfDay.map((hour) => (
+          {hours.map((hour) => (
             <div key={hour} className="h-[80px] text-xl text-right relative">
               <div className="absolute -top-3 right-1">
-                {hour < 12
+                {hour === 0
+                  ? null
+                  : hour < 12
                   ? `오전 ${hour}시`
                   : hour === 12
                   ? "오후 12시"
@@ -60,42 +113,64 @@ const WeeklyView: React.FC = () => {
           ))}
         </div>
         <div className="relative">
-          <div className="w-[calc(100vw-420px)] grid grid-cols-7 ">
-            {daysOfWeek.map((_, dayIndex) => (
+          <div className="w-[calc(100vw-420px)] min-h-screen grid grid-cols-7">
+            {daysOfWeek.map((dayOfWeek, index) => (
               <div
-                key={`col-${dayIndex}`}
-                className=" border-dashed border-2 last:border-b-0"
+                key={`col-${index}`}
+                className="border-dashed border-2 last:border-b-0"
               >
-                {hoursOfDay.map((hour, hourIndex) => {
-                  const currentDay = new Date("2024-01-10"); // 시작 날짜 (예시)
-                  currentDay.setDate(currentDay.getDate() + dayIndex);
-                  const formattedDate = currentDay.toISOString().split("T")[0]; // YYYY-MM-DD 형식으로 변환
+                {hours.map((hour) => (
+                  <div
+                    key={hour}
+                    className="h-[80px] border-dashed border-b border-state-600 last:border-b-0 relative"
+                  >
+                    {eventsForWeek(dayOfWeek.date, hour).map(
+                      (event, eventIndex) => {
+                        const startEventTime = new Date(event.startedAt);
+                        const endEventTime = event.endedAt
+                          ? new Date(event.endedAt)
+                          : new Date();
+                        const startHour = startEventTime.getHours();
+                        const startMinute = startEventTime.getMinutes();
+                        const endHour = endEventTime.getHours();
+                        const endMinute = endEventTime.getMinutes();
 
-                  const dailyEvents = events.filter(
-                    (event) =>
-                      event.date === formattedDate &&
-                      event.time === `${hour}:00`
-                  );
+                        const eventTop =
+                          ((startHour * 1 + startMinute) / 60) * 60;
+                        const eventHeight =
+                          ((endHour * 60 + endMinute) / 60) * 60 - eventTop;
 
-                  return (
-                    <div
-                      key={`cell-${hourIndex}-${dayIndex}`}
-                      className="h-[80px] border-dashed border-b border-state-600 last:border-b-0"
-                    >
-                      {dailyEvents.map((event) => event.title)}
-                      {hour === new Date().getHours() && (
-                        <div
-                          className="h-[1px] w-full bg-red-500 left-[1px] absolute z-10"
-                          style={{
-                            top: `${
-                              ((hour * +new Date().getMinutes()) / 60) * 60
-                            }px`,
-                          }}
-                        ></div>
-                      )}
-                    </div>
-                  );
-                })}
+                        return (
+                          <div
+                            key={`${event.id}-${eventIndex}`}
+                            className="bg-blue-300 text-white p-2 rounded absolute z-20"
+                            style={{
+                              top: `${eventTop}px`,
+                              height: `${eventHeight}px`,
+                              width: "100px",
+                              left: "5px",
+                              right: "10px",
+                              backgroundColor:
+                                event.categories?.color || "transparent",
+                            }}
+                          >
+                            {event.title}
+                          </div>
+                        );
+                      }
+                    )}
+                    {hour === new Date().getHours() && (
+                      <div
+                        className="h-[1px] w-full bg-red-500 left-[1px] absolute z-30"
+                        style={{
+                          top: `${
+                            ((hour * 1 + new Date().getMinutes()) / 60) * 60
+                          }px`,
+                        }}
+                      ></div>
+                    )}
+                  </div>
+                ))}
               </div>
             ))}
           </div>

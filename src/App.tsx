@@ -14,6 +14,7 @@ import YearView from "./components/YearView";
 import WeekView from "./components/WeekView";
 import DayView from "./components/DayView";
 import WeeklyView from "./components/WeeklyView";
+import MonthView from "./components/MonthView";
 
 enum View {
   Month = "month",
@@ -212,7 +213,12 @@ function App() {
           <div className="flex gap-3">
             <Search />
             <div className="flex-row bg-primary text-white p-2 gap-1">
-              <button onClick={openModal}>Add Event</button>
+              <button
+                onClick={openModal}
+                className="flex flex-row items-center gap-1"
+              >
+                Add Event <Plus />
+              </button>
               {isModalOpen && (
                 <div className="modal-background z-10">
                   <div className="modal-content">
@@ -260,11 +266,12 @@ function App() {
         </div>
 
         {currentView === View.Month ? (
-          <BigCalendar
-            targetCalendarDates={targetCalendarDates}
-            getSecondDateClass={getSecondDateClass}
-            events={events}
-          />
+          // <BigCalendar
+          //   targetCalendarDates={targetCalendarDates}
+          //   getSecondDateClass={getSecondDateClass}
+          //   events={events}
+          // />
+          <MonthView />
         ) : currentView === View.Year ? (
           <YearView
             year={selectedYear}
