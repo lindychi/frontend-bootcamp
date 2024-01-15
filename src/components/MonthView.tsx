@@ -1,78 +1,85 @@
-import React, { useState, useEffect } from "react";
-import { getEvents } from "../services/eventService";
-import { EventItem } from "../types/common";
+import React from "react";
+import { dayList } from "../consts/calendar";
 
-interface DayWithEvents {
-  date: Date;
-  events: EventItem[];
-}
+type EventType = {
+  date: string;
+  name: string;
+  // time: string;
+  // endTime: string;
+};
 
-const MonthView: React.FC = () => {
-  const [events, setEvents] = useState<EventItem[]>([]);
+type BigCalendarProps = {
+  targetCalendarDates: Date[] | null;
+  getSecondDateClass: (date: Date) => string;
+  //  events: EventType[];
+};
 
-  const loadEvents = async () => {
-    const result = await getEvents({ year: 2024 });
-    setEvents(result.data);
-  };
+const BigCalendar: React.FC<BigCalendarProps> = ({
+  targetCalendarDates,
+  getSecondDateClass,
+  // events,
+}) => {
+  // const groupAndSortEvents = () => {
+  //   const groupedEvents: { [key: string]: EventType[] } = {};
 
-  useEffect(() => {
-    loadEvents();
-  }, []);
+  // events.forEach((event) => {
+  //   const dateKey = new Date(event.date).toLocaleDateString("ko-KR"); // Modified this line
+  //   if (!groupedEvents[dateKey]) {
+  //     groupedEvents[dateKey] = [];
+  //   }
+  //   groupedEvents[dateKey].push(event);
+  // });
 
-  const getDaysInMonth = (year: number, month: number): number => {
-    return new Date(year, month, 0).getDate();
-  };
+  // for (const key in groupedEvents) {
+  //   groupedEvents[key].sort((a, b) => {
+  //     const timeA = new Date(`1970-01-01T${a.time}`);
+  //     const timeB = new Date(`1970-01-01T${b.time}`);
+  //     return timeA.getTime() - timeB.getTime();
+  //   });
+  // }
 
-  const getDaysArray = (year: number, month: number): Date[] => {
-    const daysInMonth = getDaysInMonth(year, month);
-    return Array.from(
-      { length: daysInMonth },
-      (_, i) => new Date(year, month - 1, i + 1)
-    );
-  };
+  //   return groupedEvents;
+  // };
 
-  const groupEventsByDay = (events: EventItem[]): DayWithEvents[] => {
-    const groupedEvents: DayWithEvents[] = [];
-
-    events.forEach((event) => {
-      const eventDate = new Date(event.startedAt);
-      const dayIndex = eventDate.getDate() - 1;
-
-      if (!groupedEvents[dayIndex]) {
-        groupedEvents[dayIndex] = { date: eventDate, events: [] };
-      }
-
-      groupedEvents[dayIndex].events.push(event);
-    });
-
-    return groupedEvents;
-  };
-
-  const daysInMonth = getDaysArray(2024, 1); // 2024년 1월의 날짜 배열
-  const eventsByDay = groupEventsByDay(events);
+  // const groupedAndSortedEvents = groupAndSortEvents();
 
   return (
-    <div className="grid grid-cols-7 gap-1">
-      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-        <div key={day} className="text-center">
-          {day}
-        </div>
-      ))}
-      {daysInMonth.map((day, index) => (
-        <div key={index} className="text-center">
-          {day.getDate()}
-          {eventsByDay[index]?.events.map((event, eventIndex) => (
+    <>
+      <div className="min-w-screen grid grid-cols-7 gap-1 border border-state-300">
+        {dayList.map((day) => (
+          <div key={day.medium} className="text-center py-2 ">
+            {day.medium}
+          </div>
+        ))}
+      </div>
+
+      <div className="min-w-screen min-h-[1500px] grid grid-cols-7  border border-state-300">
+        {targetCalendarDates?.map((date: Date, index: number) => {
+          // const currentDateKey = date.toLocaleDateString("ko-KR");
+          // const currentDateEvents =
+          //   groupedAndSortedEvents[currentDateKey] || [];
+
+          // console.info(date.getDate());
+
+          return (
             <div
-              key={eventIndex}
-              className="bg-blue-300 text-white p-2 rounded"
+              key={index}
+              className={`text-left indent-3 py-2 border border-state-300 ${getSecondDateClass(
+                date
+              )}`}
             >
-              {event.title}
+              {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
+              {/* {currentDateEvents.map((event: EventType, eventIndex: number) => (
+                <div key={eventIndex}>
+                  {event.name} at {event.time}
+                </div>
+              ))} */}
             </div>
-          ))}
-        </div>
-      ))}
-    </div>
+          );
+        })}
+      </div>
+    </>
   );
 };
 
-export default MonthView;
+export default BigCalendar;

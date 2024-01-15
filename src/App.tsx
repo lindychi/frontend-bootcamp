@@ -271,7 +271,10 @@ function App() {
           //   getSecondDateClass={getSecondDateClass}
           //   events={events}
           // />
-          <MonthView />
+          <MonthView
+            targetCalendarDates={targetCalendarDates}
+            getSecondDateClass={getSecondDateClass}
+          />
         ) : currentView === View.Year ? (
           <YearView
             year={selectedYear}
