@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import DayHeader from './DayHeader';
+import { getDayEvents } from '../services/eventService';
+import { EventItem } from '../types/common';
+
 
 type Todo = {
   title: string;
-  startedAt: string;
-  endedAt: string;
+  startedAt: Date;
+  endedAt: Date;
 
 };
 
 type Props = {
-
   selectedMonth: number;
   selectedYear: number;
   today: Date;
   selectedDate: Date | null;
   dates: Date[];
+  todos: Todo[];
 };
 
 
@@ -27,8 +30,27 @@ const BigCalendar: React.FC<Props> = ({
   today,
   selectedDate,
   dates,
+  todos,
 }) => {
-  ;
+
+  const [events, setEvents] = useState<EventItem[]>([]);
+  const loadEvents = async (selectedDate: Date | null) => {
+    if (!selectedDate) {
+      return;
+    }
+
+    const result = await getDayEvents({
+      year: selectedDate.getFullYear(),
+      month: selectedDate.getMonth() + 1,
+      day: selectedDate.getDate(),
+    });
+    setEvents(result.data);
+    console.log(result.data);
+  };
+
+  useEffect(() => {
+    loadEvents(selectedDate);
+  }, [selectedDate]);
 
   return (
     <div>
@@ -42,11 +64,10 @@ const BigCalendar: React.FC<Props> = ({
             date.getMonth() === today.getMonth() &&
             date.getFullYear() === today.getFullYear();
 
-          const isSelectedDate =
-            selectedDate &&
-            date.getDate() === selectedDate.getDate() &&
-            date.getMonth() === selectedDate.getMonth() &&
-            date.getFullYear() === selectedDate.getFullYear();
+            const dayEvents = events.filter(event => 
+              event.startedAt.getDate() === date.getDate() &&
+              event.startedAt.getMonth() === date.getMonth() &&
+              event.startedAt.getFullYear() === date.getFullYear());
 
           return (
             <div
@@ -59,7 +80,8 @@ const BigCalendar: React.FC<Props> = ({
             >
               {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
 
-             
+              {dayEvents.map((event: EventItem) => (
+        <div key={event.id}>{event.title}</div>))}
             </div>
           );
         })}

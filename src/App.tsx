@@ -13,7 +13,6 @@ import MonthSelect from './components/MonthSelect';
 import SmallCalendar from './components/SmallCalendar';
 import BigCalendar from './components/BigCalendar';
 import ToDoAdd from './components/ToDoAdd';
-import DaySelector from './components/DaySelector';
 import DayView from './components/DayView';
 import YearView from './components/YearView';
 
@@ -53,6 +52,12 @@ tomorrow.setDate(today.getDate() + 1);
     const selectedViewValue = e.target.value;
     setSelectedView(selectedViewValue);
   };
+ // 팝업 상태 관리
+  const [showPopup, setShowPopup] = useState(false);
+
+  // 팝업 토글 함수
+  const togglePopup = () => {
+    setShowPopup(!showPopup)}
 
   
 
@@ -117,16 +122,18 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
       <div className="flex flex-row items-center gap-4">
         <Search />
         <button className="flex flex-row bg-primary items-center text-white p-2 gap-2 rounded"
-          >
+          onClick={togglePopup}>
          <div>Add event</div>
          <Plus />
         </button>
       </div>
+      {showPopup && ( <ToDoAdd setTodoData={setTodoData} /> )}
+      
     </div>
     
 {selectedView === 'month' && (
           <BigCalendar
-         
+            todos={todoData}         
             selectedMonth={selectedMonth}
             selectedYear={selectedYear}
             today={today}
