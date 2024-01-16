@@ -16,6 +16,8 @@ import ToDoAdd from './components/ToDoAdd';
 import DaySelector from './components/DaySelector';
 import DayView from './components/DayView';
 import YearView from './components/YearView';
+import { title } from 'process';
+import { addEvent } from './services/eventService';
 
 
 
@@ -26,7 +28,7 @@ function App() {
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
   const [selectedView, setSelectedView] = useState<string>('month');
-  const [todoData, setTodoData] = useState<{ title: string; startTime: string; endTime: string; date: Date }[]>([]);
+  const [todoData, setTodoData] = useState<{ title: string; startedAt: string; endedAt: string;}[]>([]);
   const tomorrow = new Date();
 tomorrow.setDate(today.getDate() + 1);
 
@@ -53,6 +55,8 @@ tomorrow.setDate(today.getDate() + 1);
     const selectedViewValue = e.target.value;
     setSelectedView(selectedViewValue);
   };
+
+  
 
   const startOfWeek = new Date(today);
 const dayOfWeek = today.getDay();
@@ -81,10 +85,10 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
     <div className='flex flex-col gap-3'>
     <ToDoAdd setTodoData={setTodoData} /> 
     <div className='bg-yellow-100 h-40'>
-    <DaySelector title="TODAY" todoData={todoData} selectedDate={today} />
+   
     </div>
     <div className='bg-green-100 h-40'>
-    <DaySelector title="TOMORROW" todoData={todoData} selectedDate={tomorrow} />
+
     </div>
     </div>
   </div>
@@ -114,16 +118,17 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
       </div>
       <div className="flex flex-row items-center gap-4">
         <Search />
-        <div className="flex flex-row bg-primary items-center text-white p-2 gap-2 rounded">
+        <button className="flex flex-row bg-primary items-center text-white p-2 gap-2 rounded"
+          >
          <div>Add event</div>
          <Plus />
-        </div>
+        </button>
       </div>
     </div>
     
 {selectedView === 'month' && (
           <BigCalendar
-            todoData={todoData}
+         
             selectedMonth={selectedMonth}
             selectedYear={selectedYear}
             today={today}

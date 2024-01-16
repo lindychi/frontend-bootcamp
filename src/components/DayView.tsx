@@ -53,6 +53,7 @@ const DayView: React.FC<Props> = ({ selectedDate }) => {
   return (
   <div className=' flex flex-row '>
       <div className="relative w-full">
+        
         <div className=" ">
         {hours.map((hour) => (
         <div key={hour} className="outer-box w-full h-[60px]"></div>

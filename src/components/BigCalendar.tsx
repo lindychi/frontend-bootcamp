@@ -4,13 +4,13 @@ import DayHeader from './DayHeader';
 
 type Todo = {
   title: string;
-  startTime: string;
-  endTime: string;
-  date: Date;
+  startedAt: string;
+  endedAt: string;
+
 };
 
 type Props = {
-  todoData: Todo[];
+
   selectedMonth: number;
   selectedYear: number;
   today: Date;
@@ -18,31 +18,17 @@ type Props = {
   dates: Date[];
 };
 
-const filterDate = (todos: Todo[], selectedDate: Date | null): Todo[] => {
-  if (!selectedDate) {
-    return [];
-  }
 
-  return todos.filter((todo) => {
-    const todoDate = new Date(todo.date);
-
-    return (
-      todoDate.getDate() === selectedDate.getDate() &&
-      todoDate.getMonth() === selectedDate.getMonth() &&
-      todoDate.getFullYear() === selectedDate.getFullYear()
-    );
-  });
-};
 
 const BigCalendar: React.FC<Props> = ({
-  todoData,
+  
   selectedMonth,
   selectedYear,
   today,
   selectedDate,
   dates,
 }) => {
-  console.log(todoData);
+  ;
 
   return (
     <div>
@@ -73,15 +59,7 @@ const BigCalendar: React.FC<Props> = ({
             >
               {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
 
-              {filterDate(todoData, date).map((item, index) => (
-                <div key={index} className="flex flex-row justify-between">
-                  <div className='flex flex-row items-center gap-2'>
-                    <div className='flex  w-2 h-2 rounded-lg bg-yellow-500'></div>
-                    <div>{item.title}</div>
-                  </div>
-                  <div>{item.startTime}</div>
-                </div>
-              ))}
+             
             </div>
           );
         })}

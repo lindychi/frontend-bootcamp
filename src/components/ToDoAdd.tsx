@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 
 type Todo = {
   title: string;
-  startTime: string;
-  endTime: string;
-  date: Date;
+  startedAt: string;
+  endedAt: string;
 };
 
 type ToDoAddProps = {
@@ -13,17 +12,16 @@ type ToDoAddProps = {
 
 const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
   const [title, setTitle] = useState('');
-  const [selectedDate, setDate] = useState<Date | null>(null);
-  const [selectedStartTime, setStartTime] = useState<string>('08:00');
-   const [selectedEndTime, setEndTime] = useState<string>('08:30');
+  const [selectedStartedAt, setStartedAt] = useState('');
+  const [selectEndedAt, setEndedAt] = useState('');
+  
 
   const handleAddTodo = () => {
-    if (title && selectedDate && selectedStartTime && selectedEndTime) {
+    if (title && selectedStartedAt && selectEndedAt) {
       const newTodo = {
         title,
-        startTime: selectedStartTime,
-        endTime: selectedEndTime,
-        date: selectedDate as Date,
+        setStartedAt: selectedStartedAt,
+        setEndedAt: selectEndedAt,
       };
 
       // 이 부분에서 로컬 스토리지에 데이터 저장
@@ -33,42 +31,32 @@ const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
 
       // 상태 업데이트
       setTodoData(updatedTodos);
-
       setTitle('');
-      setDate(null);
-      setStartTime('08:00');
-      setEndTime('08:30');
+      setStartedAt('');
+      setEndedAt('');
     }
   };
 
   return (
     <div className='flex flex-col'>
-      Title{''}
+      제목{''}
       <input
         type="text"
         value={title}
         onChange={(event) => setTitle(event.target.value)}
       />
-      Date{}
+      
+      일정 시작{' '}
       <input
-       type="date"
-       value={selectedDate ? selectedDate.toISOString().split('T')[0] : ''}
-       onChange={(event) => {
-         const selectedDateValue = event.target.value;
-         setDate(new Date(selectedDateValue));
-        }}
+        type="datetime-local"
+        value={selectedStartedAt}
+        onChange={(event) => setStartedAt(event.target.value)}
       />
-       Start Time{' '}
+      일정 끝{' '}
       <input
-        type="time"
-        value={selectedStartTime}
-        onChange={(event) => setStartTime(event.target.value)}
-      />
-      End Time{' '}
-      <input
-        type="time"
-        value={selectedEndTime}
-        onChange={(event) => setEndTime(event.target.value)}
+        type="datetime-local"
+        value={selectEndedAt}
+        onChange={(event) => setEndedAt(event.target.value)}
       />
       <button
         className="bg-primary text-white"
