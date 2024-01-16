@@ -42,7 +42,7 @@ export default function AddEvent({ onClose }: Props) {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        zIndex: 1000,
+        zIndex: 1,
       }}
     >
       <div className="modal w-[500px] h-[500px] rounded-2xl bg-red-200 text-center px-3 py-1">

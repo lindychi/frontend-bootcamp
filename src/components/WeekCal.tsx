@@ -13,15 +13,28 @@ export default function WeekCal({}: Props) {
   const today = new Date();
 
   const loadEvents = async () => {
-    [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(async (day) => {
-      const result = await getDayEvents({
-        year: today.getFullYear(),
-        month: today.getMonth() + 1,
-        day,
-      });
-      setEvents((prev) => [...prev, ...result.data]);
+    // 오늘 날짜(today)를 기준으로 이번 주의 첫 번째 날을 찾습니다.
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay()); // 이번 주의 일요일로 설정
+
+   // 7일 동안의 이벤트를 가져오기 위해 반복문 사용
+   for (let i = 0; i < 7; i++) {
+    // i일 후의 날짜를 계산
+    const nextDay = new Date(startOfWeek);
+    nextDay.setDate(startOfWeek.getDate() + i);
+    
+
+    // getDayEvents를 사용하여 해당 날짜의 이벤트 가져오기
+    const result = await getDayEvents({
+      year: nextDay.getFullYear(),
+      month: nextDay.getMonth() + 1,
+      day: nextDay.getDate(),
     });
-  };
+
+    // 현재 이벤트 상태에 새로운 이벤트 추가
+    setEvents((prev) => [...prev, ...result.data]);
+  }
+};
 
   useEffect(() => {
     loadEvents();
@@ -59,7 +72,7 @@ export default function WeekCal({}: Props) {
     <div>
       <div className="flex border-b">
         <div className="w-[64px] "></div>
-        <div className="flex w-[1150px]">
+        <div className="flex w-full">
           <SevenDays dayList={dayList} />
         </div>
       </div>
