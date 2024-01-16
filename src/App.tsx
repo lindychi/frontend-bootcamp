@@ -12,9 +12,11 @@ import BigCalendar from "./components/BigCalendar";
 import "./Modal.css";
 import YearView from "./components/YearView";
 import WeekView from "./components/WeekView";
-import DayView from "./components/DayView";
 import WeeklyView from "./components/WeeklyView";
+import DayView from "./components/DayView";
 import MonthView from "./components/MonthView";
+import { addEvent, getEvents } from "./services/eventService";
+import { EventItem } from "./types/common";
 
 enum View {
   Month = "month",
@@ -42,39 +44,62 @@ function App() {
     setTargetCalendarDates(newDates);
   }, [selectedMonth, selectedYear]);
 
-  const [events, setEvents] = useState<
-    {
-      date: string;
-      name: string;
-      time: string;
-      endTime: string;
-    }[]
-  >([]);
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
 
-  const [sortedEvents, setSortedEvents] = useState<
-    {
-      date: string;
-      name: string;
-      time: string;
-      endTime: string;
-    }[]
-  >([]);
+  const [event, setEvent] = useState<EventItem[]>([]);
 
+  const loadEvent = async () => {
+    const result = await getEvents({ year: currentYear, month: currentMonth });
+    setEvent(result.data);
+  };
   useEffect(() => {
-    const sortedByDate = [...events].sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return dateA.getTime() - dateB.getTime();
-    });
+    loadEvent();
+  }, []);
 
-    const sortedByDateTime = [...sortedByDate].sort((a, b) => {
-      const timeA = new Date(`1970-01-01T${a.time}`);
-      const timeB = new Date(`1970-01-01T${b.time}`);
-      return timeA.getTime() - timeB.getTime();
-    });
+  const [events, setEvents] = useState<EventItem[]>([]);
 
-    setSortedEvents(sortedByDateTime);
-  }, [events]);
+  const loadEvents = async () => {
+    const result = await getEvents({ year: currentYear, month: currentMonth });
+    setEvents(result.data);
+  };
+  useEffect(() => {
+    loadEvents();
+  }, []);
+  // const [events, setEvents] = useState<
+  //   {
+  //     date: string;
+  //     name: string;
+  //     time: string;
+  //     endTime: string;
+  //   }[]
+  // >([]);
+
+  // const [sortedEvents, setSortedEvents] = useState<
+  //   {
+  //     date: string;
+  //     name: string;
+  //     time: string;
+  //     endTime: string;
+  //   }[]
+  // >([]);
+
+  // useEffect(() => {
+  //   const sortedByDate = [...events].sort((a, b) => {
+  //     const dateA = new Date(a.date);
+  //     const dateB = new Date(b.date);
+  //     return dateA.getTime() - dateB.getTime();
+  //   });
+
+  //   const sortedByDateTime = [...sortedByDate].sort((a, b) => {
+  //     const timeA = new Date(`1970-01-01T${a.time}`);
+  //     const timeB = new Date(`1970-01-01T${b.time}`);
+  //     return timeA.getTime() - timeB.getTime();
+  //   });
+
+  //   setSortedEvents(sortedByDateTime);
+  // }, [events]);
 
   const getDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
@@ -93,57 +118,56 @@ function App() {
     return "";
   };
 
-  const today = new Date();
-  // 모달에 필요한 함수
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [eventName, setEventName] = useState("");
-  const [eventDate, setEventDate] = useState("");
-  const [eventTime, setEventTime] = useState("");
-  const [eventEndTime, setEventEndTime] = useState("");
+  // // 모달에 필요한 함수
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [eventName, setEventName] = useState("");
+  // const [eventDate, setEventDate] = useState("");
+  // const [eventTime, setEventTime] = useState("");
+  // const [eventEndTime, setEventEndTime] = useState("");
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  // const openModal = () => {
+  //   setIsModalOpen(true);
+  // };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setEventName("");
-    setEventDate("");
-    setEventTime("");
-  };
-  const handleSaveEvent = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const closeModal = () => {
+  //   setIsModalOpen(false);
+  //   setEventName("");
+  //   setEventDate("");
+  //   setEventTime("");
+  // };
+  // const handleSaveEvent = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-    const [hours, minutes] = eventTime.split(":").map(Number);
-    const [endHours, endMinutes] = eventEndTime.split(":").map(Number);
+  // const [hours, minutes] = eventTime.split(":").map(Number);
+  // const [endHours, endMinutes] = eventEndTime.split(":").map(Number);
 
-    const newDate = new Date(eventDate);
-    const startDate = new Date(
-      newDate.getFullYear(),
-      newDate.getMonth(),
-      newDate.getDate(),
-      hours,
-      minutes
-    );
+  // const newDate = new Date(eventDate);
+  // const startDate = new Date(
+  //   newDate.getFullYear(),
+  //   newDate.getMonth(),
+  //   newDate.getDate(),
+  //   hours,
+  //   minutes
+  // );
 
-    let endDate = new Date(
-      newDate.getFullYear(),
-      newDate.getMonth(),
-      newDate.getDate(),
-      endHours,
-      endMinutes
-    );
+  // let endDate = new Date(
+  //   newDate.getFullYear(),
+  //   newDate.getMonth(),
+  //   newDate.getDate(),
+  //   endHours,
+  //   endMinutes
+  // );
 
-    const newEvent = {
-      date: startDate.toISOString(),
-      name: eventName,
-      time: eventTime,
-      endTime: endDate.toISOString(),
-    };
+  //   const newEvent = {
+  //     date: startDate.toISOString(),
+  //     name: eventName,
+  //     time: eventTime,
+  //     endTime: endDate.toISOString(),
+  //   };
 
-    setEvents([...events, newEvent]);
-    closeModal();
-  };
+  //   setEvents([...events, newEvent]);
+  //   closeModal();
+  // };
   // 작은달력에 넣었던 효과가 큰달력에 적용되지 않아서 한번 더  추가함
   const getSecondDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
@@ -173,7 +197,7 @@ function App() {
         selectedMonth={selectedMonth}
         targetCalendarDates={targetCalendarDates}
         getDateClass={getDateClass}
-        events={sortedEvents}
+        // events={sortedEvents}
       />
 
       <div className="w-full h-full">
@@ -212,7 +236,7 @@ function App() {
 
           <div className="flex gap-3">
             <Search />
-            <div className="flex-row bg-primary text-white p-2 gap-1">
+            {/* <div className="flex-row bg-primary text-white p-2 gap-1">
               <button
                 onClick={openModal}
                 className="flex flex-row items-center gap-1"
@@ -261,7 +285,20 @@ function App() {
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
+            {/* <button
+              className="bg-blue-500 text-white hover:brightness-75"
+              onClick={async () => {
+                addEvent({
+                  title: event.title as string,
+                  startedAt: event.startedAt as Date,
+                  endedAt: event.endedAt,
+                  // categoryId: event.categoryId,
+                }as EventItem);
+              }}
+            >
+              추가
+            </button> */}
           </div>
         </div>
 

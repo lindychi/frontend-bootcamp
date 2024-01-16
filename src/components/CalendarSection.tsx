@@ -5,25 +5,25 @@ type CalendarSectionProps = {
   selectedMonth: number;
   targetCalendarDates: Date[] | null;
   getDateClass: (date: Date) => string;
-  events: { date: string; name: string; time: string }[];
+  // events: { date: string; name: string; time: string }[];
 };
 
 const CalendarSection: React.FC<CalendarSectionProps> = ({
   selectedMonth,
   targetCalendarDates,
   getDateClass,
-  events,
+  // events,
 }) => {
-  const today = new Date();
+  // const today = new Date();
 
-  const todayEvents = events.filter((event) => {
-    const eventDate = new Date(event.date);
-    return (
-      eventDate.getFullYear() === today.getFullYear() &&
-      eventDate.getMonth() === today.getMonth() &&
-      eventDate.getDate() === today.getDate()
-    );
-  });
+  // const todayEvents = events.filter((event) => {
+  //   const eventDate = new Date(event.date);
+  //   return (
+  //     eventDate.getFullYear() === today.getFullYear() &&
+  //     eventDate.getMonth() === today.getMonth() &&
+  //     eventDate.getDate() === today.getDate()
+  //   );
+  // });
 
   return (
     <div className="w-[340px] h-screen border border-slate-300 p-4">
@@ -46,7 +46,7 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
         ))}
       </div>
       <div className="p-3">
-        <div className="mt-8">
+        {/* <div className="mt-8">
           <h3 className="text-2xl font-semibold mb-2">
             {todayEvents.length > 0 ? "TODAY EVENT" : "A DAY WITH NOTHING"}
           </h3>
@@ -69,8 +69,8 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
               ))}
             </ul>
           )}
-        </div>
-        <div className="mt-8">
+        </div> */}
+        {/* <div className="mt-8">
           <h3 className="text-2xl font-semibold mb-2">일정 테이블</h3>
           <table className="w-full border-collapse border">
             <thead>
@@ -92,7 +92,7 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
               ))}
             </tbody>
           </table>
-        </div>
+        </div> */}
       </div>
     </div>
   );
