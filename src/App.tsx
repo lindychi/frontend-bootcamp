@@ -16,8 +16,6 @@ import ToDoAdd from './components/ToDoAdd';
 import DaySelector from './components/DaySelector';
 import DayView from './components/DayView';
 import YearView from './components/YearView';
-import { title } from 'process';
-import { addEvent } from './services/eventService';
 
 
 
@@ -28,7 +26,7 @@ function App() {
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
   const [selectedView, setSelectedView] = useState<string>('month');
-  const [todoData, setTodoData] = useState<{ title: string; startedAt: string; endedAt: string;}[]>([]);
+  const [todoData, setTodoData] = useState<{ title: string; startedAt: Date; endedAt: Date;}[]>([]);
   const tomorrow = new Date();
 tomorrow.setDate(today.getDate() + 1);
 
@@ -208,10 +206,5 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
 
 export default App;
 
-interface Todo {
-  title: string;
-  startTime: string;
-  endTime: string;
-  date: Date;
-}
+
 

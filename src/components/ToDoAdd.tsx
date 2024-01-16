@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
+import { addEvent } from '../services/eventService';
 
 type Todo = {
   title: string;
-  startedAt: string;
-  endedAt: string;
+  startedAt: Date;
+  endedAt: Date;
 };
 
 type ToDoAddProps = {
   setTodoData: React.Dispatch<React.SetStateAction<Todo[]>>;
 };
+
+function toUTC(dateString: string) {
+  const localDate = new Date(dateString);
+  localDate.setHours(localDate.getHours() + 9);
+  return localDate;
+}
 
 const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
   const [title, setTitle] = useState('');
@@ -16,26 +23,31 @@ const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
   const [selectEndedAt, setEndedAt] = useState('');
   
 
-  const handleAddTodo = () => {
+  const handleAddTodo = async () => {
     if (title && selectedStartedAt && selectEndedAt) {
       const newTodo = {
         title,
-        setStartedAt: selectedStartedAt,
-        setEndedAt: selectEndedAt,
+        startedAt: toUTC(selectedStartedAt),
+        endedAt: toUTC(selectEndedAt),
       };
 
-      // 이 부분에서 로컬 스토리지에 데이터 저장
-      const existingTodos = JSON.parse(localStorage.getItem('todos') || '[]');
-      const updatedTodos = [...existingTodos, newTodo];
-      localStorage.setItem('todos', JSON.stringify(updatedTodos));
+      try {
+      
+        await addEvent(newTodo)
 
-      // 상태 업데이트
+        const existingTodos = JSON.parse(localStorage.getItem('todos') || '[]');
+        const updatedTodos = [...existingTodos, newTodo]; 
+        localStorage.setItem('todos', JSON.stringify(updatedTodos));
+
       setTodoData(updatedTodos);
       setTitle('');
       setStartedAt('');
       setEndedAt('');
+    } catch (error) {
+      // API 호출 중 에러 발생 시 처리
+      console.error('Todo 추가 중 에러 발생', error);
     }
-  };
+  };}
 
   return (
     <div className='flex flex-col'>
@@ -65,6 +77,7 @@ const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
         추가
       </button>
       {JSON.stringify(ToDoAdd)}
+      
       
     </div>
   );
