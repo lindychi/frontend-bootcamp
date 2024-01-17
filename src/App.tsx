@@ -78,7 +78,7 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
   <div className="w-[250px] self-stretch flex flex-col  ">
    <div className="p-[10px] grid gap-2">
       <MonthHeader selectedMonth={selectedMonth}/>
-      <DayHeader className='grid grid-cols-7 text-[10px] pl-1' form='short' />
+      <DayHeader className='grid grid-cols-7 text-[10px] ' form='short' />
       <SmallCalendar
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
@@ -95,13 +95,13 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
        <Hamburger />
        <MonthHeader selectedMonth={selectedMonth} />
        <div className="text-[30px]"> {selectedYear}</div>
-       <div className="flex flex-row">
+       <div className="flex flex-row gap-2">
        <YearSelect selectedYear={selectedYear} handleYearChange={handleYearChange}/>
        <MonthSelect selectedMonth={selectedMonth} handleMonthChange={handleMonthChange} />
        <div>
             <label htmlFor="viewSelect"> </label>
             <select 
-            className="text-primary border-primary border-solid border-[1px] p-2 gap-1 rounded"
+            className="text-lime-500 border-lime-500  border-solid border-[1px] p-2 gap-1 rounded"
             id="viewSelect" value={selectedView} onChange={handleViewChange}>
               <option value="year">Year</option>
               <option value="month">Month</option>
@@ -115,7 +115,7 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
       </div>
       <div className="flex flex-row items-center gap-4">
         <Search />
-        <button className="flex flex-row bg-primary items-center text-white p-2 gap-2 rounded"
+        <button className="flex flex-row bg-lime-500 items-center text-white p-2 gap-2 rounded"
           onClick={togglePopup}>
          <div>Add event</div>
          <Plus />
@@ -139,20 +139,21 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
         )}
 
         {selectedView === 'week' && (
-         <div className='flex flex-row '>
+         <div className='flex flex-row w-full h-[calc(100vh)] '>
           
             <div className='py-2'>
               {hours.map((hour) => (
-              <div key={hour} className="flex flex-col py-1 h-[60px]">
+              <div key={hour} className="flex flex-col py-5 h-[60px] w-12 text-lime-500">
             {hour > 9 ? hour : `0${hour}`}:00
             </div>
              ))}
            </div>
-         <div className='grid grid-cols-7 w-[1640px]'>
+         <div className='grid grid-cols-7 w-full'>
             
             {weekDates.map((day,index) => (
             <div>
-              <div className='flex justify-center font-bold '>{(day.getDate() > 9 ? day.getDate() : `0${day.getDate()}`)}일</div>
+              <div className='flex justify-center font-bold items-center h-10  border-white border-[1px] bg-lime-500 text-white'>
+                {(day.getDate() > 9 ? day.getDate() : `0${day.getDate()}`)}</div>
               <div className=''>
           <DayView key={index} selectedDate={day}/>
           </div></div>))}

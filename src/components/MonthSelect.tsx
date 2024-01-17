@@ -9,7 +9,7 @@ type Props = {
 export default function MonthSelect({selectedMonth, handleMonthChange}: Props) {
   return (
     <select
-                className="text-primary border-primary border-solid border-[1px] p-2 gap-1 rounded"
+                className="text-lime-500 border-lime-500  border-solid border-[1px] p-2 gap-1 rounded"
                 onChange={handleMonthChange}
                 value={selectedMonth}
               >

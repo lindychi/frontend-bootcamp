@@ -54,8 +54,8 @@ const BigCalendar: React.FC<Props> = ({
 
   return (
     <div >
-      <DayHeader className="grid grid-cols-7" form='medium' />
-      <div className="grid grid-cols-7 w-[1214px] h-min-[923px]">
+      <DayHeader className="w-full grid grid-cols-7 bg-lime-300 justify-center items-center font-bold" form='medium' />
+      <div className="grid grid-cols-7 grid-rows-6 w-full h-[calc(100vh)]">
         {dates.map((date: Date, index) => {
           const isCurrentMonth =
             date.getMonth() + 1 === selectedMonth && date.getFullYear() === selectedYear;
@@ -72,8 +72,8 @@ const BigCalendar: React.FC<Props> = ({
           return (
             <div
               key={index}
-              className={clsx('w-[173px] h-[184px] outer-box p-2.5', {
-                'bg-primary text-white': isToday,
+              className={clsx(' outer-box justify-start items-start p-3 font-bold ', {
+                'bg-lime-300 text-white': isToday,
                 'text-black': !isToday && isCurrentMonth,
                 'text-zinc-500 bg-zinc-100 opacity-30': !isToday && !isCurrentMonth,
               })}

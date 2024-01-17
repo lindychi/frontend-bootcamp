@@ -10,7 +10,7 @@ export default function YearSelect({selectedYear, handleYearChange }: Props) {
     const today = new Date(); 
   return (
     <select
-                className="text-primary border-primary border-solid border-[1px] p-2 gap-1 rounded"
+                className="text-lime-500 border-lime-500 border-solid border-[1px] p-2 gap-1 rounded"
                 onChange={handleYearChange}
                 value={selectedYear}
               >
