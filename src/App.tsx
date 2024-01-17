@@ -15,8 +15,7 @@ import WeekView from "./components/WeekView";
 import WeeklyView from "./components/WeeklyView";
 import DayView from "./components/DayView";
 import MonthView from "./components/MonthView";
-import { addEvent, getEvents } from "./services/eventService";
-import { EventItem } from "./types/common";
+import EventModal from "./components/AddEvent";
 
 enum View {
   Month = "month",
@@ -44,29 +43,6 @@ function App() {
     setTargetCalendarDates(newDates);
   }, [selectedMonth, selectedYear]);
 
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth() + 1;
-
-  const [event, setEvent] = useState<EventItem[]>([]);
-
-  const loadEvent = async () => {
-    const result = await getEvents({ year: currentYear, month: currentMonth });
-    setEvent(result.data);
-  };
-  useEffect(() => {
-    loadEvent();
-  }, []);
-
-  const [events, setEvents] = useState<EventItem[]>([]);
-
-  const loadEvents = async () => {
-    const result = await getEvents({ year: currentYear, month: currentMonth });
-    setEvents(result.data);
-  };
-  useEffect(() => {
-    loadEvents();
-  }, []);
   // const [events, setEvents] = useState<
   //   {
   //     date: string;
@@ -100,7 +76,7 @@ function App() {
 
   //   setSortedEvents(sortedByDateTime);
   // }, [events]);
-
+  const today = new Date();
   const getDateClass = (date: Date): string => {
     if (date.getMonth() + 1 !== selectedMonth) {
       return "text-gray-400";
@@ -119,24 +95,32 @@ function App() {
   };
 
   // // 모달에 필요한 함수
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // const [eventName, setEventName] = useState("");
   // const [eventDate, setEventDate] = useState("");
   // const [eventTime, setEventTime] = useState("");
   // const [eventEndTime, setEventEndTime] = useState("");
 
-  // const openModal = () => {
-  //   setIsModalOpen(true);
-  // };
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
-  // const closeModal = () => {
-  //   setIsModalOpen(false);
-  //   setEventName("");
-  //   setEventDate("");
-  //   setEventTime("");
-  // };
-  // const handleSaveEvent = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
+  const closeModal = () => {
+    setIsModalOpen(false);
+    //   setEventName("");
+    //   setEventDate("");
+    //   setEventTime("");
+  };
+  const handleEventAdded = () => {
+    // 이벤트가 추가된 후에 수행할 작업을 정의합니다.
+    // 예: 이벤트 목록을 다시 불러오기
+  };
+
+  const [selectedView, setselectedView] = useState("month");
+  const [isAddEventOpen, setIsAddEventOpen] = useState(false);
+  const handleSaveEvent = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setselectedView(e.target.value);
+  };
 
   // const [hours, minutes] = eventTime.split(":").map(Number);
   // const [endHours, endMinutes] = eventEndTime.split(":").map(Number);
@@ -165,7 +149,7 @@ function App() {
   //     endTime: endDate.toISOString(),
   //   };
 
-  //   setEvents([...events, newEvent]);
+  //   setEvent([...event, newEvent]);
   //   closeModal();
   // };
   // 작은달력에 넣었던 효과가 큰달력에 적용되지 않아서 한번 더  추가함
@@ -257,13 +241,13 @@ function App() {
                       <input
                         type="text"
                         placeholder="Event Name"
-                        value={eventName}
+                        value={title}
                         onChange={(e) => setEventName(e.target.value)}
                       />
                       <input
                         type="date"
                         placeholder="Date"
-                        value={eventDate}
+                        value={startAt}
                         onChange={(e) => setEventDate(e.target.value)}
                       />
                       <input
@@ -293,12 +277,30 @@ function App() {
                   title: event.title as string,
                   startedAt: event.startedAt as Date,
                   endedAt: event.endedAt,
-                  // categoryId: event.categoryId,
-                }as EventItem);
+                  }as EventItem);
               }}
             >
               추가
             </button> */}
+            <div>
+              {/* 이벤트 추가 버튼 */}
+              <button
+                onClick={openModal}
+                className="bg-blue-500 text-white hover:brightness-75 items-center p-2 flex flex-row gap-1"
+              >
+                Add Event <Plus />
+              </button>
+
+              {/* 모달 */}
+              {isModalOpen && (
+                <EventModal
+                  onClose={closeModal}
+                  onEventAdded={handleEventAdded}
+                />
+              )}
+
+              {/* 이벤트 목록 등을 표시하는 부분 */}
+            </div>
           </div>
         </div>
 

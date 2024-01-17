@@ -14,7 +14,7 @@ const CalendarSection: React.FC<CalendarSectionProps> = ({
   getDateClass,
   // events,
 }) => {
-  // const today = new Date();
+  const today = new Date();
 
   // const todayEvents = events.filter((event) => {
   //   const eventDate = new Date(event.date);
