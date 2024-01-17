@@ -53,8 +53,8 @@ const BigCalendar: React.FC<Props> = ({
   }, [selectedDate]);
 
   return (
-    <div>
-      <DayHeader className="grid grid-cols-7 outer-box" form='medium' />
+    <div >
+      <DayHeader className="grid grid-cols-7" form='medium' />
       <div className="grid grid-cols-7 w-[1214px] h-min-[923px]">
         {dates.map((date: Date, index) => {
           const isCurrentMonth =

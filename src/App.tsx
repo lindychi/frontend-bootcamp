@@ -74,11 +74,11 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
 });
 
   return (
-<div className="flex flex-row outer-box">
-  <div className="w-[250px] h-min-[1024px] p-3">
-   <div className="p-[10px] grid gap-2.5">
+<div className="flex flex-row min-w-screen min-h-screen h-fit">
+  <div className="w-[250px] self-stretch flex flex-col  ">
+   <div className="p-[10px] grid gap-2">
       <MonthHeader selectedMonth={selectedMonth}/>
-      <DayHeader className='grid grid-cols-7 text-[10px]' form='short' />
+      <DayHeader className='grid grid-cols-7 text-[10px] pl-1' form='short' />
       <SmallCalendar
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
@@ -86,17 +86,11 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
       />
     </div>
     <div className='flex flex-col gap-3'>
-    <ToDoAdd setTodoData={setTodoData} /> 
-    <div className='bg-yellow-100 h-40'>
-   
-    </div>
-    <div className='bg-green-100 h-40'>
-
-    </div>
     </div>
   </div>
-  <div className="w-[1214px] ">
-   <div className="flex flex-row place-content-between items-center p-4">
+
+  <div className="grow shrink basis-0 min-h-screen h-fit">
+   <div className="flex flex-row outer-box place-content-between items-center p-4">
      <div className="flex flex-row items-center gap-4 ">
        <Hamburger />
        <MonthHeader selectedMonth={selectedMonth} />
@@ -132,6 +126,7 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
     </div>
     
 {selectedView === 'month' && (
+        <div >
           <BigCalendar
             todos={todoData}         
             selectedMonth={selectedMonth}
@@ -140,6 +135,7 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
             selectedDate={selectedDate}
             dates={targetCalendarDates}
           />
+        </div>
         )}
 
         {selectedView === 'week' && (
@@ -196,10 +192,12 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
         )}
 
 {selectedView === 'year' && (
+      <div className='grid w-full py-2'>
         <YearView
         selectedYear={selectedYear}
         targetCalendarDates={targetCalendarDates}
         />
+      </div>
       )}
 
 
