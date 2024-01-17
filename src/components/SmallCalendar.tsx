@@ -14,7 +14,7 @@ const SmallCalendar: React.FC<Props> = ({ selectedMonth, selectedYear, today }) 
   const dates = getCalendarDates(selectedYear, selectedMonth);
 
   return (
-    <div className="grid grid-cols-7  text-[10px]">
+    <div className="grid grid-cols-7 justify-center items-center text-[10px]">
       {dates?.map((date: Date, index) => {
         const isCurrentMonth =
           date.getMonth() + 1 === selectedMonth && date.getFullYear() === selectedYear;
@@ -27,7 +27,7 @@ const SmallCalendar: React.FC<Props> = ({ selectedMonth, selectedYear, today }) 
           return (
             <div
               key={index}
-              className={clsx('w-[30px] h-[33px] grid justify-center items-center', {
+              className={clsx(' py-3 grid justify-center items-center', {
                 'bg-lime-500 text-white rounded-full font-bold': isToday && isCurrentMonth,
                 'text-red-500 font-bold': isSunday, 
                 'text-black font-bold': !isToday && isCurrentMonth && !isSunday,

@@ -20,7 +20,7 @@ const YearView: React.FC<Props> = ({ selectedYear, targetCalendarDates }) => {
           <div className='bg-slate-50 rounded-xl  '>
           <div key={month}>
             <h2 className="text-xl font-semibold flex  justify-center items-center h-[60px] text-lime-800">{`${month}월`}</h2>
-            <DayHeader className='grid grid-cols-7 text-[12px] items-center pl-1 font-bold bg-lime-300 rounded-lg  ' form='short'/>
+            <DayHeader className='w-full grid grid-cols-7 text-[13px] items-center font-bold  bg-lime-300   ' form='short'/>
             <SmallCalendar
               selectedMonth={month}
               selectedYear={selectedYear}
