@@ -164,7 +164,7 @@ export default function WeekCal({}: Props) {
                     className="absolute truncate w-full"
                     style={{
                       top: calculateTopPosition(event.startedAt) + 25,
-                      fontSize: "15px",
+                      fontSize: "12px",
                       backgroundColor:
                         event.categories?.color + "80" || "initial",
                       borderRadius: "5px",
@@ -173,10 +173,24 @@ export default function WeekCal({}: Props) {
                         event.endedAt
                       )}px`,
                       zIndex: "1",
+                      display: "flex", // 시간을 세로로 나란히 표시하기 위해 flex 설정
+                      flexDirection: "column", // 시간을 세로로 나란히 표시하기 위해 column 설정
+                      justifyContent: "space-between", // 시간 사이의 간격 조절
+                      padding: "4px", // 내부 간격 설정
                     }}
                   >
-                    {event.title}
+                    <div className="flex justify-between">
+                    <div>{event.title} </div>
+                    <div>
+                      {new Date(event.startedAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false, // 오전/오후 표시하지 않음
+                      })}
+                    </div>
+                    </div>
                   </div>
+                  
                 ))}
             </div>
           ))}
