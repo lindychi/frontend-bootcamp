@@ -173,9 +173,6 @@ export default function WeekCal({}: Props) {
                         event.endedAt
                       )}px`,
                       zIndex: "1",
-                      display: "flex", // 시간을 세로로 나란히 표시하기 위해 flex 설정
-                      flexDirection: "column", // 시간을 세로로 나란히 표시하기 위해 column 설정
-                      justifyContent: "space-between", // 시간 사이의 간격 조절
                       padding: "4px", // 내부 간격 설정
                     }}
                   >
