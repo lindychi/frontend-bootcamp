@@ -11,6 +11,10 @@ type Props = {};
 export default function WeekCal({}: Props) {
   const [events, setEvents] = useState<EventItem[]>([]);
   const today = new Date();
+  const currentHours = today.getHours();
+  const currentMinutes = today.getMinutes();
+  const currentTime = currentHours * 60 + currentMinutes; // 현재 시간을 분 단위로 계산
+
 
   const loadEvents = async () => {
     // 오늘 날짜(today)를 기준으로 이번 주의 첫 번째 날을 찾습니다.
@@ -44,6 +48,7 @@ export default function WeekCal({}: Props) {
     const startedTime = new Date(startedAt);
     const hours = startedTime.getHours();
     const minutes = startedTime.getMinutes();
+    
     return hours * 60 + minutes;
   };
 
@@ -53,6 +58,8 @@ export default function WeekCal({}: Props) {
     }
     const startedTime = new Date(startedAt);
     const endedTime = new Date(endedAt);
+
+    // 종료 시간이 이벤트가 시작한 날짜와 동일하면 종료 시간을 유지하고, 그렇지 않으면 23:59:59로 설정
     const checkMaxEndedTime =
       endedTime.getDate() === startedTime.getDate()
         ? endedTime
@@ -70,6 +77,7 @@ export default function WeekCal({}: Props) {
   };
   return (
     <div>
+      {/* 요일 표시 */}
       <div className="flex border-b">
         <div className="w-[64px] "></div>
         <div className="flex w-full">
@@ -77,12 +85,13 @@ export default function WeekCal({}: Props) {
         </div>
       </div>
 
+      {/* 시간과 이벤트 표시 영역 */}
       <div className="flex">
         <div className="w-[64px] flex flex-col">
           {[...Array(24)].map((_, index) => (
             <div key={index} className="flex relative h-[60px]">
               <div className="timeBox w-[64px] border-r bg-transparent"></div>
-              <div className="time absolute top-[50px] text-xs px-4">
+              <div className="time absolute top-[60px] text-xs px-4">
                 {" "}
                 {index === 23
                   ? ""
@@ -91,23 +100,57 @@ export default function WeekCal({}: Props) {
             </div>
           ))}
         </div>
-        {/* boxContainer 부분 반복 */}
+         {/* 각 요일의 이벤트 표시 영역 */}
         <div className="grid grid-cols-7 w-full">
           {dayList.map((day: DateName, dayIndex) => (
             <div
               key={dayIndex}
               className={`${day.short} w-full border-r flex flex-col relative`}
             >
+               {/* 시간 표시 상자와 이벤트 박스 표시 */}
               {[...Array(24)].map((_, index) => (
                 <div key={index} className="flex relative ">
+                  {/* 일간 이벤트 표시 */}
                   <div
                     className={clsx([
                       "weekBox flex w-full h-[60px] border-b text-start",
                       {
                         "bg-gray-100": dayIndex === 0 || dayIndex === 6,
+                        
                       },
                     ])}
                   ></div>
+
+                    {/* 현재 시간에만 실선 표시 */}
+                  {currentTime >= index * 60 &&
+                  currentTime < (index + 1) * 60 ? (
+                    <div
+                      style={{
+                        borderBottom: "2px solid #585858",
+                        width: "100%",
+                        position: "absolute",
+                        top: `${
+                          ((currentHours - index) % 24) * 60 +
+                          currentMinutes
+                        }px`,
+                      }}
+                    ></div>
+                  ) : null}
+
+
+                  {dayIndex === today.getDay() && currentTime >= index * 60 &&
+                        currentTime < (index + 1) * 60 ? (
+                          <div
+                            style={{
+                              borderBottom: `4px solid black`,
+                              width: "100%",
+                              position: "absolute",
+                              top: `${
+                                ((currentHours - index) % 24) * 60 + currentMinutes
+                              }px`,
+                            }}
+                          ></div>
+                        ) : null}
                 </div>
               ))}
 
@@ -121,7 +164,6 @@ export default function WeekCal({}: Props) {
                     className="absolute truncate w-full"
                     style={{
                       top: calculateTopPosition(event.startedAt) + 25,
-                      // top: '125px',
                       fontSize: "15px",
                       backgroundColor:
                         event.categories?.color + "80" || "initial",
@@ -130,7 +172,7 @@ export default function WeekCal({}: Props) {
                         event.startedAt,
                         event.endedAt
                       )}px`,
-                      zIndex: "1", // z-index 설정-다른요소들보다 위에
+                      zIndex: "1",
                     }}
                   >
                     {event.title}
@@ -139,48 +181,8 @@ export default function WeekCal({}: Props) {
             </div>
           ))}
         </div>
-
-        {/* {[...Array(24)].map((_, index) => (
-          <div key={index} className="flex relative w-100% ">
-            <div className="timeBox w-[64px] border-r"></div>
-            <div className="time absolute top-[70px] text-xs px-4">
-              {" "}
-              {index === 23
-                ? ""
-                : ("00" + ((index + 1) % 24)).slice(-2) + ":00"}
-            </div>
-            <div className={`weekBox flex w-full h-[80px] border-b text-start`}>
-              {dayList.map((day: DateName, dayIndex) => (
-                <div
-                  key={dayIndex}
-                  className={`${day.short} w-full border-r ${
-                    dayIndex === 0 || dayIndex === 6 ? "bg-gray-100" : ""
-                  }`}
-                ></div>
-              ))}
-            </div>
-          </div>
-        ))} */}
       </div>
     </div>
   );
 }
 
-{
-  /* <div className="flex w-100% text-center ">
-    <div className="timeBox w-[64px] border-l text-s bg-yellow-300 text-xs px-5 ">0000</div>
-    <div className="weekBox flex w-full h-[80px] border-b text-start">
-      <div className="s w-full border-r  bg-gray-100"></div>
-      <div className="m w-full border-r"></div>
-      <div className="t w-full border-r"></div>
-      <div className="w w-full border-r"></div>
-      <div className="th w-full border-r"></div>
-      <div className="s w-full border-r"></div>
-      <div className="st w-full border-r bg-gray-100"></div>
-    </div>
-    
-  </div>
-</div>
-)
-} */
-}

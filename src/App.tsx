@@ -41,8 +41,8 @@ function App() {
   };
 
   return (
-    <div className="calendar flex justify-start w-100wm h-[auto]  border solid rgba(157, 158, 159, 0.60)">
-      <div className="sidebar flex-col w-[250px] border-r solid rgba(157, 158, 159, 0.60)">
+    <div className="calendar flex justify-start w-100wm h-[auto]   border solid-f0f0f0">
+      <div className="sidebar flex-col w-[250px] bg-gray-100 border-1px-solid-f0f0f0">
         {/* 미니캘린더 */}
         <div>
           <CalendarS
@@ -66,7 +66,7 @@ function App() {
 
       <div className="content w-full">
         {/* 상단 헤더 */}
-        <div className="content_top  flex w-100% h-[77px] py-[16px] px-[40px] justify-between bg-red border-b ">
+        <div className="content_top  flex w-100% h-[77px] py-[16px] px-[40px] justify-between bg-red border-b-#f0f0f0 ">
           <div className="left-content flex justify-between gap-4 items-center">
             <div>
               <Hamburger />

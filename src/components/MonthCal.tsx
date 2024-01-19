@@ -13,9 +13,15 @@ export default function MonthCal({}: Props) {
     selectedYear,
     selectedMonth
   );
+
+    
+
+
+
   return (
     <div>
-      <div className="bg-blue-400">
+
+      <div className="SevenDays">
         <SevenDays dayList={dayList} />
       </div>
       <div className="mediumDates w-full h-[923px] grid grid-cols-7">
@@ -29,13 +35,24 @@ export default function MonthCal({}: Props) {
               "text-xs",
               "border",
               "solid",
-              "rgba(157, 158, 159, 0.60)",
+              "#f0f0f0",
               {
                 "text-gray-800": date.getMonth() === selectedMonth - 1,
                 "text-gray-400": date.getMonth() !== selectedMonth - 1,
               }
             )}
           >
+
+
+
+                
+
+
+
+
+
+
+              
             <div
               className={clsx({
                 "bg-blue-500 w-6 h-6 flex items-center justify-center rounded-full text-white":
