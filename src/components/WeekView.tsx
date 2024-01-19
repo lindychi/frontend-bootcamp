@@ -113,7 +113,7 @@ const WeekView: React.FC = () => {
           ))}
         </div>
         <div className="relative">
-          <div className="w-[calc(100vw-420px)] min-h-screen grid grid-cols-7">
+          <div className="w-[calc(100vw-420px)] min-h-screen grid grid-cols-7 ">
             {daysOfWeek.map((dayOfWeek, index) => (
               <div
                 key={`col-${index}`}
@@ -122,7 +122,7 @@ const WeekView: React.FC = () => {
                 {hours.map((hour) => (
                   <div
                     key={hour}
-                    className="h-[80px] border-dashed border-b border-state-600 last:border-b-0 relative"
+                    className="h-[80px] border-dashed border-b border-state-600 last:border-b-0 relative "
                   >
                     {eventsForWeek(dayOfWeek.date, hour).map(
                       (event, eventIndex) => {

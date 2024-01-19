@@ -181,7 +181,7 @@ function App() {
         selectedMonth={selectedMonth}
         targetCalendarDates={targetCalendarDates}
         getDateClass={getDateClass}
-        // events={sortedEvents}
+        // events=
       />
 
       <div className="w-full h-full">
@@ -283,7 +283,6 @@ function App() {
               추가
             </button> */}
             <div>
-              {/* 이벤트 추가 버튼 */}
               <button
                 onClick={openModal}
                 className="bg-blue-500 text-white hover:brightness-75 items-center p-2 flex flex-row gap-1"

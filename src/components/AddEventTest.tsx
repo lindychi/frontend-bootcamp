@@ -15,15 +15,6 @@ const EventModal = ({
     // 다른 필요한 정보들을 초기값으로 설정
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setEventDate((prevData) => ({
-      ...prevData,
-      [name]:
-        name === "endedAt" || name === "startedAt" ? new Date(value) : value,
-    }));
-  };
-
   const handleAddEvent = async () => {
     try {
       if (!eventDate.startedAt || !eventDate.endedAt) {
@@ -62,21 +53,6 @@ const EventModal = ({
         }
       />
       <input
-        type="time"
-        placeholder="Start Time"
-        value={
-          eventDate.startedAt
-            ? eventDate.startedAt.toISOString().slice(11, 16)
-            : ""
-        }
-        onChange={(e) =>
-          setEventDate({
-            ...eventDate,
-            startedAt: new Date(`2024-01-01T${e.target.value}:00.000Z`),
-          })
-        }
-      />
-      <input
         type="date"
         placeholder="End Date"
         value={
@@ -86,19 +62,7 @@ const EventModal = ({
           setEventDate({ ...eventDate, endedAt: new Date(e.target.value) })
         }
       />
-      <input
-        type="time"
-        placeholder="Start Time"
-        value={
-          eventDate.endedAt ? eventDate.endedAt.toISOString().slice(11, 16) : ""
-        }
-        onChange={(e) =>
-          setEventDate({
-            ...eventDate,
-            startedAt: new Date(`2024-01-01T${e.target.value}:00.000Z`),
-          })
-        }
-      />
+
       {/* 추가 버튼 */}
       <button onClick={handleAddEvent} className="p-2 hover:brightness-75">
         Add
