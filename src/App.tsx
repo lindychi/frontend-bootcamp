@@ -15,10 +15,13 @@ import BigCalendar from './components/BigCalendar';
 import ToDoAdd from './components/ToDoAdd';
 import DayView from './components/DayView';
 import YearView from './components/YearView';
+import { Routes,Route,useNavigate } from 'react-router-dom';
+
 
 
 
 function App() {
+  const navigate =useNavigate( );
   
   const today = new Date();
   const [selectedDate, setDate] = useState<Date | null>(null);
@@ -47,11 +50,7 @@ tomorrow.setDate(today.getDate() + 1);
     setSelectedYear(selectedYearValue);
   };
 
-  // 뷰 유형 변경 핸들러
-  const handleViewChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedViewValue = e.target.value;
-    setSelectedView(selectedViewValue);
-  };
+
  // 팝업 상태 관리
   const [showPopup, setShowPopup] = useState(false);
 
@@ -73,8 +72,11 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
   return date;
 });
 
+
+
   return (
 <div className="flex flex-row min-w-screen min-h-screen h-fit">
+          
   <div className="w-[250px] self-stretch flex flex-col  ">
    <div className="p-[10px] grid gap-2">
       <MonthHeader selectedMonth={selectedMonth}/>
@@ -102,7 +104,7 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
             <label htmlFor="viewSelect"> </label>
             <select 
             className="text-lime-500 border-lime-500  border-solid border-[1px] p-2 gap-1 rounded"
-            id="viewSelect" value={selectedView} onChange={handleViewChange}>
+            id="viewSelect" onChange={(e) => navigate("/" + e.target.value)}>
               <option value="year">Year</option>
               <option value="month">Month</option>
               <option value="week">Week</option>
@@ -124,21 +126,58 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
       {showPopup && ( <ToDoAdd setTodoData={setTodoData} /> )}
       
     </div>
-    
-{selectedView === 'month' && (
-        <div >
-          <BigCalendar
-            todos={todoData}         
-            selectedMonth={selectedMonth}
-            selectedYear={selectedYear}
-            today={today}
-            selectedDate={selectedDate}
-            dates={targetCalendarDates}
-          />
-        </div>
-        )}
 
-        {selectedView === 'week' && (
+    <Routes>
+    <Route path="/month" element={
+        <div>
+        <BigCalendar
+          todos={todoData}         
+          selectedMonth={selectedMonth}
+          selectedYear={selectedYear}
+          today={today}
+          selectedDate={selectedDate}
+          dates={targetCalendarDates}
+        />
+        </div>
+         }/> 
+    <Route path="/test" element={<div> Test </div>} />
+
+      <Route path="/year" element={
+        <div className='grid w-full py-2'>
+          <YearView
+          selectedYear={selectedYear}
+          targetCalendarDates={targetCalendarDates}
+          />
+       </div> 
+         }/>
+      <Route path="/day" element={
+            <div className='flex flex-row outer-box '>
+            <div>
+              {hours.map((hour) => (
+              <div key={hour} className="flex flex-col  h-[60px]">
+            {hour > 9 ? hour : `0${hour}`}:00
+            </div>
+             ))}
+           </div>
+           <div className='w-[1640px] py-2 relative'>
+          <DayView
+            selectedDate={today}
+          />
+          <hr
+        style={{
+         border: 'none',
+         borderTop: '2px solid red', 
+        margin: 0,
+        padding: 0, 
+         width: '100%', 
+        position: 'absolute', 
+         top: `${(today.getHours() * 60) + today.getMinutes()}px`,
+         }}
+        />
+       </div>
+      </div>
+        }/>
+      <Route path="/week" element={
          <div className='flex flex-row w-full h-[calc(100vh)] '>
           
             <div className='py-2'>
@@ -160,52 +199,20 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
           </div>
 
           </div>
-        )}
+         }/>   
+    
+
         
-         
 
-        {selectedView === 'day' && (
-          <div className='flex flex-row outer-box '>
-            <div>
-              {hours.map((hour) => (
-              <div key={hour} className="flex flex-col  h-[60px]">
-            {hour > 9 ? hour : `0${hour}`}:00
-            </div>
-             ))}
-           </div>
-           <div className='w-[1640px] py-2 relative'>
-          <DayView
-            selectedDate={today}
-          />
-          <hr
-  style={{
-    border: 'none',
-    borderTop: '2px solid red', 
-    margin: 0,
-    padding: 0, 
-    width: '100%', 
-    position: 'absolute', 
-    top: `${(today.getHours() * 60) + today.getMinutes()}px`,
-  }}
-/>
-          </div>
-          </div>
-        )}
 
-{selectedView === 'year' && (
-      <div className='grid w-full py-2'>
-        <YearView
-        selectedYear={selectedYear}
-        targetCalendarDates={targetCalendarDates}
-        />
-      </div>
-      )}
+         </Routes>
 
 
 
 
     </div>
     
+  
   </div>
   );
 }
