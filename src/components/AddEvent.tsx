@@ -15,15 +15,6 @@ const EventModal = ({
     // 다른 필요한 정보들을 초기값으로 설정
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setEventDate((prevData) => ({
-      ...prevData,
-      [name]:
-        name === "endedAt" || name === "startedAt" ? new Date(value) : value,
-    }));
-  };
-
   const handleAddEvent = async () => {
     try {
       if (!eventDate.startedAt || !eventDate.endedAt) {
@@ -50,18 +41,40 @@ const EventModal = ({
         onChange={(e) => setEventDate({ ...eventDate, title: e.target.value })}
       />
       <input
-        type="date"
-        placeholder="Start Date"
+        type="datetime-local"
+        placeholder="Start Date and Time"
         value={
           eventDate.startedAt
-            ? eventDate.startedAt.toISOString().split("T")[0]
+            ? `${eventDate.startedAt.getUTCFullYear()}-${String(
+                eventDate.startedAt.getUTCMonth() + 1
+              ).padStart(2, "0")}-${String(
+                eventDate.startedAt.getUTCDate()
+              ).padStart(2, "0")}T${String(
+                eventDate.startedAt.getUTCHours()
+              ).padStart(2, "0")}:${String(
+                eventDate.startedAt.getUTCMinutes()
+              ).padStart(2, "0")}`
             : ""
         }
-        onChange={(e) =>
-          setEventDate({ ...eventDate, startedAt: new Date(e.target.value) })
-        }
+        onChange={(e) => {
+          const userSelectedDate = new Date(e.target.value);
+          const utcDate = new Date(
+            Date.UTC(
+              userSelectedDate.getUTCFullYear(),
+              userSelectedDate.getUTCMonth(),
+              userSelectedDate.getUTCDate(),
+              userSelectedDate.getUTCHours(),
+              userSelectedDate.getUTCMinutes()
+            )
+          );
+
+          setEventDate({
+            ...eventDate,
+            startedAt: utcDate,
+          });
+        }}
       />
-      <input
+      {/* <input
         type="time"
         placeholder="Start Time"
         value={
@@ -75,18 +88,38 @@ const EventModal = ({
             startedAt: new Date(`2024-01-01T${e.target.value}:00.000Z`),
           })
         }
-      />
+      /> */}
       <input
-        type="date"
-        placeholder="End Date"
+        type="datetime-local"
+        placeholder="End Date and Time"
         value={
-          eventDate.endedAt ? eventDate.endedAt.toISOString().split("T")[0] : ""
+          eventDate.endedAt
+            ? `${eventDate.endedAt.getFullYear()}-${String(
+                eventDate.endedAt.getMonth() + 1
+              ).padStart(2, "0")}-${String(
+                eventDate.endedAt.getDate()
+              ).padStart(2, "0")}T${String(
+                eventDate.endedAt.getHours()
+              ).padStart(2, "0")}:${String(
+                eventDate.endedAt.getMinutes()
+              ).padStart(2, "0")}`
+            : ""
         }
-        onChange={(e) =>
-          setEventDate({ ...eventDate, endedAt: new Date(e.target.value) })
-        }
+        onChange={(e) => {
+          const userSelectedDate = new Date(e.target.value);
+          const utcDate = new Date(
+            Date.UTC(
+              userSelectedDate.getUTCFullYear(),
+              userSelectedDate.getUTCMonth(),
+              userSelectedDate.getUTCDate(),
+              userSelectedDate.getUTCHours(),
+              userSelectedDate.getUTCMinutes()
+            )
+          );
+          setEventDate({ ...eventDate, endedAt: utcDate });
+        }}
       />
-      <input
+      {/* <input
         type="time"
         placeholder="Start Time"
         value={
@@ -98,7 +131,7 @@ const EventModal = ({
             startedAt: new Date(`2024-01-01T${e.target.value}:00.000Z`),
           })
         }
-      />
+      /> */}
       {/* 추가 버튼 */}
       <button onClick={handleAddEvent} className="p-2 hover:brightness-75">
         Add
