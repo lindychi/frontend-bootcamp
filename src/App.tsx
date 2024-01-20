@@ -161,8 +161,11 @@ function App() {
           {selectedOption === "day" && <DayCal />}
         </div> */}
          <Routes>
-          <Route path="/" element={<MonthCal/>} />
-          <Route path="day" element={<DayCal/>} />
+          <Route path="/" element={<MonthCal />} />
+          <Route path="day" element={<DayCal />} />
+          <Route path="week" element={<WeekCal />} />
+          <Route path="year" element={<YearCal />} />
+          <Route path="month" element={<MonthCal/>} />
         </Routes>
     
       </div>

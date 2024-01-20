@@ -18,13 +18,13 @@ export default function AddEvent({ onClose }: Props) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log(name,value.split("Z")[0] )
+    console.log(name,value.slice(0, 8) )
 
     setEventData((prevData) => ({
       ...prevData,
       // 만약 입력값이 "endedAt"이라면 문자열을 Date 객체로 변환하여 저장
       [name]:
-        name === "endedAt" || name === "startedAt" ? new Date(value.split("Z")[0]) : value,
+        name === "endedAt" || name === "startedAt" ? new Date(value.slice(0, 8)) : value,
     }));
   };
 
@@ -99,8 +99,7 @@ export default function AddEvent({ onClose }: Props) {
               name="startedAt"
               value={
                 eventData.startedAt
-                  ? eventData.startedAt?.toISOString().split("Z")[0]
-                  : ""
+                  ? eventData.startedAt?.toISOString().slice(0,8)+9                  : ""
               } // 날짜 형식으로 변환
               onChange={handleInputChange}
               style={{ 
