@@ -63,7 +63,7 @@ const EventModal = ({
               userSelectedDate.getUTCFullYear(),
               userSelectedDate.getUTCMonth(),
               userSelectedDate.getUTCDate(),
-              userSelectedDate.getUTCHours(),
+              userSelectedDate.getUTCHours() + 9,
               userSelectedDate.getUTCMinutes()
             )
           );
