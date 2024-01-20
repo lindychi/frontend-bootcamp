@@ -20,7 +20,7 @@ export default function MonthCal({}: Props) {
 
   return (
     <div>
-
+      
       <div className="SevenDays">
         <SevenDays dayList={dayList} />
       </div>
@@ -51,8 +51,8 @@ export default function MonthCal({}: Props) {
 
 
 
-
               
+
             <div
               className={clsx({
                 "bg-blue-500 w-6 h-6 flex items-center justify-center rounded-full text-white":
@@ -65,6 +65,7 @@ export default function MonthCal({}: Props) {
           </div>
         ))}
       </div>
+      
     </div>
   );
 }

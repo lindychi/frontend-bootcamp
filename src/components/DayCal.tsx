@@ -49,6 +49,7 @@ export default function DayCal({}: Props) {
 
   return (
     <div>
+       
       <div className="todo relative">
         {/* 이벤트 목록을 표시 */}
         <div>
@@ -113,6 +114,7 @@ export default function DayCal({}: Props) {
             </div>
           ))}
       </div>
+     
     </div>
   );
 }

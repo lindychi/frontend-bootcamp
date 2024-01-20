@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { addEvent, AddEventRequest } from "../services/eventService";
-import { getDayEvents } from "../services/eventService";
 
 type Props = { onClose: () => void }; // 모달 닫기를 위한 콜백 함수 전달
 
@@ -19,11 +18,13 @@ export default function AddEvent({ onClose }: Props) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    console.log(name,value.split("Z")[0] )
+
     setEventData((prevData) => ({
       ...prevData,
       // 만약 입력값이 "endedAt"이라면 문자열을 Date 객체로 변환하여 저장
       [name]:
-        name === "endedAt" || name === "startedAt" ? new Date(value) : value,
+        name === "endedAt" || name === "startedAt" ? new Date(value.split("Z")[0]) : value,
     }));
   };
 
@@ -56,7 +57,6 @@ export default function AddEvent({ onClose }: Props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [modalRef]);
-
 
 
 
@@ -93,13 +93,13 @@ export default function AddEvent({ onClose }: Props) {
         </div>
           
           <div className="startedAt text-ml pb-[5px] px-[40px] text-left">
-            시작일
+            시작일 {eventData.startedAt?.toISOString()}
             <input
-              type="date" // type을 'text'에서 'date'로 변경
+              type="datetime-local" // type을 'text'에서 'date'로 변경
               name="startedAt"
               value={
                 eventData.startedAt
-                  ? eventData.startedAt.toISOString().split("T")[0]
+                  ? eventData.startedAt?.toISOString().split("Z")[0]
                   : ""
               } // 날짜 형식으로 변환
               onChange={handleInputChange}
@@ -118,7 +118,7 @@ export default function AddEvent({ onClose }: Props) {
               name="endedAt"
               value={
                 eventData.endedAt
-                  ? eventData.endedAt.toISOString().split("T")[0]
+                  ? eventData.endedAt?.toISOString().split("T")[0]
                   : ""
               } // 날짜 형식으로 변환
               onChange={handleInputChange}
