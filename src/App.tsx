@@ -16,6 +16,7 @@ import WeeklyView from "./components/WeeklyView";
 import DayView from "./components/DayView";
 import MonthView from "./components/MonthView";
 import EventModal from "./components/AddEvent";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 
 enum View {
   Month = "month",
@@ -175,6 +176,8 @@ function App() {
     const today = new Date().getDay();
     return daysOfWeek[today];
   };
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-row h-screen">
       <CalendarSection
@@ -207,17 +210,17 @@ function App() {
             <div className="flex text-primary border border-primary rounded-md p-2 ">
               <select
                 className={"text-primary"}
-                value={currentView}
-                onChange={(e) => handleViewChange(e.target.value as View)}
+                // value={currentView}
+                onChange={(e) => navigate("" + e.target.value)}
               >
-                <option value={View.Day}>Day</option>
-                <option value={View.Week}>Week</option>
-                <option value={View.Month}>Month</option>
-                <option value={View.Year}>Year</option>
+                <option value={"Day"}>Day</option>
+                <option value={"Week"}>Week</option>
+                <option value={"Month"}>Month</option>
+                <option value={"Year"}>Year</option>
               </select>
             </div>
           </div>
-
+          {/* onchange가 호출되는지 찾아봤어야 함. console.log(e )  day를 눌렀을때 주소바뀌는애가 호출이 안됐었음 호출이 안되서 주소가 안바뀌고 데이가 작동을 안했음  */}
           <div className="flex gap-3">
             <Search />
             {/* <div className="flex-row bg-primary text-white p-2 gap-1">
@@ -303,29 +306,61 @@ function App() {
           </div>
         </div>
 
-        {currentView === View.Month ? (
-          // <BigCalendar
-          //   targetCalendarDates={targetCalendarDates}
-          //   getSecondDateClass={getSecondDateClass}
-          //   events={events}
-          // />
-          <MonthView
-            targetCalendarDates={targetCalendarDates}
-            getSecondDateClass={getSecondDateClass}
+        <Routes>
+          <Route
+            path="/month"
+            element={
+              <MonthView
+                targetCalendarDates={targetCalendarDates}
+                getSecondDateClass={getSecondDateClass}
+              />
+            }
           />
-        ) : currentView === View.Year ? (
-          <YearView
-            year={selectedYear}
-            getDateClass={getDateClass}
-            dayList={dayList}
+          {""}
+          <Route path="/week" element={<WeekView />} />
+          {""}
+          <Route path="/day" element={<DayView />} />
+          {""}
+          <Route
+            path="/year"
+            element={
+              <YearView
+                year={selectedYear}
+                getDateClass={getDateClass}
+                dayList={dayList}
+              />
+            }
           />
-        ) : currentView === View.Day ? (
-          <DayView />
-        ) : (
-          <WeekView />
-        )}
+          {""}
+
+          {/* {currentView === View.Month ? (
+            // <BigCalendar
+            //   targetCalendarDates={targetCalendarDates}
+            //   getSecondDateClass={getSecondDateClass}
+            //   events={events}
+            // />
+            <MonthView
+              targetCalendarDates={targetCalendarDates}
+              getSecondDateClass={getSecondDateClass}
+            />
+          ) : currentView === View.Year ? (
+            <YearView
+              year={selectedYear}
+              getDateClass={getDateClass}
+              dayList={dayList}
+            />
+          ) : currentView === View.Day ? (
+            <DayView />
+          ) : (
+            <WeekView />
+          )} */}
+        </Routes>
       </div>
-      <div></div>
+      <div>
+        {/* <Routes>
+          <Route path="/" element={<MonthView year={2024}; month={1} />} />{" "}
+        </Routes> */}
+      </div>
     </div>
   );
 }
