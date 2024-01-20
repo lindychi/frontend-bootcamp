@@ -70,7 +70,14 @@ const WeekView: React.FC = () => {
       );
     });
   };
-
+  const handleEventClick = (clickedEvent: EventItem) => {
+    console.log(`클릭한 이벤트: ${clickedEvent.title}`);
+  };
+  const handleDeleteEvent = async (clickedEvent: EventItem) => {
+    try {
+    } catch (error) {}
+  };
+  const handleEditEvent = (clickedEvent: EventItem) => {};
   return (
     <div>
       <div className="min-w-screen grid grid-cols-7 gap-1 ml-20">
@@ -153,8 +160,17 @@ const WeekView: React.FC = () => {
                               backgroundColor:
                                 event.categories?.color || "transparent",
                             }}
+                            onClick={() => handleEventClick(event)}
                           >
                             {event.title}
+                            <div className="flex flex-row ">
+                              <button onClick={() => handleDeleteEvent(event)}>
+                                삭제
+                              </button>
+                              <button onClick={() => handleEditEvent(event)}>
+                                편집
+                              </button>
+                            </div>
                           </div>
                         );
                       }
