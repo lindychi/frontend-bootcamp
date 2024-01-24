@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { addEvent, AddEventRequest } from "../services/eventService";
-import { getDayEvents } from "../services/eventService";
 
 type Props = { onClose: () => void }; // 모달 닫기를 위한 콜백 함수 전달
 
 export default function AddEvent({ onClose }: Props) {
+  // useRef를 사용하여 모달의 DOM 요소에 대한 참조 생성
+  const modalRef = useRef<HTMLDivElement>(null);
+
+   
   // 모달
   const [eventData, setEventData] = useState<AddEventRequest>({
     title: "",
@@ -15,11 +18,13 @@ export default function AddEvent({ onClose }: Props) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    console.log(name,value.slice(0, 8) )
+
     setEventData((prevData) => ({
       ...prevData,
       // 만약 입력값이 "endedAt"이라면 문자열을 Date 객체로 변환하여 저장
       [name]:
-        name === "endedAt" || name === "startedAt" ? new Date(value) : value,
+        name === "endedAt" || name === "startedAt" ? new Date(value.slice(0, 8)) : value,
     }));
   };
 
@@ -34,72 +39,116 @@ export default function AddEvent({ onClose }: Props) {
     }
   };
 
+
+   // 외부 클릭 처리 이벤트 핸들러
+   const handleClickOutside = (e: MouseEvent) => {
+    // 모달이 존재하고, 클릭된 요소가 모달의 외부에 있다면 모달을 닫음
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+      onClose();
+    }
+  };
+
+  // useEffect를 사용하여 컴포넌트가 마운트될 때 이벤트 리스너 추가
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [modalRef]);
+
+
+
   return (
     <div
-      className="AddEventBox"
+      className="AddEventBox px-[40px]"
       style={{
         position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: 1,
+        top: "18px",
+        right: 0,
+        zIndex: 2,
       }}
     >
-      <div className="modal w-[500px] h-[500px] rounded-2xl bg-red-200 text-center px-3 py-1">
-        <div className="flex justify-end">
-          <button className="close text-4xl rotate-45" onClick={onClose}>
-            +
-          </button>
+      <div className=" modal w-auto h-auto rounded-lg border px-[4px] py-[8px] bg-white text-center drop-shadow-lg ">
+        
+        
+          
+          <div className="grid-rows-4 py-2 ">
+          <div className="title  text-ml text pb-[5px] px-[40px] text-left">
+                일정
+                <input
+                  type="text"
+                  name="title"
+                  value={eventData.title}
+                  onChange={handleInputChange}
+                  style={{ 
+                    border: '1px solid #D8D8D8', 
+                    padding: '2px',
+                    marginLeft: "22px",
+                    borderRadius : "5px",
+                    width : "calc(100% - 60px)",
+                }}
+                />      
         </div>
-        <div>
-          <div className="title p-3">
-            title
+          
+          <div className="startedAt text-ml pb-[5px] px-[40px] text-left">
+            시작일 {eventData.startedAt?.toISOString()}
             <input
-              type="text"
-              name="title"
-              value={eventData.title}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="startedAt p-3">
-            startedAt
-            <input
-              type="date" // type을 'text'에서 'date'로 변경
+              type="datetime-local" // type을 'text'에서 'date'로 변경
               name="startedAt"
               value={
                 eventData.startedAt
-                  ? eventData.startedAt.toISOString().split("T")[0]
-                  : ""
+                  ? eventData.startedAt?.toISOString().slice(0,8)+9                  : ""
               } // 날짜 형식으로 변환
               onChange={handleInputChange}
+              style={{ 
+                padding: '2px',
+                marginLeft: "8px",
+                borderRadius : "5px",
+                width : "calc(100% - 60px)",
+            }}
             />
           </div>
-          <div className="endedAt p-3">
-            endedAt
+          <div className="endedAt text-ml pb-[5px] px-[40px] text-left">
+            종료일
             <input
               type="date" // type을 'text'에서 'date'로 변경
               name="endedAt"
               value={
                 eventData.endedAt
-                  ? eventData.endedAt.toISOString().split("T")[0]
+                  ? eventData.endedAt?.toISOString().split("T")[0]
                   : ""
               } // 날짜 형식으로 변환
               onChange={handleInputChange}
+              style={{ 
+                padding: '2px',
+                marginLeft: "8px",
+                borderRadius : "5px",
+                width : "calc(100% - 60px)",
+                
+            }}
             />
           </div>
-          <div className="categoryId p-3">
-            categoryId
+          <div className="categoryId text-ml pb-[15px] px-[40px] text-left">
+            카테고리
             <input
               type="text"
               name="categoryId"
               value={eventData.categoryId}
               onChange={handleInputChange}
+              style={{ 
+                padding: '2px',
+                marginLeft: "8px",
+                borderRadius : "5px",
+                width : "calc(100% - 80px)",
+            }}
+              
             />
           </div>
-          <div>
+          <div className="py-1 px-2 ">
             <button
-              className="bg-blue-500 text-white hover:brightness-75"
+              className="bg-blue-500 text-white rounded-lg hover:brightness-75 py-[5px] px-[40px] rounded-ml w-full"
               onClick={handleAddEvent}
             >
               추가

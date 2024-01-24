@@ -15,6 +15,7 @@ import MonthCal from "./components/MonthCal";
 import YearCal from "./components/YearCal";
 import DayCal from "./components/DayCal";
 import AddEvent from "./components/AddEvent";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 function App() {
   const [selectedMonth, setSelectedMonth] = React.useState(1);
@@ -27,8 +28,14 @@ function App() {
   const [selectedOption, setSelectedOption] = useState("month"); // Track selected option
   const [isAddEventOpen, setIsAddEventOpen] = useState(false); // Track AddEvent open state
 
+  
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(e.target.value);
+     navigate ("/"+ e.target.value);
+     setSelectedOption(e.target.value);
+    console.log("/"+ e.target.value)
+
+  // const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedOption(e.target.value);
   };
   // 모달 열기 함수
   const handleAddEventClick = () => {
@@ -40,9 +47,46 @@ function App() {
     setIsAddEventOpen(false);
   };
 
+  
+
+  const navigate = useNavigate();
+  
+// return (
+//   <div>
+//     App
+//     <div onClick={()=>{
+//       navigate("/");
+//     }}>
+//       달력
+//     </div>
+
+//     <div onClick={()=>{
+//       navigate("/day");
+//     }}>
+//       일력
+//     </div>
+
+
+//   <Routes>
+//     <Route path="/" element={<MonthCal/>} />
+//     <Route path="day" element={<DayCal/>} />
+//   </Routes>
+// </div>
+// )
+
+
+
+
+
+
+
+
+
+
   return (
-    <div className="calendar flex justify-start w-100wm h-[auto]  border solid rgba(157, 158, 159, 0.60)">
-      <div className="sidebar flex-col w-[250px] border-r solid rgba(157, 158, 159, 0.60)">
+    
+    <div className="calendar flex justify-start w-100wm h-[auto]   border solid-f0f0f0">
+      <div className="sidebar flex-col w-[250px] bg-gray-100 border-1px-solid-f0f0f0">
         {/* 미니캘린더 */}
         <div>
           <CalendarS
@@ -66,7 +110,7 @@ function App() {
 
       <div className="content w-full">
         {/* 상단 헤더 */}
-        <div className="content_top  flex w-100% h-[77px] py-[16px] px-[40px] justify-between bg-red border-b ">
+        <div className="content_top  flex w-100% h-[77px] py-[16px] px-[40px] justify-between bg-red border-b-#f0f0f0 ">
           <div className="left-content flex justify-between gap-4 items-center">
             <div>
               <Hamburger />
@@ -110,12 +154,20 @@ function App() {
         </div>
 
         {/* 선택된 옵션에 따라 조건부 렌더링 */}
-        <div>
+        {/* <div>
           {selectedOption === "month" && <MonthCal />}
           {selectedOption === "year" && <YearCal />}
           {selectedOption === "week" && <WeekCal />}
           {selectedOption === "day" && <DayCal />}
-        </div>
+        </div> */}
+         <Routes>
+          <Route path="/" element={<MonthCal />} />
+          <Route path="day" element={<DayCal />} />
+          <Route path="week" element={<WeekCal />} />
+          <Route path="year" element={<YearCal />} />
+          <Route path="month" element={<MonthCal/>} />
+        </Routes>
+    
       </div>
 
       {/* AddEvent Modal 렌더링 */}
