@@ -84,8 +84,7 @@ function App() {
 
 
   return (
-    
-    <div className="calendar flex justify-start w-100wm h-[auto]   border solid-f0f0f0">
+    <div className="calendar flex justify-start w-100vw h-100vh   border solid-f0f0f0">
       <div className="sidebar flex-col w-[250px] bg-gray-100 border-1px-solid-f0f0f0">
         {/* 미니캘린더 */}
         <div>
@@ -97,7 +96,7 @@ function App() {
         </div>
 
         {/* 할일flex */}
-        <div className="todoList w-[250px] min-h-[100px] py-[10px] px-[16px] gap-[10px]  bg-red-400">
+        <div className="todoList w-[250px] min-h-[100px] py-[10px] px-[16px] gap-[10px]  bg-green-400">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
               <div className="w-2 h-2 rounded-full bg-yellow-300"></div>
@@ -108,7 +107,7 @@ function App() {
         </div>
       </div>
 
-      <div className="content w-full">
+      <div className="content w-full h-100wh">
         {/* 상단 헤더 */}
         <div className="content_top  flex w-100% h-[77px] py-[16px] px-[40px] justify-between bg-red border-b-#f0f0f0 ">
           <div className="left-content flex justify-between gap-4 items-center">
@@ -160,14 +159,13 @@ function App() {
           {selectedOption === "week" && <WeekCal />}
           {selectedOption === "day" && <DayCal />}
         </div> */}
-         <Routes>
+        <Routes>
           <Route path="/" element={<MonthCal />} />
           <Route path="day" element={<DayCal />} />
           <Route path="week" element={<WeekCal />} />
           <Route path="year" element={<YearCal />} />
-          <Route path="month" element={<MonthCal/>} />
+          <Route path="month" element={<MonthCal />} />
         </Routes>
-    
       </div>
 
       {/* AddEvent Modal 렌더링 */}
