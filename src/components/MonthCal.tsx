@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getCalendarDates } from "../libs/calendar";
 import clsx from "clsx";
 import { dayList } from "../consts/calendar";
 import SevenDays from "./SevenDays";
+import { getDayEvents } from "../services/eventService";
+import { EventItem } from "../types/common";
 
 type Props = {};
 
@@ -13,7 +15,26 @@ export default function MonthCal({}: Props) {
     selectedYear,
     selectedMonth
   );
+  const today = new Date();
+  const [events, setEvents] = useState<EventItem[]>([]);
 
+  
+
+
+  // 서버에서 이벤트 데이터를 가져오는 함수
+  const loadEvents = async () => {
+    const result = await getDayEvents({
+      year: today.getFullYear(),
+      month: today.getMonth() + 1,
+      // day: today.getDate(),
+    });
+    setEvents(result.data);
+  };
+
+  // 컴포넌트가 마운트될 때 이벤트 데이터를 로드
+  useEffect(() => {
+    loadEvents();
+  }, []);
     
 
 
@@ -43,7 +64,30 @@ export default function MonthCal({}: Props) {
             )}
           >
 
-
+        <div className="todo relative">
+        {/* 이벤트 목록을 표시 */}
+        <div>
+          {events.map((event) => (
+            
+            <div
+              key={event.id}
+              className="absolute truncate w-[80px]"
+              style={{
+                top: "100px",
+                left: "64px",
+                fontSize: "10px",
+                // backgroundColor: event.categories?.color + "80" || "initial",
+                borderRadius: "5px",
+                height: "00px",
+                zIndex: "1", // z-index 설정-다른요소들보다 
+                width: "calc(100% - 68px)",
+              }}
+            >
+              {event.title}
+            </div>
+          ))}
+        </div>
+      </div>
 
                 
 
