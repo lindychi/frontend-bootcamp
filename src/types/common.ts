@@ -12,5 +12,6 @@ export type EventItem = {
   endedAt?: Date;
   categories?: Category;
   todoId?: string;
+
 };
 
