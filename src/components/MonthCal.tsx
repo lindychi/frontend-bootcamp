@@ -46,7 +46,7 @@ export default function MonthCal({}: Props) {
         <SevenDays dayList={dayList} />
       </div>
 
-      <div className="mediumDates  w-100% h-[calc(100vh-(77px+44px))]  grid grid-cols-7" > 
+      <div className="mediumDates relative  w-100% h-[calc(100vh-(77px+44px))]  grid grid-cols-7" > 
         {/* 달력 날짜를 표시하는 부분 */}
         {targetCalendarDates.map((date: Date) => (
           <div
@@ -93,7 +93,7 @@ export default function MonthCal({}: Props) {
                     key={event.id}
                     className="absolute truncate w-[80px]"
                     style={{
-                      top: `${120 + index * 20}px`, // top 값을 동적으로 계산
+                      top: `${10 + index * 20}px`, // top 값을 동적으로 계산
 
                       backgroundColor:
                         event.categories?.color + "80" || "initial",
