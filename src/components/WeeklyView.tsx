@@ -7,7 +7,7 @@ interface dayOfWeek {
   date: Date;
 }
 
-const WeeklyView: React.FC = () => {
+const WeekView: React.FC = () => {
   const hours: number[] = Array.from({ length: 24 }, (_, index) => {
     const hour = index;
     return hour;
@@ -70,7 +70,14 @@ const WeeklyView: React.FC = () => {
       );
     });
   };
-
+  const handleEventClick = (clickedEvent: EventItem) => {
+    console.log(`클릭한 이벤트: ${clickedEvent.title}`);
+  };
+  const handleDeleteEvent = async (clickedEvent: EventItem) => {
+    try {
+    } catch (error) {}
+  };
+  const handleEditEvent = (clickedEvent: EventItem) => {};
   return (
     <div>
       <div className="min-w-screen grid grid-cols-7 gap-1 ml-20">
@@ -113,7 +120,7 @@ const WeeklyView: React.FC = () => {
           ))}
         </div>
         <div className="relative">
-          <div className="w-[calc(100vw-420px)] min-h-screen grid grid-cols-7">
+          <div className="w-[calc(100vw-420px)] min-h-screen grid grid-cols-7 ">
             {daysOfWeek.map((dayOfWeek, index) => (
               <div
                 key={`col-${index}`}
@@ -122,7 +129,7 @@ const WeeklyView: React.FC = () => {
                 {hours.map((hour) => (
                   <div
                     key={hour}
-                    className="h-[80px] border-dashed border-b border-state-600 last:border-b-0 relative"
+                    className="h-[80px] border-dashed border-b border-state-600 last:border-b-0 relative "
                   >
                     {eventsForWeek(dayOfWeek.date, hour).map(
                       (event, eventIndex) => {
@@ -138,7 +145,8 @@ const WeeklyView: React.FC = () => {
                         const eventTop =
                           ((startHour * 1 + startMinute) / 60) * 60;
                         const eventHeight =
-                          ((endHour * 60 + endMinute) / 60) * 60 - eventTop;
+                          ((endHour * 80 + endMinute) / 60) * 60 -
+                          ((startHour * 80 + startMinute) / 60) * 60;
 
                         return (
                           <div
@@ -153,8 +161,17 @@ const WeeklyView: React.FC = () => {
                               backgroundColor:
                                 event.categories?.color || "transparent",
                             }}
+                            onClick={() => handleEventClick(event)}
                           >
                             {event.title}
+                            <div className="flex flex-row ">
+                              <button onClick={() => handleDeleteEvent(event)}>
+                                삭제
+                              </button>
+                              <button onClick={() => handleEditEvent(event)}>
+                                편집
+                              </button>
+                            </div>
                           </div>
                         );
                       }
@@ -180,4 +197,4 @@ const WeeklyView: React.FC = () => {
   );
 };
 
-export default WeeklyView;
+export default WeekView;

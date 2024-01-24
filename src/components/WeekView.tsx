@@ -145,7 +145,8 @@ const WeekView: React.FC = () => {
                         const eventTop =
                           ((startHour * 1 + startMinute) / 60) * 60;
                         const eventHeight =
-                          ((endHour * 1 + endMinute) / 60) * 60 - eventTop;
+                          ((endHour * 80 + endMinute) / 60) * 60 -
+                          ((startHour * 80 + startMinute) / 60) * 60;
 
                         return (
                           <div
