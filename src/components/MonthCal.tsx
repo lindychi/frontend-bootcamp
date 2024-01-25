@@ -46,6 +46,7 @@ export default function MonthCal({}: Props) {
         <SevenDays dayList={dayList} />
       </div>
 
+      {/* 달력 그리드 */}
       <div className="mediumDates relative  w-100% h-[calc(100vh-(77px+44px))]  grid grid-cols-7" > 
         {/* 달력 날짜를 표시하는 부분 */}
         {targetCalendarDates.map((date: Date) => (
@@ -88,17 +89,19 @@ export default function MonthCal({}: Props) {
                     eventDate.getFullYear() === date.getFullYear()
                   );
                 })
+                .slice(0, 3) // 최대 3개까지만 표시
                 .map((event, index) => (
                   <div
                     key={event.id}
                     className="absolute truncate w-[80px]"
                     style={{
-                      top: `${10 + index * 20}px`, // top 값을 동적으로 계산
-
+                      top: `${
+                        40+
+                        index * 20 
+                      }px`, // top 값을 동적으로 계산
                       backgroundColor:
                         event.categories?.color + "80" || "initial",
                       borderRadius: "5px",
-
                       zIndex: "1",
                       width: "calc((100% - 250px) / 7)",
                     }}
@@ -106,6 +109,26 @@ export default function MonthCal({}: Props) {
                     {event.title}
                   </div>
                 ))}
+
+                 {/* 3개 이상 이벤트일 경우 "+n more" 표시 */}
+              {events.length > 3 && (
+                <div
+                  className="absolute truncate w-[80px] text-gray-800"
+                  style={{
+                    top: `${
+                      10 + (events.length > 3 ? 3 * 30 : (events.length - 1) * 30)
+                    }px`,
+                    borderRadius: "5px",
+                    zIndex: "1",
+                    width: "calc((100% - 250px) / 7)",
+                  }}
+                >
+                  +{events.length - 3} more
+                </div>
+              )}
+
+
+
             </div>
           </div>
         ))}
