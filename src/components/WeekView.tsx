@@ -155,7 +155,7 @@ const WeekView: React.FC = () => {
                             style={{
                               top: `${eventTop}px`,
                               height: `${eventHeight}px`,
-                              width: "100px",
+
                               left: "5px",
                               right: "10px",
                               backgroundColor:
