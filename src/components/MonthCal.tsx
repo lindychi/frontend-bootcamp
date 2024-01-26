@@ -20,7 +20,7 @@ export default function MonthCal({}: Props) {
   const today = new Date();
 
   const loadEvents = async () => {
-    // 서비스에서 선택된 날짜에 해당하는 이벤트를 가져오기
+     // 이벤트 상태 및 현재 날짜 가져오기
     const result = await getDayEvents({
       year: selectedYear,
       month: selectedMonth,
@@ -33,7 +33,7 @@ export default function MonthCal({}: Props) {
   useEffect(() => {
     loadEvents();
   }, [selectedMonth, selectedYear]);
-  // 함수를 통해
+  
 
   
 
@@ -78,6 +78,8 @@ export default function MonthCal({}: Props) {
               {date.getDate()}
             </div>
 
+
+               {/* 이벤트 표시 */}
             <div className="monthEvent">
               {/* 현재 날짜에 해당하는 이벤트 필터링 */}
               {events
@@ -92,44 +94,62 @@ export default function MonthCal({}: Props) {
                 .slice(0, 3) // 최대 3개까지만 표시
                 .map((event, index) => (
                   <div
-                    key={event.id}
-                    className="absolute truncate w-[80px]"
+                    key={index}
+                    className="w-[80px] truncate"
                     style={{
-                      top: `${
-                        40+
-                        index * 20 
-                      }px`, // top 값을 동적으로 계산
-                      backgroundColor:
-                        event.categories?.color + "80" || "initial",
+                      
+                      backgroundColor: event.categories?.color + "80" || "initial",
                       borderRadius: "5px",
                       zIndex: "1",
-                      width: "calc((100% - 250px) / 7)",
+                      width: "100%",
+                      padding : "2px 0",
+                      margin : "4px 0",
                     }}
                   >
                     {event.title}
                   </div>
                 ))}
 
-                 {/* 3개 이상 이벤트일 경우 "+n more" 표시 */}
-              {events.length > 3 && (
-                <div
-                  className="absolute truncate w-[80px] text-gray-800"
-                  style={{
-                    top: `${
-                      10 + (events.length > 3 ? 3 * 30 : (events.length - 1) * 30)
-                    }px`,
-                    borderRadius: "5px",
-                    zIndex: "1",
-                    width: "calc((100% - 250px) / 7)",
-                  }}
-                >
-                  +{events.length - 3} more
-                </div>
-              )}
+
+
+                  {/* 남은 이벤트 갯수 확인 후 "+n more" 표시 */}
+                    {events
+                      .filter((event) => {
+                        const eventDate = new Date(event.startedAt);
+                        return (
+                          eventDate.getDate() === date.getDate() &&
+                          eventDate.getMonth() === date.getMonth() &&
+                          eventDate.getFullYear() === date.getFullYear()
+                        );
+                      })
+                      .slice(3) // 3개 이상의 이벤트만 가져오기
+                      .length > 0 && (
+                      <div
+                            style={{
+                              top: `${
+                                20 +
+                                (events.length > 3 ? 3 * 30 : (events.length - 1) * 30)
+                              }px`, // 3개 이상일 경우 3번째 줄에 표시, 그 외에는 마지막 이벤트의 아래에 표시
+                              fontWeight : "bold",
+                              padding : "10px 0",
+                            }}>
+                        +{events.filter((event) => {
+                          const eventDate = new Date(event.startedAt);
+                          return (
+                            eventDate.getDate() === date.getDate() &&
+                            eventDate.getMonth() === date.getMonth() &&
+                            eventDate.getFullYear() === date.getFullYear()
+                          );
+                        }).slice(3).length} more
+                      </div>
+                    )}
+                  </div>
+
+                                
 
 
 
-            </div>
+                              
           </div>
         ))}
         {/* 각 날짜에 대한 루프 끝 */}
