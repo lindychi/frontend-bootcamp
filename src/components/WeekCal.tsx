@@ -78,9 +78,9 @@ export default function WeekCal({}: Props) {
   return (
     <div>
       {/* 요일 표시 */}
-      <div className="flex border-b">
+      <div className="flex border-b border-t">
         <div className="w-[64px] "></div>
-        <div className="flex w-full">
+        <div className="flex w-full ">
           <SevenDays dayList={dayList} />
         </div>
       </div>

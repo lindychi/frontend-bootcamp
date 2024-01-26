@@ -71,63 +71,61 @@ export default function AddEvent({ onClose }: Props) {
       }}
     >
       <div className=" modal w-auto h-auto rounded-lg border px-[4px] py-[8px] bg-white text-center drop-shadow-lg ">
-        
-        
-          
-          <div className="grid-rows-4 py-2 ">
+        <div className="grid-rows-4 py-2 ">
           <div className="title  text-ml text pb-[5px] px-[40px] text-left">
-                일정
-                <input
-                  type="text"
-                  name="title"
-                  value={eventData.title}
-                  onChange={handleInputChange}
-                  style={{ 
-                    border: '1px solid #D8D8D8', 
-                    padding: '2px',
-                    marginLeft: "22px",
-                    borderRadius : "5px",
-                    width : "calc(100% - 60px)",
-                }}
-                />      
-        </div>
-          
+            일정
+            <input
+              type="text"
+              name="title"
+              value={eventData.title}
+              onChange={handleInputChange}
+              style={{
+                border: "1px solid #D8D8D8",
+                padding: "2px",
+                marginLeft: "22px",
+                borderRadius: "5px",
+                width: "calc(100% - 60px)",
+              }}
+            />
+          </div>
+
           <div className="startedAt text-ml pb-[5px] px-[40px] text-left">
-            시작일 {eventData.startedAt?.toISOString()}
+            시작일
+            {/* {eventData.startedAt?.toISOString()} */}
             <input
               type="datetime-local" // type을 'text'에서 'date'로 변경
               name="startedAt"
               value={
                 eventData.startedAt
-                  ? eventData.startedAt?.toISOString().slice(0,8)+9                  : ""
+                  ? eventData.startedAt?.toISOString().slice(0, 8) + 9
+                  : ""
               } // 날짜 형식으로 변환
               onChange={handleInputChange}
-              style={{ 
-                padding: '2px',
+              style={{
+                padding: "2px",
                 marginLeft: "8px",
-                borderRadius : "5px",
-                width : "calc(100% - 60px)",
-            }}
+                borderRadius: "5px",
+                width: "calc(100% - 60px)",
+              }}
             />
           </div>
           <div className="endedAt text-ml pb-[5px] px-[40px] text-left">
             종료일
             <input
-              type="date" // type을 'text'에서 'date'로 변경
+              type="datetime-local" // type을 'text'에서 'date'로 변경
               name="endedAt"
               value={
                 eventData.endedAt
-                  ? eventData.endedAt?.toISOString().split("T")[0]
+                  ? eventData.endedAt?.toISOString().slice(0, 8) + 9
                   : ""
               } // 날짜 형식으로 변환
               onChange={handleInputChange}
-              style={{ 
-                padding: '2px',
+              style={{
+                padding: "2px",
                 marginLeft: "8px",
-                borderRadius : "5px",
-                width : "calc(100% - 60px)",
-                
-            }}
+                borderRadius: "5px",
+                width: "calc(100% - 60px)",
+              }}
             />
           </div>
           <div className="categoryId text-ml pb-[15px] px-[40px] text-left">
@@ -137,13 +135,12 @@ export default function AddEvent({ onClose }: Props) {
               name="categoryId"
               value={eventData.categoryId}
               onChange={handleInputChange}
-              style={{ 
-                padding: '2px',
+              style={{
+                padding: "2px",
                 marginLeft: "8px",
-                borderRadius : "5px",
-                width : "calc(100% - 80px)",
-            }}
-              
+                borderRadius: "5px",
+                width: "calc(100% - 80px)",
+              }}
             />
           </div>
           <div className="py-1 px-2 ">

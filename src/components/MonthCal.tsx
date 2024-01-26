@@ -42,7 +42,7 @@ export default function MonthCal({}: Props) {
 
   return (
     <div>
-      <div className="bg-blue-400">
+      <div className="border-t">
         <SevenDays dayList={dayList} />
       </div>
 
@@ -94,7 +94,7 @@ export default function MonthCal({}: Props) {
                 .slice(0, 3) // 최대 3개까지만 표시
                 .map((event, index) => (
                   <div
-                    key={index}
+                    key={event.id}
                     className="w-[80px] truncate"
                     style={{
                       
@@ -104,6 +104,7 @@ export default function MonthCal({}: Props) {
                       width: "100%",
                       padding : "2px 0",
                       margin : "4px 0",
+                      paddingLeft: "8px",
                     }}
                   >
                     {event.title}
