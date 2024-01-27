@@ -7,7 +7,6 @@ export default function AddEvent({ onClose }: Props) {
   // useRef를 사용하여 모달의 DOM 요소에 대한 참조 생성
   const modalRef = useRef<HTMLDivElement>(null);
 
-   
   // 모달
   const [eventData, setEventData] = useState<AddEventRequest>({
     title: "",
@@ -18,13 +17,13 @@ export default function AddEvent({ onClose }: Props) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log(name,value.slice(0, 8) )
+    console.log(name, value, value.slice(0, 8));
 
     setEventData((prevData) => ({
       ...prevData,
       // 만약 입력값이 "endedAt"이라면 문자열을 Date 객체로 변환하여 저장
       [name]:
-        name === "endedAt" || name === "startedAt" ? new Date(value.slice(0, 8)) : value,
+        name === "endedAt" || name === "startedAt" ? new Date(value) : value,
     }));
   };
 
@@ -39,9 +38,8 @@ export default function AddEvent({ onClose }: Props) {
     }
   };
 
-
-   // 외부 클릭 처리 이벤트 핸들러
-   const handleClickOutside = (e: MouseEvent) => {
+  // 외부 클릭 처리 이벤트 핸들러
+  const handleClickOutside = (e: MouseEvent) => {
     // 모달이 존재하고, 클릭된 요소가 모달의 외부에 있다면 모달을 닫음
     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       onClose();
@@ -57,8 +55,6 @@ export default function AddEvent({ onClose }: Props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [modalRef]);
-
-
 
   return (
     <div
@@ -97,7 +93,9 @@ export default function AddEvent({ onClose }: Props) {
               name="startedAt"
               value={
                 eventData.startedAt
-                  ? eventData.startedAt?.toISOString().slice(0, 8) + 9
+                  ? new Date(eventData.startedAt.getTime() + 9 * 60 * 60 * 1000)
+                      ?.toISOString()
+                      .slice(0, 16)
                   : ""
               } // 날짜 형식으로 변환
               onChange={handleInputChange}
