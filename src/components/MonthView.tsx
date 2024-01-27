@@ -3,12 +3,12 @@ import { dayList } from "../consts/calendar";
 import { getEvents } from "../services/eventService";
 import { EventItem } from "../types/common";
 
-type BigCalendarProps = {
+type MonthViewProps = {
   targetCalendarDates: Date[] | null;
   getSecondDateClass: (date: Date) => string;
 };
 
-const BigCalendar: React.FC<BigCalendarProps> = ({
+const MonthView: React.FC<MonthViewProps> = ({
   targetCalendarDates,
   getSecondDateClass,
 }) => {
@@ -99,4 +99,4 @@ const BigCalendar: React.FC<BigCalendarProps> = ({
   );
 };
 
-export default BigCalendar;
+export default MonthView;

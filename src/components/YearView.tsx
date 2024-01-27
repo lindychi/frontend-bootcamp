@@ -1,17 +1,8 @@
 import React, { useState } from "react";
 import { getCalendarDates, getMonthString } from "../libs/calendar";
+import { dayList } from "../consts/calendar";
 
-type Day = {
-  short: string;
-};
-
-type YearViewProps = {
-  year: number;
-  getDateClass: (date: Date) => string;
-  dayList: Day[];
-};
-
-const YearView: React.FC<YearViewProps> = ({ year, getDateClass, dayList }) => {
+const YearView: React.FC = () => {
   const [currentYear, setCurrentYear] = useState<number>(
     new Date().getFullYear()
   );
