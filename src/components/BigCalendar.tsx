@@ -13,32 +13,28 @@ type Todo = {
 };
 
 type Props = {
-  selectedMonth: number;
-  selectedYear: number;
-  today: Date;
-  selectedDate: Date | null;
   dates: Date[];
-  todos: Todo[];
 };
 
 
 
 const BigCalendar: React.FC<Props> = ({
   
-  selectedMonth,
-  selectedYear,
-  today,
-  selectedDate,
-  dates,
-  todos,
-}) => {
 
+  
+  dates,
+
+}) => {
+  const today = new Date();
   const [events, setEvents] = useState<EventItem[]>([]);
   const loadEvents = async () => {
     const result =  await getDayEvents({year:2024});
     setEvents(result.data);
     console.log(result.data)
   };
+  const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1);
+  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+
 
   useEffect(()=>{
     loadEvents();

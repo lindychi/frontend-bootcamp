@@ -13,3 +13,5 @@ export type EventItem = {
   categories?: Category;
   todoId?: string;
 };
+
+export type CalendarType = "year" | "month" | "week" | "day";

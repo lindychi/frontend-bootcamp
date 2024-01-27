@@ -71,7 +71,7 @@ const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
         onChange={(event) => setEndedAt(event.target.value)}
       />
       <button
-        className="bg-primary text-white"
+        className="bg-lime-300 text-white"
         onClick={handleAddTodo}
       >
         추가
