@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getEvents } from "../services/eventService";
 import { EventItem } from "../types/common";
 
-interface dayOfWeek {
+interface DayOfWeek {
   day: string;
   date: Date;
 }
@@ -23,6 +23,7 @@ const WeekView: React.FC = () => {
     const result = await getEvents({ year: currentYear, month: currentMonth });
     setEvents(result.data);
   };
+
   useEffect(() => {
     loadEvents();
   }, []);
@@ -35,7 +36,7 @@ const WeekView: React.FC = () => {
   }
 
   function getDaysOfWeek() {
-    let daysOfWeek: dayOfWeek[] = [];
+    let daysOfWeek: DayOfWeek[] = [];
     let startWeekDay = getStartWeekday(new Date());
     days.forEach(function (day, index) {
       let currentDate = new Date();
@@ -52,32 +53,38 @@ const WeekView: React.FC = () => {
   const daysOfWeek = getDaysOfWeek();
 
   const eventsForWeek = (targetDate: Date, hour: number): EventItem[] => {
-    console.log(targetDate);
-    // const startOfWeek = new Date(targetDate);
-    // startOfWeek.setDate(targetDate.getDate() - targetDate.getDay());
-
-    // const endOfWeek = new Date(targetDate);
-    // endOfWeek.setDate(targetDate.getDate() + (6 - targetDate.getDay()));
-
     return events.filter((event) => {
       const eventDate = new Date(event.startedAt);
       return (
-        // eventDate >= startOfWeek &&
-        // eventDate <= endOfWeek &&
         eventDate.getHours() === hour &&
-        // eventDate.getDay() === targetDate.getDay()
         eventDate.getDate() === targetDate.getDate()
       );
     });
   };
-  const handleEventClick = (clickedEvent: EventItem) => {
-    console.log(`클릭한 이벤트: ${clickedEvent.title}`);
+
+  const isEventCrossDay = (event: EventItem): boolean => {
+    const start = new Date(event.startedAt);
+    const end = new Date(event.endedAt || "");
+
+    return start.getDate() !== end.getDate();
   };
+
+  const handleEventClick = (clickedEvent: EventItem) => {
+    console.log(`Clicked Event: ${clickedEvent.title}`);
+  };
+
   const handleDeleteEvent = async (clickedEvent: EventItem) => {
     try {
-    } catch (error) {}
+      // Handle delete event logic here
+    } catch (error) {
+      console.error("Error deleting event: ", error);
+    }
   };
-  const handleEditEvent = (clickedEvent: EventItem) => {};
+
+  const handleEditEvent = (clickedEvent: EventItem) => {
+    // Handle edit event logic here
+  };
+
   return (
     <div>
       <div className="min-w-screen grid grid-cols-7 gap-1 ml-20">
@@ -164,6 +171,7 @@ const WeekView: React.FC = () => {
                             onClick={() => handleEventClick(event)}
                           >
                             {event.title}
+                            {JSON.stringify(event.endedAt)}
                             <div className="flex flex-row ">
                               <button onClick={() => handleDeleteEvent(event)}>
                                 삭제
@@ -176,13 +184,15 @@ const WeekView: React.FC = () => {
                         );
                       }
                     )}
-                    {hour === new Date().getHours() && (
+
+                    {/* Handle events that extend beyond a day */}
+                    {eventsForWeek(dayOfWeek.date, hour).some(
+                      isEventCrossDay
+                    ) && (
                       <div
                         className="h-[1px] w-full bg-red-500 left-[1px] absolute z-30"
                         style={{
-                          top: `${
-                            ((hour * 1 + new Date().getMinutes()) / 60) * 60
-                          }px`,
+                          top: `${((hour * 1) / 60) * 60}px`,
                         }}
                       ></div>
                     )}

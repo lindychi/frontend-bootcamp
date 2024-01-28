@@ -3,45 +3,13 @@ import { dayList } from "../consts/calendar";
 import { getCalendarDates } from "../libs/calendar";
 import { EventItem } from "../types/common";
 import { getEvents } from "../services/eventService";
-import { EventType } from "@testing-library/react";
+import clsx from "clsx";
 
 const BigCalendar: React.FC = () => {
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;
   const [events, setEvents] = useState<EventItem[]>([]);
-
-  const loadEvents = async () => {
-    const result = await getEvents({ year: currentYear, month: currentMonth });
-    setEvents(result.data);
-  };
-  useEffect(() => {
-    loadEvents();
-  }, []);
-  const groupAndSortEvents = () => {
-    const groupedEvents: { [key: string]: EventType[] } = {};
-
-    // events.forEach((event) => {
-    //   const dateKey = new Date(event.id).toLocaleDateString("ko-KR"); // Modified this line
-    //   if (!groupedEvents[dateKey]) {
-    //     groupedEvents[dateKey] = [];
-    //   }
-    //   groupedEvents[dateKey].push(event);
-    // });
-
-    // for (const key in groupedEvents) {
-    //   groupedEvents[key].sort((a, b) => {
-    //     const timeA = new Date(`1970-01-01T${a.time}`);
-    //     const timeB = new Date(`1970-01-01T${b.time}`);
-    //     return timeA.getTime() - timeB.getTime();
-    //   });
-    // }
-
-    return groupedEvents;
-  };
-
-  const groupedAndSortedEvents = groupAndSortEvents();
-
   const [targetCalendarDates, setTargetCalendarDates] = useState<Date[] | null>(
     null
   );
@@ -49,6 +17,22 @@ const BigCalendar: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<number>(
     new Date().getFullYear()
   );
+
+  useEffect(() => {
+    loadEvents();
+  }, []);
+
+  const loadEvents = async () => {
+    try {
+      const result = await getEvents({
+        year: currentYear,
+        month: currentMonth,
+      });
+      setEvents(result.data);
+    } catch (error) {
+      console.error("Error loading events:", error);
+    }
+  };
 
   useEffect(() => {
     setTargetCalendarDates(null);
@@ -65,9 +49,33 @@ const BigCalendar: React.FC = () => {
     }
     return "";
   };
+
+  const renderEventsForDate = (date: Date): JSX.Element | null => {
+    const currentDateEvents = events.filter((event) => {
+      const eventDate = new Date(event.startedAt);
+      return (
+        eventDate.getDate() === date.getDate() &&
+        eventDate.getMonth() === date.getMonth() &&
+        eventDate.getFullYear() === date.getFullYear()
+      );
+    });
+
+    if (currentDateEvents.length === 0) {
+      return null;
+    }
+
+    return (
+      <ul>
+        {currentDateEvents.map((event, index) => (
+          <li key={index}>{event.title}</li>
+        ))}
+      </ul>
+    );
+  };
+
   return (
     <>
-      <div className="min-w-screen grid grid-cols-7 gap-1 border border-state-300">
+      <div className="w-[calc(100vw-420px)] grid grid-cols-7 gap-1 border border-state-300">
         {dayList.map((day) => (
           <div key={day.medium} className="text-center py-2 ">
             {day.medium}
@@ -75,27 +83,35 @@ const BigCalendar: React.FC = () => {
         ))}
       </div>
 
-      <div className="min-w-screen min-h-[1500px] grid grid-cols-7  border border-state-300">
+      <div className="w-[calc(100vw-420px)] min-h-screen grid grid-cols-7  border border-state-300">
         {targetCalendarDates?.map((date: Date, index: number) => {
           const currentDateKey = date.toLocaleDateString("ko-KR");
-          const currentDateEvents =
-            groupedAndSortedEvents[currentDateKey] || [];
+          const currentDateEvents = events.filter((event) => {
+            const eventDate = new Date(event.startedAt);
+            return (
+              eventDate.getDate() === date.getDate() &&
+              eventDate.getMonth() === date.getMonth() &&
+              eventDate.getFullYear() === date.getFullYear()
+            );
+          });
 
-          console.info(date.getDate());
+          const cellClass = clsx(
+            "text-left",
+            "indent-3",
+            "py-2",
+            "border",
+            "border-state-300",
+            "h-150px",
+            getSecondDateClass(date),
+            "cell"
+          );
 
           return (
-            <div
-              key={index}
-              className={`text-left indent-3 py-2 border border-state-300 ${getSecondDateClass(
-                date
-              )}`}
-            >
-              {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
-              {currentDateEvents.map((event: EventType, eventIndex: number) => (
-                <div key={eventIndex}>
-                  {/* {event.title} at {event.startedAt} */}
-                </div>
-              ))}
+            <div key={index} className={cellClass}>
+              <div>
+                {date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`}
+              </div>
+              {renderEventsForDate(date)}
             </div>
           );
         })}
