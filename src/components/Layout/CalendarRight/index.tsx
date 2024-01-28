@@ -12,6 +12,7 @@ import AddEvent from "../../AddEvent";
 import Search from "../../../icons/Search";
 import Plus from "../../../icons/Plus";
 import Hamburger from "../../../icons/Hamburger";
+import { supabase } from "../../../libs/supabase";
 
 type Props = {};
 
@@ -81,6 +82,16 @@ export default function CalendarRightLayout({}: Props) {
               </div>
             )}
           </div>
+
+          <button
+            className=" bg-slate-600 border-slate-300 text-white p-2 rounded"
+            onClick={async () => {
+              await supabase.auth.signOut();
+              navigate("/login");
+            }}
+          >
+            로그아웃
+          </button>
         </div>
       </div>
 
