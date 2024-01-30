@@ -8,10 +8,7 @@ interface DayOfWeek {
 }
 
 const WeekView: React.FC = () => {
-  const hours: number[] = Array.from({ length: 24 }, (_, index) => {
-    const hour = index;
-    return hour;
-  });
+  const hours: number[] = Array.from({ length: 24 }, (_, index) => index);
 
   const today = new Date();
   const currentYear = today.getFullYear();
@@ -38,6 +35,7 @@ const WeekView: React.FC = () => {
   function getDaysOfWeek() {
     let daysOfWeek: DayOfWeek[] = [];
     let startWeekDay = getStartWeekday(new Date());
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     days.forEach(function (day, index) {
       let currentDate = new Date();
       currentDate.setDate(startWeekDay.getDate() + index);
@@ -49,7 +47,6 @@ const WeekView: React.FC = () => {
     return daysOfWeek;
   }
 
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const daysOfWeek = getDaysOfWeek();
 
   const eventsForWeek = (targetDate: Date, hour: number): EventItem[] => {
@@ -60,13 +57,6 @@ const WeekView: React.FC = () => {
         eventDate.getDate() === targetDate.getDate()
       );
     });
-  };
-
-  const isEventCrossDay = (event: EventItem): boolean => {
-    const start = new Date(event.startedAt);
-    const end = new Date(event.endedAt || "");
-
-    return start.getDate() !== end.getDate();
   };
 
   const handleEventClick = (clickedEvent: EventItem) => {
@@ -151,18 +141,45 @@ const WeekView: React.FC = () => {
 
                         const eventTop =
                           ((startHour * 1 + startMinute) / 60) * 60;
-                        const eventHeight =
+                        let eventHeight =
                           ((endHour * 80 + endMinute) / 60) * 60 -
                           ((startHour * 80 + startMinute) / 60) * 60;
+
+                        const selectedDayStart = new Date(
+                          dayOfWeek.date?.getFullYear() ?? 0,
+                          dayOfWeek.date?.getMonth() ?? 0,
+                          dayOfWeek.date?.getDate() ?? 0,
+                          0,
+                          0,
+                          0,
+                          0
+                        );
+
+                        const selectedDayEnd = new Date(
+                          dayOfWeek.date?.getFullYear() ?? 0,
+                          dayOfWeek.date?.getMonth() ?? 0,
+                          dayOfWeek.date?.getDate() ?? 0,
+                          23,
+                          59,
+                          59,
+                          999
+                        );
+                        // Check if event spans multiple days
+                        const isMultiDayEvent =
+                          startEventTime.getDate() !== endEventTime.getDate();
+
+                        if (isMultiDayEvent) {
+                          // Render the first part of the event till the end of the day
+                          eventHeight = ((23 * 60 + 59) / 60) * 60;
+                        }
 
                         return (
                           <div
                             key={`${event.id}-${eventIndex}`}
-                            className="bg-blue-300 text-white p-2 rounded absolute z-20"
+                            className={`bg-blue-300 text-white p-2 rounded absolute z-20`}
                             style={{
                               top: `${eventTop}px`,
                               height: `${eventHeight}px`,
-
                               left: "5px",
                               right: "10px",
                               backgroundColor:
@@ -185,10 +202,28 @@ const WeekView: React.FC = () => {
                       }
                     )}
 
-                    {/* Handle events that extend beyond a day */}
-                    {eventsForWeek(dayOfWeek.date, hour).some(
-                      isEventCrossDay
-                    ) && (
+                    {/* Render additional part of the event on the next day */}
+                    {eventsForWeek(dayOfWeek.date, hour).some((event) => {
+                      const startDay = new Date(event.startedAt).getDate();
+                      const endDay = new Date(event.endedAt || "").getDate(); // Handle undefined
+                      return startDay !== endDay;
+                    }) && (
+                      <div
+                        key={`${dayOfWeek.date}-${hour}-extra-event`}
+                        className={`bg-blue-300 text-white p-2 rounded absolute z-20`}
+                        style={{
+                          top: `0px`,
+                          height: `100%`,
+                          left: "5px",
+                          right: "10px",
+                          backgroundColor:
+                            eventsForWeek(dayOfWeek.date, hour)[0]?.categories
+                              ?.color || "transparent",
+                        }}
+                      ></div>
+                    )}
+
+                    {hour === new Date().getHours() && (
                       <div
                         className="h-[1px] w-full bg-red-500 left-[1px] absolute z-30"
                         style={{
