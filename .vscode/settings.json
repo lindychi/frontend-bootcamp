@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["bootcamp", "consts", "tailwindcss"]
+  "cSpell.words": ["bootcamp", "consts", "tailwindcss"],
+
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "prettier.singleQuote": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
