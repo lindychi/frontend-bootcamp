@@ -14,7 +14,7 @@ const YearView: React.FC<Props> = ({ selectedYear, targetCalendarDates }) => {
   const months = Array.from({ length: 12 }, (_, index) => index + 1);
 
   return (
-    <div className="grid grid-cols-4 w-full justify-center items-start gap-4 ">
+    <div className="grid grid-cols-4 w-full  justify-center items-start gap-4 ">
       {months.map((month) => {
         return (
           <div className='bg-slate-50 rounded-xl  '>

@@ -11,7 +11,7 @@ export default function YearPage({}: Props) {
   const targetCalendarDates: Date[] = getCalendarDates(selectedYear, selectedMonth);
 
   return (
-    <div className=' w-[calc(100vw-250px)] min-h-screen self-stretch py-2'>
+    <div className=' w-[calc(100vw-250px)] h-screen self-stretch py-2'>
     <YearView
     selectedYear={selectedYear}
     targetCalendarDates={targetCalendarDates}
