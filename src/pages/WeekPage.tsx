@@ -28,7 +28,7 @@ const weekDates = Array.from({ length: 7 }, (_, index) => {
     </div>
      ))}
    </div>
- <div className='grid grid-cols-7 w-full'>
+ <div className='grid grid-cols-7 w-[calc(100vw-300px)]'>
     
     {weekDates.map((day,index) => (
     <div>

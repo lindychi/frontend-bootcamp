@@ -13,7 +13,7 @@ export default function MonthPage({}: Props) {
 
 
   return (
-    <div>
+    <div className='w-[calc(100vw-250px)] h-screen '>
         <BigCalendar
           dates={targetCalendarDates}   
         />
