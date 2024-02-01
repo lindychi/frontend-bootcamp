@@ -10,12 +10,11 @@ interface DayOfWeek {
 const WeekView: React.FC = () => {
   const hours: number[] = Array.from({ length: 24 }, (_, index) => index);
 
+  const [events, setEvents] = useState<EventItem[]>([]);
+
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;
-
-  const [events, setEvents] = useState<EventItem[]>([]);
-
   const loadEvents = async () => {
     const result = await getEvents({ year: currentYear, month: currentMonth });
     setEvents(result.data);
@@ -26,7 +25,7 @@ const WeekView: React.FC = () => {
   }, []);
 
   function getStartWeekday(date: Date) {
-    let current_date = date;
+    let current_date = new Date(date);
     let weekDay = current_date.getDay();
     current_date.setDate(current_date.getDate() - weekDay);
     return new Date(current_date);
@@ -37,7 +36,7 @@ const WeekView: React.FC = () => {
     let startWeekDay = getStartWeekday(new Date());
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     days.forEach(function (day, index) {
-      let currentDate = new Date();
+      let currentDate = new Date(startWeekDay); // 현재 날짜를 기준으로 설정
       currentDate.setDate(startWeekDay.getDate() + index);
       daysOfWeek.push({
         day: day,
@@ -144,83 +143,113 @@ const WeekView: React.FC = () => {
                         let eventHeight =
                           ((endHour * 80 + endMinute) / 60) * 60 -
                           ((startHour * 80 + startMinute) / 60) * 60;
-
-                        const selectedDayStart = new Date(
-                          dayOfWeek.date?.getFullYear() ?? 0,
-                          dayOfWeek.date?.getMonth() ?? 0,
-                          dayOfWeek.date?.getDate() ?? 0,
-                          0,
-                          0,
-                          0,
-                          0
-                        );
-
-                        const selectedDayEnd = new Date(
-                          dayOfWeek.date?.getFullYear() ?? 0,
-                          dayOfWeek.date?.getMonth() ?? 0,
-                          dayOfWeek.date?.getDate() ?? 0,
-                          23,
-                          59,
-                          59,
-                          999
-                        );
-                        // Check if event spans multiple days
+                        let endEventHeight =
+                          ((endHour * 80 + endMinute) / 60) * 60;
                         const isMultiDayEvent =
                           startEventTime.getDate() !== endEventTime.getDate();
 
                         if (isMultiDayEvent) {
-                          // Render the first part of the event till the end of the day
-                          eventHeight = ((23 * 60 + 59) / 60) * 60;
-                        }
+                          const currentDayEndHour = 23;
+                          const currentDayEndMinute = 59;
+                          const currentDayEndTime =
+                            (currentDayEndHour * 60 + currentDayEndMinute) / 60;
+                          const currentDayHeight =
+                            ((currentDayEndTime * 80) / 60) * 60 -
+                            ((startHour * 80 + startMinute) / 60) * 60;
 
-                        return (
-                          <div
-                            key={`${event.id}-${eventIndex}`}
-                            className={`bg-blue-300 text-white p-2 rounded absolute z-20`}
-                            style={{
-                              top: `${eventTop}px`,
-                              height: `${eventHeight}px`,
-                              left: "5px",
-                              right: "10px",
-                              backgroundColor:
-                                event.categories?.color || "transparent",
-                            }}
-                            onClick={() => handleEventClick(event)}
-                          >
-                            {event.title}
-                            {JSON.stringify(event.endedAt)}
-                            <div className="flex flex-row ">
-                              <button onClick={() => handleDeleteEvent(event)}>
-                                삭제
-                              </button>
-                              <button onClick={() => handleEditEvent(event)}>
-                                편집
-                              </button>
+                          const endEventTop = -1835;
+
+                          return (
+                            <>
+                              <div
+                                key={`${event.id}-${eventIndex}`}
+                                className={`bg-blue-300 text-white p-2 rounded absolute z-20`}
+                                style={{
+                                  top: `${eventTop}px`,
+                                  height: `${currentDayHeight}px`,
+                                  left: "5px",
+                                  right: "10px",
+                                  backgroundColor:
+                                    event.categories?.color || "transparent",
+                                }}
+                                onClick={() => handleEventClick(event)}
+                              >
+                                {event.title}
+                                {JSON.stringify(event.endedAt)}
+                                <div className="flex flex-row ">
+                                  <button
+                                    onClick={() => handleDeleteEvent(event)}
+                                  >
+                                    삭제
+                                  </button>
+                                  <button
+                                    onClick={() => handleEditEvent(event)}
+                                  >
+                                    편집
+                                  </button>
+                                </div>
+                              </div>
+
+                              <div
+                                key={`${event.id}-${eventIndex}-end`}
+                                className={`bg-blue-300 text-white p-2 rounded absolute z-20`}
+                                style={{
+                                  top: `${endEventTop}px`,
+                                  height: `${endEventHeight}px`,
+                                  left: "calc(100% + 5px)",
+                                  width: "calc",
+                                  backgroundColor:
+                                    event.categories?.color || "transparent",
+                                }}
+                                onClick={() => handleEventClick(event)}
+                              >
+                                {event.title}
+                                <div className="flex flex-row">
+                                  <button
+                                    onClick={() => handleDeleteEvent(event)}
+                                  >
+                                    삭제
+                                  </button>
+                                  <button
+                                    onClick={() => handleEditEvent(event)}
+                                  >
+                                    편집
+                                  </button>
+                                </div>
+                              </div>
+                            </>
+                          );
+                        } else {
+                          return (
+                            <div
+                              key={`${event.id}-${eventIndex}`}
+                              className={`bg-blue-300 text-white p-2 rounded absolute z-20`}
+                              style={{
+                                top: `${eventTop}px`,
+                                height: `${eventHeight}px`,
+                                left: "5px",
+                                right: "10px",
+                                backgroundColor:
+                                  event.categories?.color || "transparent",
+                              }}
+                              onClick={() => handleEventClick(event)}
+                            >
+                              {event.title}
+
+                              <div className="flex flex-row ">
+                                <button
+                                  onClick={() => handleDeleteEvent(event)}
+                                >
+                                  삭제
+                                </button>
+                                <button onClick={() => handleEditEvent(event)}>
+                                  편집
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        );
+                          );
+                        }
                       }
-                    )}
-
-                    {/* Render additional part of the event on the next day */}
-                    {eventsForWeek(dayOfWeek.date, hour).some((event) => {
-                      const startDay = new Date(event.startedAt).getDate();
-                      const endDay = new Date(event.endedAt || "").getDate(); // Handle undefined
-                      return startDay !== endDay;
-                    }) && (
-                      <div
-                        key={`${dayOfWeek.date}-${hour}-extra-event`}
-                        className={`bg-blue-300 text-white p-2 rounded absolute z-20`}
-                        style={{
-                          top: `0px`,
-                          height: `100%`,
-                          left: "5px",
-                          right: "10px",
-                          backgroundColor:
-                            eventsForWeek(dayOfWeek.date, hour)[0]?.categories
-                              ?.color || "transparent",
-                        }}
-                      ></div>
                     )}
 
                     {hour === new Date().getHours() && (

@@ -35,6 +35,7 @@ const WeekView: React.FC = () => {
   function getDaysOfWeek() {
     let daysOfWeek: DayOfWeek[] = [];
     let startWeekDay = getStartWeekday(new Date());
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     days.forEach(function (day, index) {
       let currentDate = new Date();
       currentDate.setDate(startWeekDay.getDate() + index);
@@ -46,7 +47,6 @@ const WeekView: React.FC = () => {
     return daysOfWeek;
   }
 
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const daysOfWeek = getDaysOfWeek();
 
   const eventsForWeek = (targetDate: Date, hour: number): EventItem[] => {
@@ -141,66 +141,134 @@ const WeekView: React.FC = () => {
 
                         const eventTop =
                           ((startHour * 1 + startMinute) / 60) * 60;
-                        const eventHeight =
+                        let eventHeight =
                           ((endHour * 80 + endMinute) / 60) * 60 -
                           ((startHour * 80 + startMinute) / 60) * 60;
 
-                        const selectedDayStart = new Date(
-                          dayOfWeek.date.getFullYear(),
-                          dayOfWeek.date.getMonth(),
-                          dayOfWeek.date.getDate(),
-                          0,
-                          0,
-                          0,
-                          0
-                        );
+                        const isMultiDayEvent =
+                          startEventTime.getDate() !== endEventTime.getDate();
 
-                        const selectedDayEnd = new Date(
-                          dayOfWeek.date.getFullYear(),
-                          dayOfWeek.date.getMonth(),
-                          dayOfWeek.date.getDate(),
-                          23,
-                          59,
-                          59,
-                          999
-                        );
+                        if (isMultiDayEvent) {
+                          // Calculate height until the end of the current day
+                          const currentDayEndHour = 23;
+                          const currentDayEndMinute = 59;
+                          const currentDayEndTime =
+                            (currentDayEndHour * 60 + currentDayEndMinute) / 60;
+                          const currentDayHeight =
+                            ((currentDayEndTime * 80) / 60) * 60 -
+                            ((startHour * 80 + startMinute) / 60) * 60;
 
-                        const isCrossDay =
-                          startEventTime < selectedDayStart ||
-                          endEventTime > selectedDayEnd;
+                          // 종료일을 시작일 다음 날로 설정
+                          const endEventDate = new Date(event.endedAt || "");
+                          endEventDate.setDate(endEventDate.getDate() + 1);
 
-                        return (
-                          <div
-                            key={`${event.id}-${eventIndex}`}
-                            className={`bg-blue-300 text-white p-2 rounded absolute z-20 ${
-                              isCrossDay ? "cross-day-event" : ""
-                            }`}
-                            style={{
-                              top: `${eventTop}px`,
-                              height: `${eventHeight}px`,
-                              left: "5px",
-                              right: "10px",
-                              backgroundColor:
-                                event.categories?.color || "transparent",
-                            }}
-                            onClick={() => handleEventClick(event)}
-                          >
-                            {event.title}
-                            {JSON.stringify(event.endedAt)}
-                            <div className="flex flex-row ">
-                              <button onClick={() => handleDeleteEvent(event)}>
-                                삭제
-                              </button>
-                              <button onClick={() => handleEditEvent(event)}>
-                                편집
-                              </button>
+                          const endEventTop =
+                            ((endEventDate.getHours() * 1 +
+                              endEventDate.getMinutes()) /
+                              60) *
+                            60;
+                          const endEventHeight =
+                            ((endEventDate.getHours() * 80 +
+                              endEventDate.getMinutes()) /
+                              60) *
+                              60 -
+                            eventTop;
+
+                          // Render the first part of the event till the end of the day
+                          return (
+                            <>
+                              <div
+                                key={`${event.id}-${eventIndex}`}
+                                className={`bg-blue-300 text-white p-2 rounded absolute z-20`}
+                                style={{
+                                  top: `${eventTop}px`,
+                                  height: `${currentDayHeight}px`,
+                                  left: "5px",
+                                  right: "10px",
+                                  backgroundColor:
+                                    event.categories?.color || "transparent",
+                                }}
+                                onClick={() => handleEventClick(event)}
+                              >
+                                {event.title}
+                                {JSON.stringify(event.endedAt)}
+                                <div className="flex flex-row ">
+                                  <button
+                                    onClick={() => handleDeleteEvent(event)}
+                                  >
+                                    삭제
+                                  </button>
+                                  <button
+                                    onClick={() => handleEditEvent(event)}
+                                  >
+                                    편집
+                                  </button>
+                                </div>
+                              </div>
+                              {/* Render event for the end day */}
+                              <div
+                                key={`${event.id}-${eventIndex}-end`}
+                                className={`bg-blue-300 text-white p-2 rounded absolute z-20`}
+                                style={{
+                                  top: `${endEventTop}px`, // 시작일 다음 날로 설정된 종료일 이벤트
+                                  height: `${endEventHeight}px`,
+                                  left: "5px",
+                                  right: "10px",
+                                  backgroundColor:
+                                    event.categories?.color || "transparent",
+                                }}
+                                onClick={() => handleEventClick(event)}
+                              >
+                                {JSON.stringify(event.endedAt)}
+                                <div className="flex flex-row">
+                                  <button
+                                    onClick={() => handleDeleteEvent(event)}
+                                  >
+                                    삭제
+                                  </button>
+                                  <button
+                                    onClick={() => handleEditEvent(event)}
+                                  >
+                                    편집
+                                  </button>
+                                </div>
+                              </div>
+                            </>
+                          );
+                        } else {
+                          // Render the event for a single day
+                          return (
+                            <div
+                              key={`${event.id}-${eventIndex}`}
+                              className={`bg-blue-300 text-white p-2 rounded absolute z-20`}
+                              style={{
+                                top: `${eventTop}px`,
+                                height: `${eventHeight}px`,
+                                left: "5px",
+                                right: "10px",
+                                backgroundColor:
+                                  event.categories?.color || "transparent",
+                              }}
+                              onClick={() => handleEventClick(event)}
+                            >
+                              {event.title}
+                              {JSON.stringify(event.endedAt)}
+                              <div className="flex flex-row ">
+                                <button
+                                  onClick={() => handleDeleteEvent(event)}
+                                >
+                                  삭제
+                                </button>
+                                <button onClick={() => handleEditEvent(event)}>
+                                  편집
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        );
+                          );
+                        }
                       }
                     )}
 
-                    {/* Handle events that extend beyond a day */}
                     {hour === new Date().getHours() && (
                       <div
                         className="h-[1px] w-full bg-red-500 left-[1px] absolute z-30"

@@ -18,7 +18,7 @@ type HeaderProps = {};
 
 const Header: React.FC<HeaderProps> = ({}) => {
   const [currentView, setCurrentView] = useState<View>(View.Month);
-  const [selectedMonth, setSelectedMonth] = useState<number>(1);
+  const [selectedMonth, setSelectedMonth] = useState<number>(2);
   const [selectedYear, setSelectedYear] = useState<number>(
     new Date().getFullYear()
   );

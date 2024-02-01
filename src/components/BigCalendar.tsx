@@ -13,7 +13,7 @@ const BigCalendar: React.FC = () => {
   const [targetCalendarDates, setTargetCalendarDates] = useState<Date[] | null>(
     null
   );
-  const [selectedMonth, setSelectedMonth] = useState<number>(1);
+  const [selectedMonth, setSelectedMonth] = useState<number>(2);
   const [selectedYear, setSelectedYear] = useState<number>(
     new Date().getFullYear()
   );

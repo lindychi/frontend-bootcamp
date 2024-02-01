@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { getMonthString } from "../libs/calendar";
 import { dayList } from "../consts/calendar";
 type CalendarSectionProps = {
@@ -8,12 +8,11 @@ type CalendarSectionProps = {
 };
 
 const CalendarSection: React.FC<CalendarSectionProps> = ({
-  selectedMonth,
   targetCalendarDates,
   getDateClass,
 }) => {
   const today = new Date();
-
+  const [selectedMonth, setSelectedMonth] = useState<number>(2);
   return (
     <div className="w-[340px] h-screen border border-slate-300 p-4">
       <div className="text-2xl font-semibold mb-4 px-2 py-1">
