@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import { supabase } from '../libs/supabase';
-
 import { getCalendarDates, getMonthString } from '../libs/calendar';
-
 import CalendarS from '../components/CalendarS';
-
 import { dayList } from '../consts/calendar';
 import Hamburger from '../icons/Hamburger';
 import Search from '../icons/Search';
@@ -18,7 +15,7 @@ import AddEvent from '../components/AddEvent';
 
 type Props = {};
 
-export default function Calendar({}: Props) {
+export default function Calendar({}: Props): JSX.Element {
   const navigate = useNavigate();
 
   const checkLogin = async () => {
@@ -30,45 +27,73 @@ export default function Calendar({}: Props) {
 
   const [selectedOption, setSelectedOption] = useState('month'); // Track selected option
   const [isAddEventOpen, setIsAddEventOpen] = useState(false); // Track AddEvent open state
+  const [selectedMonth, setSelectedMonth] = React.useState(2);
+  const [selectedYear, setSelectedYear] = React.useState(2024);
+
+  // useEffect를 이용하여 로그인 확인 처리
+  useEffect(() => {
+    checkLogin();
+  }, []);
+
+  const targetCalendarDates: Date[] = getCalendarDates(
+    selectedYear,
+    selectedMonth
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     navigate('/' + e.target.value);
     setSelectedOption(e.target.value);
     console.log('/' + e.target.value);
+  };
 
-    // 모달 열기 함수
-    const handleAddEventClick = () => {
-      setIsAddEventOpen(true);
-    };
+  // 모달 열기 함수
+  const handleAddEventClick = () => {
+    setIsAddEventOpen(true);
+  };
 
-    // 모달 닫기 함수
-    const handleCloseAddEvent = () => {
-      setIsAddEventOpen(false);
-    };
+  // 모달 닫기 함수
+  const handleCloseAddEvent = () => {
+    setIsAddEventOpen(false);
+  };
 
-    useEffect(() => {
-      checkLogin();
-    }, []);
+  return (
+    <div className="main flex">
+      {/* LNB 시작 */}
+      <div className="calendar flex flex-col justify-start w-100vw h-100vh   border solid-f0f0f0">
+        <div className="sidebar flex-col w-[250px] bg-gray-100 border-1px-solid-f0f0f0">
+          {/* 미니캘린더 */}
+          <div>
+            <CalendarS
+              selectedMonth={selectedMonth}
+              selectedYear={selectedYear}
+              dayList={dayList}
+            />
+          </div>
+        </div>
+        {/* 할일 */}
+        <div className="todoList w-[250px] min-h-[100px] py-[10px] px-[16px] gap-[10px]  bg-green-400">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <div className="w-2 h-2 rounded-full bg-yellow-300"></div>
+              <div className="text-sm pl-2 pt-0.5">일상</div>
+            </div>
+            <button className=" font-medium">+</button>
+          </div>
+        </div>
+      </div>
+      {/* LNB 끝 */}
 
-    const [selectedMonth, setSelectedMonth] = React.useState(1);
-    const [selectedYear, setSelectedYear] = React.useState(2024);
-    const targetCalendarDates: Date[] = getCalendarDates(
-      selectedYear,
-      selectedMonth
-    );
-
-    return (
-      <div className="main">
-        {/* 상단 헤더 */}
-        <div className="header  flex w-100% h-[77px] py-[16px] px-[40px] justify-between bg-red border-b-#f0f0f0 ">
-          <div className="left-content flex justify-between gap-4 items-center">
+      <div className="flex flex-col ">
+        {/* 헤더 시작*/}
+        <div className="header flex w-full justify-between bg-red-200 h-[77px] py-[16px] px-[40px] bg-red  border-b-#f0f0f0 items-center  ">
+          <div className="headerLeft left-content flex justify-between items-center">
             <div>
               <Hamburger />
             </div>
             <div className="Month-title flex gap-[4px] items-center">
               {/* 월 */}
               <div className="text-3xl text-center font-semibold">
-                {getMonthString(1)}
+                {getMonthString(2)}
               </div>
               {/* 년도 */}
               <div className="year text-3xl  text-center">{selectedYear}</div>
@@ -89,73 +114,50 @@ export default function Calendar({}: Props) {
           </div>
 
           {/* Add event */}
-          <button className="right-contents flex justify-between gap-[16px] items-center">
-            <div>
-              <Search />
+          <div className="headerRight flex right-content items-end">
+            <button className="right-contents flex justify-between  items-center">
+              <div>
+                <Search />
+              </div>
+              <div className="px-4">
+                <div
+                  className="addEvent flex w-auto h-[35px] p-[8px] rounded bg-primary text-white text-sm gap-[4px] items-center"
+                  onClick={handleAddEventClick} // 클릭 이벤트를 통해 AddEvent 컴포넌트를 열도록 함
+                >
+                  Add event <Plus />{' '}
+                </div>
+              </div>
+            </button>
+            <div className="flex w-auto text-sm h-[35px] p-[8px]   bg-gray-200 rounded">
+              <button
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  navigate('/login');
+                }}
+              >
+                로그아웃
+              </button>
             </div>
-            <div
-              className="addEvent flex w-auto h-[35px] p-[8px] rounded bg-primary text-white text-sm gap-[4px] items-center"
-              onClick={handleAddEventClick} // 클릭 이벤트를 통해 AddEvent 컴포넌트를 열도록 함
-            >
-              Add event <Plus />{' '}
-            </div>
-          </button>
-
+          </div>
           <Routes>
-            <Route path="/" element={<MonthCal />} />
-            <Route path="day" element={<DayCal />} />
-            <Route path="week" element={<WeekCal />} />
-            <Route path="year" element={<YearCal />} />
-            <Route path="month" element={<MonthCal />} />
+            <Route path="/" />
+            <Route path="day" />
+            <Route path="week" />
+            <Route path="year" />
+            <Route path="month" />
           </Routes>
-        </div>
 
-        {/* AddEvent Modal 렌더링 */}
-        <div>
-          {isAddEventOpen && <AddEvent onClose={handleCloseAddEvent} />}
-        </div>
-        <div className="flex flex-col items-center">
-          Calnendar
-          <button
-            onClick={async () => {
-              await supabase.auth.signOut();
-              navigate('/login');
-            }}
-          >
-            로그아웃
-          </button>
+          {/* AddEvent Modal 렌더링 */}
+          <div>
+            {isAddEventOpen && <AddEvent onClose={handleCloseAddEvent} />}
+          </div>
         </div>
         {/* 헤더끝 */}
 
-        {/* LNB 시작 */}
-        <div className="lnb">
-          <div className="calendar flex justify-start w-100vw h-100vh   border solid-f0f0f0">
-            <div className="sidebar flex-col w-[250px] bg-gray-100 border-1px-solid-f0f0f0">
-              {/* 미니캘린더 */}
-              <div>
-                <CalendarS
-                  selectedMonth={selectedMonth}
-                  selectedYear={selectedYear}
-                  dayList={dayList}
-                />
-              </div>
-
-              {/* 할일flex */}
-              <div className="todoList w-[250px] min-h-[100px] py-[10px] px-[16px] gap-[10px]  bg-green-400">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center">
-                    <div className="w-2 h-2 rounded-full bg-yellow-300"></div>
-                    <div className="text-sm pl-2 pt-0.5">일상</div>
-                  </div>
-                  <button className=" font-medium">+</button>
-                </div>
-              </div>
-            </div>
-
-            <Outlet />
-          </div>
+        <div>
+          <Outlet />
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 }
