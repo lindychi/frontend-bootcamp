@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { addEvent, AddEventRequest } from "../services/eventService";
+import React, { useEffect, useRef, useState } from 'react';
+import { addEvent, AddEventRequest } from '../services/eventService';
 
 type Props = { onClose: () => void }; // 모달 닫기를 위한 콜백 함수 전달
 
@@ -9,7 +9,7 @@ export default function AddEvent({ onClose }: Props) {
 
   // 모달
   const [eventData, setEventData] = useState<AddEventRequest>({
-    title: "",
+    title: '',
     startedAt: new Date(), // 초기값 설정
     endedAt: undefined, // 초기값 비어있는 경우 undefined로 설정
     // categoryId: "",
@@ -23,7 +23,7 @@ export default function AddEvent({ onClose }: Props) {
       ...prevData,
       // 만약 입력값이 "endedAt"이라면 문자열을 Date 객체로 변환하여 저장
       [name]:
-        name === "endedAt" || name === "startedAt" ? new Date(value) : value,
+        name === 'endedAt' || name === 'startedAt' ? new Date(value) : value,
     }));
   };
 
@@ -33,7 +33,7 @@ export default function AddEvent({ onClose }: Props) {
       // 이벤트 추가가 성공했을 때 필요한 로직 추가
       onClose(); // 추가 후에 모달을 닫기 위해 onClose 함수 호출
     } catch (error) {
-      console.error("이벤트 추가 오류:", error);
+      console.error('이벤트 추가 오류:', error);
       // 이벤트 추가에 실패했을 때 필요한 로직 추가
     }
   };
@@ -48,11 +48,11 @@ export default function AddEvent({ onClose }: Props) {
 
   // useEffect를 사용하여 컴포넌트가 마운트될 때 이벤트 리스너 추가
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [modalRef]);
 
@@ -60,10 +60,11 @@ export default function AddEvent({ onClose }: Props) {
     <div
       className="AddEventBox px-[40px]"
       style={{
-        position: "absolute",
-        top: "18px",
+        position: 'absolute',
+        top: '18px',
         right: 0,
         zIndex: 2,
+        display: 'block',
       }}
     >
       <div className=" modal w-auto h-auto rounded-lg border px-[4px] py-[8px] bg-white text-center drop-shadow-lg ">
@@ -76,11 +77,11 @@ export default function AddEvent({ onClose }: Props) {
               value={eventData.title}
               onChange={handleInputChange}
               style={{
-                border: "1px solid #D8D8D8",
-                padding: "2px",
-                marginLeft: "22px",
-                borderRadius: "5px",
-                width: "calc(100% - 60px)",
+                border: '1px solid #D8D8D8',
+                padding: '2px',
+                marginLeft: '22px',
+                borderRadius: '5px',
+                width: 'calc(100% - 60px)',
               }}
             />
           </div>
@@ -96,14 +97,14 @@ export default function AddEvent({ onClose }: Props) {
                   ? new Date(eventData.startedAt.getTime() + 9 * 60 * 60 * 1000)
                       ?.toISOString()
                       .slice(0, 16)
-                  : ""
+                  : ''
               } // 날짜 형식으로 변환
               onChange={handleInputChange}
               style={{
-                padding: "2px",
-                marginLeft: "8px",
-                borderRadius: "5px",
-                width: "calc(100% - 60px)",
+                padding: '2px',
+                marginLeft: '8px',
+                borderRadius: '5px',
+                width: 'calc(100% - 60px)',
               }}
             />
           </div>
@@ -115,14 +116,14 @@ export default function AddEvent({ onClose }: Props) {
               value={
                 eventData.endedAt
                   ? eventData.endedAt?.toISOString().slice(0, 8) + 9
-                  : ""
+                  : ''
               } // 날짜 형식으로 변환
               onChange={handleInputChange}
               style={{
-                padding: "2px",
-                marginLeft: "8px",
-                borderRadius: "5px",
-                width: "calc(100% - 60px)",
+                padding: '2px',
+                marginLeft: '8px',
+                borderRadius: '5px',
+                width: 'calc(100% - 60px)',
               }}
             />
           </div>
@@ -134,10 +135,10 @@ export default function AddEvent({ onClose }: Props) {
               value={eventData.categoryId}
               onChange={handleInputChange}
               style={{
-                padding: "2px",
-                marginLeft: "8px",
-                borderRadius: "5px",
-                width: "calc(100% - 80px)",
+                padding: '2px',
+                marginLeft: '8px',
+                borderRadius: '5px',
+                width: 'calc(100% - 80px)',
               }}
             />
           </div>

@@ -83,10 +83,10 @@ export default function Calendar({}: Props): JSX.Element {
       </div>
       {/* LNB 끝 */}
 
-      <div className="flex flex-col ">
+      <div className="main w-full flex flex-col ">
         {/* 헤더 시작*/}
-        <div className="header flex w-full justify-between bg-red-200 h-[77px] py-[16px] px-[40px] bg-red  border-b-#f0f0f0 items-center  ">
-          <div className="headerLeft left-content flex justify-between items-center">
+        <div className="header flex w-full justify-between bg-red-200  h-[77px] py-[16px] bg-red  border-b-#f0f0f0 items-center">
+          <div className="headerLeft flex  gap-5 px-5">
             <div>
               <Hamburger />
             </div>
@@ -114,20 +114,19 @@ export default function Calendar({}: Props): JSX.Element {
           </div>
 
           {/* Add event */}
-          <div className="headerRight flex right-content items-end">
-            <button className="right-contents flex justify-between  items-center">
-              <div>
-                <Search />
-              </div>
-              <div className="px-4">
-                <div
-                  className="addEvent flex w-auto h-[35px] p-[8px] rounded bg-primary text-white text-sm gap-[4px] items-center"
-                  onClick={handleAddEventClick} // 클릭 이벤트를 통해 AddEvent 컴포넌트를 열도록 함
-                >
-                  Add event <Plus />{' '}
-                </div>
+          <div className="headerRight flex flex-grow justify-end px-5">
+            <div>
+              <Search />
+            </div>
+            <button className="px-4">
+              <div
+                className="addEvent flex w-auto h-[35px] p-[8px] rounded bg-primary text-white text-sm gap-[4px] items-center"
+                onClick={handleAddEventClick} // 클릭 이벤트를 통해 AddEvent 컴포넌트를 열도록 함
+              >
+                Add event <Plus />{' '}
               </div>
             </button>
+
             <div className="flex w-auto text-sm h-[35px] p-[8px]   bg-gray-200 rounded">
               <button
                 onClick={async () => {
