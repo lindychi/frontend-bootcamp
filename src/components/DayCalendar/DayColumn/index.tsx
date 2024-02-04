@@ -8,10 +8,26 @@ import { getConflictTodoList } from "../../../libs/calendar";
 import { getDayEvents } from "../../../services/eventService";
 
 import EventColumn from "../EventColumn";
+import { ConflictEventItem } from "../../../types/common";
 
-type Props = { year: number; month: number; day: number; index?: number };
+type Props = {
+  year: number;
+  month: number;
+  day: number;
+  index?: number;
+  onClickEvent?: (
+    e: React.MouseEvent<HTMLDivElement>,
+    data: ConflictEventItem
+  ) => void;
+};
 
-export default function DayColumn({ year, month, day, index = 0 }: Props) {
+export default function DayColumn({
+  year,
+  month,
+  day,
+  onClickEvent,
+  index = 0,
+}: Props) {
   const [today, setToday] = useState(new Date());
 
   const loadTodayEvents = async () => {
@@ -65,6 +81,7 @@ export default function DayColumn({ year, month, day, index = 0 }: Props) {
             year={year}
             month={month}
             day={day}
+            onClick={onClickEvent}
           />
         );
       })}

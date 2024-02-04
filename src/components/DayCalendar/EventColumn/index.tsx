@@ -16,9 +16,19 @@ type Props = {
   year: number;
   month: number;
   day: number;
+  onClick?: (
+    e: React.MouseEvent<HTMLDivElement>,
+    data: ConflictEventItem
+  ) => void;
 };
 
-export default function EventColumn({ event, year, month, day }: Props) {
+export default function EventColumn({
+  event,
+  year,
+  month,
+  day,
+  onClick,
+}: Props) {
   const [isHover, setIsHover] = React.useState(false);
 
   const queryClient = useQueryClient();
@@ -62,6 +72,7 @@ export default function EventColumn({ event, year, month, day }: Props) {
       }}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
+      onClick={(e) => onClick?.(e, event)}
     >
       <div
         key={event.id}
