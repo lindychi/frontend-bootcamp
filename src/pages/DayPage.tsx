@@ -5,17 +5,13 @@ import ToDoAdd from '../components/ToDoAdd';
 
 type Props = {}
 
-// type Todo = {
-//   title: string;
-//   startedAt: Date;
-//   endedAt: Date;
-// };
+
+
 
 export default function DayPage({}: Props) {
   const today = new Date();
   const hours = Array.from({ length: 24 }, (_, index) => index);
-  // const [todos, setTodos] = useState<Todo[]>([]);
-  
+
 
   const [isOpen, setIsOpen] = React.useState(false);
     const [left, setLeft] = React.useState(0);
@@ -67,7 +63,8 @@ export default function DayPage({}: Props) {
        {isOpen && 
        (<div className='fixed w-fit bg-red-300' style={{ left, top }}
      > 
-       <ToDoAdd /> </div>)}
+       <ToDoAdd todoData={event}/> 
+       </div>)}
       </div>
   )
 }

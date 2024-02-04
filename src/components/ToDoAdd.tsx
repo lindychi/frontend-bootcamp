@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { addEvent } from '../services/eventService';
+import { EventItem } from '../types/common';
 
 type Todo = {
   title: string;
@@ -8,7 +9,7 @@ type Todo = {
 };
 
 type ToDoAddProps = {
-  todoData?: Todo[],
+  todoData?: EventItem
   
 };
 
@@ -51,9 +52,14 @@ const ToDoAdd: React.FC<ToDoAddProps> = ({ todoData, }) => {
     }
   };}
 
-  // useEffect(() => {
-  //   setTitle(todoData?.[0].title)
-  // }, [todoData])
+  useEffect(() => {
+    setTitle(todoData?.title ?? '');
+    const startStr = typeof todoData?.startedAt === 'string' ? todoData.startedAt : '';
+    const endStr = typeof todoData?.endedAt === 'string' ? todoData.endedAt : '';
+  
+    setStartedAt(startStr);
+    setEndedAt(endStr);
+  }, [todoData])
 
   return (
     <div className='flex flex-col'>
