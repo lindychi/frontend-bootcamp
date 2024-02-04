@@ -1,6 +1,9 @@
+// div에 onClick 집어넣기. 레퍼런스=ui를 역으로 알아내는것.
+
 import React, { useState, useEffect } from "react";
 import { getEvents } from "../services/eventService";
 import { EventItem } from "../types/common";
+import { Console } from "console";
 
 const DayView: React.FC = () => {
   const hours: number[] = Array.from({ length: 24 }, (_, i) => i);
@@ -20,6 +23,24 @@ const DayView: React.FC = () => {
     loadEvents();
   }, []);
 
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [left, setLeft] = React.useState(0);
+  const [top, setTop] = React.useState(0);
+  const [event, setEvent] = React.useState<EventItem>();
+  const handleClickEvent = (
+    e: React.MouseEvent<HTMLDivElement>,
+    data: EventItem
+  ) => {
+    const position = (e.target as any).getBoundingClientRect();
+
+    console.log(position);
+    setEvent(data);
+    setIsOpen(true);
+    setLeft(position.left);
+    setTop(position.top);
+  };
+  // data: ConflictEventItem
+
   return (
     <div className="flex flex-row">
       <div className="w-[90px] flex flex-col">
@@ -37,7 +58,7 @@ const DayView: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="relative">
+      <div className="relative ">
         <div className="w-[calc(100vw-420px)] grid grid-cols-1 border-dashed border-2 border-state-600">
           {hours.map((hour) => (
             <div
@@ -92,12 +113,18 @@ const DayView: React.FC = () => {
                       right: "10px",
                       backgroundColor: event.categories?.color || "transparent",
                     }}
+                    onClick={(e) => handleClickEvent(e, event)}
                   >
                     {event.title}
                   </div>
                 );
               })}
           </div>
+          {isOpen && (
+            <div className="fixed  bg-red-300" style={{ left, top }}>
+              제목: {event?.title}
+            </div>
+          )}
         </div>
       </div>
     </div>
