@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { addEvent } from '../services/eventService';
 
 type Todo = {
@@ -8,7 +8,8 @@ type Todo = {
 };
 
 type ToDoAddProps = {
-  setTodoData: React.Dispatch<React.SetStateAction<Todo[]>>;
+  todoData?: Todo[],
+  
 };
 
 function toUTC(dateString: string) {
@@ -17,10 +18,11 @@ function toUTC(dateString: string) {
   return localDate;
 }
 
-const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
+const ToDoAdd: React.FC<ToDoAddProps> = ({ todoData, }) => {
   const [title, setTitle] = useState('');
   const [selectedStartedAt, setStartedAt] = useState('');
   const [selectEndedAt, setEndedAt] = useState('');
+
   
 
   const handleAddTodo = async () => {
@@ -39,7 +41,7 @@ const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
         const updatedTodos = [...existingTodos, newTodo]; 
         localStorage.setItem('todos', JSON.stringify(updatedTodos));
 
-      setTodoData(updatedTodos);
+      
       setTitle('');
       setStartedAt('');
       setEndedAt('');
@@ -48,6 +50,10 @@ const ToDoAdd: React.FC<ToDoAddProps> = ({ setTodoData }) => {
       console.error('Todo 추가 중 에러 발생', error);
     }
   };}
+
+  // useEffect(() => {
+  //   setTitle(todoData?.[0].title)
+  // }, [todoData])
 
   return (
     <div className='flex flex-col'>

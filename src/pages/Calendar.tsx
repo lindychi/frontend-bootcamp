@@ -35,8 +35,7 @@ export default function Calendar({}: Props) {
       const selectedYearValue = parseInt(e.target.value, 10);
         setSelectedYear(selectedYearValue);
       };
-    const [todoData, setTodoData] = useState<{ title: string; startedAt: Date; endedAt: Date;}[]>([]);
-
+    
     const [showPopup, setShowPopup] = useState(false);
 
     // 팝업 토글 함수
@@ -110,7 +109,7 @@ export default function Calendar({}: Props) {
        }> 
     로그아웃 </button>
       </div>
-      {showPopup && ( <ToDoAdd setTodoData={setTodoData} /> )}
+      {showPopup && ( <ToDoAdd  /> )}
       
     </div>
       <Outlet/>
