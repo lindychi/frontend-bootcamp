@@ -1,19 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { addEvent, AddEventRequest } from "../services/eventService";
+import { EventItem } from "../types/common";
 
-const EventModal = ({
-  onClose,
-  onEventAdded,
-}: {
+type Props = {
   onClose: () => void;
   onEventAdded: () => void;
-}) => {
+  eventItem: EventItem;
+};
+
+const EditEvent = ({ onClose, onEventAdded, eventItem }: Props) => {
+  const [event, setEvent] = React.useState<EventItem>();
+  const handleClickEvent = (
+    e: React.MouseEvent<HTMLDivElement>,
+    data: EventItem
+  ) => {
+    const position = (e.target as any).getBoundingClientRect();
+
+    console.log(position);
+    setEvent(data);
+    // setIsOpen(true);
+    // setLeft(position.left);
+    // setTop(position.top);
+  };
   const [eventDate, setEventDate] = useState<AddEventRequest>({
-    title: "",
-    startedAt: new Date(),
-    endedAt: undefined,
+    title: eventItem.title,
+    startedAt: eventItem.startedAt,
+    endedAt: eventItem.endedAt,
     // 다른 필요한 정보들을 초기값으로 설정
   });
+
+  useEffect(() => {
+    console.log("eventDate.startedAt:", eventDate.startedAt);
+  }, [eventDate.startedAt]);
 
   const handleAddEvent = async () => {
     try {
@@ -116,4 +134,4 @@ const EventModal = ({
   );
 };
 
-export default EventModal;
+export default EditEvent;

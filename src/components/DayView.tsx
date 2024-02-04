@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { getEvents } from "../services/eventService";
 import { EventItem } from "../types/common";
 import { Console } from "console";
+import EditEvent from "./EditEvent";
 
 const DayView: React.FC = () => {
   const hours: number[] = Array.from({ length: 24 }, (_, i) => i);
@@ -26,7 +27,7 @@ const DayView: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [left, setLeft] = React.useState(0);
   const [top, setTop] = React.useState(0);
-  const [event, setEvent] = React.useState<EventItem>();
+  const [event, setEvent] = React.useState<EventItem>({} as EventItem);
   const handleClickEvent = (
     e: React.MouseEvent<HTMLDivElement>,
     data: EventItem
@@ -40,6 +41,10 @@ const DayView: React.FC = () => {
     setTop(position.top);
   };
   // data: ConflictEventItem
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  const handleEventAdded = () => {};
 
   return (
     <div className="flex flex-row">
@@ -123,6 +128,11 @@ const DayView: React.FC = () => {
           {isOpen && (
             <div className="fixed  bg-red-300" style={{ left, top }}>
               제목: {event?.title}
+              <EditEvent
+                onClose={closeModal}
+                onEventAdded={handleEventAdded}
+                eventItem={event}
+              />
             </div>
           )}
         </div>
