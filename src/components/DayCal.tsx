@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { getDayEvents } from "../services/eventService";
-import { EventItem } from "../types/common";
+import React, { useEffect, useState } from 'react';
+import { getDayEvents } from '../services/eventService';
+import { EventItem } from '../types/common';
 
 type Props = {};
 
@@ -34,6 +34,18 @@ export default function DayCal({}: Props) {
     const minutes = startedTime.getMinutes();
     return hours * 60 + minutes;
   };
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [left, setLeft] = React.useState(0);
+  const [top, setTop] = React.useState(0);
+
+  const handleClickEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+    const positon = (e.target as any).getBoundingClientRect();
+    console.log(positon);
+
+    setIsOpen(true);
+    setLeft(positon.Left);
+    setTop(positon.Top);
+  };
 
   // 각 이벤트의 높이를 분 단위로 계산
   const calculateEventHeight = (startedAt: Date, endedAt: Date | undefined) => {
@@ -49,7 +61,6 @@ export default function DayCal({}: Props) {
 
   return (
     <div>
-       
       <div className="todo relative">
         {/* 이벤트 목록을 표시 */}
         <div>
@@ -59,17 +70,18 @@ export default function DayCal({}: Props) {
               className="absolute truncate w-[80px]"
               style={{
                 top: calculateTopPosition(event.startedAt),
-                left: "64px",
-                fontSize: "15px",
-                backgroundColor: event.categories?.color + "80" || "initial",
-                borderRadius: "5px",
+                left: '64px',
+                fontSize: '15px',
+                backgroundColor: event.categories?.color + '80' || 'initial',
+                borderRadius: '5px',
                 height: `${calculateEventHeight(
                   event.startedAt,
                   event.endedAt
                 )}px`,
-                zIndex: "1", // z-index 설정-다른요소들보다 위에
-                width: "calc(100% - 68px)",
+                zIndex: '1', // z-index 설정-다른요소들보다 위에
+                width: 'calc(100% - 68px)',
               }}
+              onClick={handleClickEvent}
             >
               {event.title}
             </div>
@@ -87,10 +99,10 @@ export default function DayCal({}: Props) {
                 <div className="timeBox w-[60px] border-r border-dashed "></div>
                 {/* 각 시간대의 시간 표시 */}
                 <div className="time absolute top-[50px] text-xs px-4">
-                  {" "}
+                  {' '}
                   {index === 23
-                    ? ""
-                    : ("00" + ((index + 1) % 24)).slice(-2) + ":00"}
+                    ? ''
+                    : ('00' + ((index + 1) % 24)).slice(-2) + ':00'}
                 </div>
 
                 <div className="weekBox w-full h-[60px] p-5 border-b border-dashed text-start">
@@ -99,10 +111,10 @@ export default function DayCal({}: Props) {
                   currentTime < (index + 1) * 60 ? (
                     <div
                       style={{
-                        borderBottom: "2px solid #585858",
-                        width: "100%",
-                        left : "60px",
-                        position: "absolute",
+                        borderBottom: '2px solid #585858',
+                        width: '100%',
+                        left: '60px',
+                        position: 'absolute',
                         top: `${
                           ((currentHours - index) % 24) * 60 + currentMinutes
                         }px`,
@@ -114,7 +126,10 @@ export default function DayCal({}: Props) {
             </div>
           ))}
       </div>
-     
+
+      {isOpen && (
+        <div className="fixed left-0 top-0 bg-green-300">수정팝업</div>
+      )}
     </div>
   );
 }
