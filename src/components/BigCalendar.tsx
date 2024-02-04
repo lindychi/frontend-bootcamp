@@ -82,9 +82,9 @@ const BigCalendar: React.FC<Props> = ({
               
 
               
-              <div className='absolute bottom-2 w-[calc(100%-20px)] bg-lime-100 rounded-md p-2 text-black'>
-              {displayedEvents.map((event: EventItem) => (
-                <div key={event.id}>{event.title}</div>
+              <div className='absolute bottom-2 w-[calc(100%-20px)] h-fit max-h-20 overflow-auto text-xs bg-lime-100 rounded-md p-2 text-black'>
+              {displayedEvents.map((event: EventItem) => (                
+                <div key={event.id}>{event.title}</div>                
               ))}
               {extraEventsCount > 0 && (
                 <div className="more-events bg-lime-500 text-white rounded-lg">+{extraEventsCount} more </div>

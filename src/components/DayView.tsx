@@ -1,13 +1,19 @@
-// DayView.tsx
-
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { getDayEvents } from '../services/eventService';
 import { EventItem } from '../types/common';
 
+
 type Props = {
   selectedDate: Date | null;
+  onClickEvent?:
+  (e: React.MouseEvent<HTMLDivElement>,
+   data : EventItem
+   )=>void
+
 };
+
+
 
 const calculateHeight = (startedAt: string, endedAt: string, selectedDate: Date): string => {
   const startDateTime = new Date(startedAt);
@@ -52,7 +58,15 @@ const extractTotalMinutes = (dateTimeString: string | Date, selectedDate: Date):
 };
 
 
-const DayView: React.FC<Props> = ({ selectedDate }) => {
+export default function DayView({selectedDate, onClickEvent }: Props) {
+
+    
+  
+ 
+
+    
+
+
   const hours = Array.from({ length: 24 }, (_, index) => index);
   const [events, setEvents] = useState<EventItem[]>([]);
 
@@ -74,8 +88,11 @@ const DayView: React.FC<Props> = ({ selectedDate }) => {
     loadEvents(selectedDate);
   }, [selectedDate]);
 
+
+
+
   return (
-  <div className=' flex flex-row '>
+    <div className=' flex flex-row '>
       <div className="relative w-full">
         
         <div className=" ">
@@ -89,14 +106,32 @@ const DayView: React.FC<Props> = ({ selectedDate }) => {
               top: selectedDate ? `${extractTotalMinutes(event.startedAt, selectedDate)}px` : '0px',
               left : '5px' ,
               height: event.endedAt && selectedDate ? calculateHeight(event.startedAt.toString(), event.endedAt.toString(), selectedDate) : '0',
-              width: "calc(100% - 10px)" ,
+              width: "calc(100% - 50px)" ,
               backgroundColor: event.categories?.color ?? "#fff"
-              }}>{event.title}</div>
+              }}
+              onClick={(e) => onClickEvent?.(e, event)}
+              >{event.title}
+           
+              </div>
+              
               )}
+             
         </div>
         
       </div>
     </div>
-  );
-};
-export default DayView;
+     )
+}
+
+
+
+
+
+  
+
+
+  
+
+
+
+  

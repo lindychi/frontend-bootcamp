@@ -24,7 +24,7 @@ const YearView: React.FC<Props> = ({ selectedYear, targetCalendarDates }) => {
             <SmallCalendar
               selectedMonth={month}
               selectedYear={selectedYear}
-              today={new Date()} // 각 월에 따른 today 전달
+              today={new Date()} 
             />
           </div>
           </div>
