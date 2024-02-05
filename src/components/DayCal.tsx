@@ -134,8 +134,7 @@ export default function DayCal({}: Props) {
 
       {isOpen && (
         <div className="fixed bg-green-300 z-20" style={{ left, top }}>
-          {/* 제목 : {event?.title} */}
-          <AddEvent event={event} />
+          제목 : {event?.title}
         </div>
       )}
     </div>
