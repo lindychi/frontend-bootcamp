@@ -1,5 +1,5 @@
-import request from "../libs/request";
-import { EventItem } from "../types/common";
+import request from '../libs/request';
+import { EventItem } from '../types/common';
 
 export type DateNumberRequest = {
   year?: number;
@@ -8,13 +8,13 @@ export type DateNumberRequest = {
 };
 
 export const getDayEvents = async (params: DateNumberRequest) => {
-  return request.get<EventItem[]>("/event", { params });
+  return request.get<EventItem[]>('/event', { params });
 };
 
 export type AddEventRequest = Omit<
   EventItem,
-  "id" | "createdAt" | "startedAt" | "categories"
-> & { startedAt?: Date; categoryId?: string };
+  'id' | 'createdAt' | 'startedAt' | 'categories'
+> & { startedAt?: Date; endedAt?: Date | undefined; categoryId?: string };
 
 export const addEvent = (params: AddEventRequest) =>
-  request.post("/event", params);
+  request.post('/event', params);

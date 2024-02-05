@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getDayEvents } from '../services/eventService';
 import { EventItem } from '../types/common';
+import AddEvent from './AddEvent';
 
 type Props = {};
 
@@ -37,14 +38,18 @@ export default function DayCal({}: Props) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [left, setLeft] = React.useState(0);
   const [top, setTop] = React.useState(0);
+  const [event, setEvent] = React.useState<EventItem>();
 
-  const handleClickEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleClickEvent = (
+    e: React.MouseEvent<HTMLDivElement>,
+    data: EventItem
+  ) => {
     const positon = (e.target as any).getBoundingClientRect();
-    console.log(positon);
-
+    console.log(positon, data);
     setIsOpen(true);
-    setLeft(positon.Left);
-    setTop(positon.Top);
+    setLeft(positon.left);
+    setTop(positon.top);
+    setEvent(data);
   };
 
   // 각 이벤트의 높이를 분 단위로 계산
@@ -72,7 +77,7 @@ export default function DayCal({}: Props) {
                 top: calculateTopPosition(event.startedAt),
                 left: '64px',
                 fontSize: '15px',
-                backgroundColor: event.categories?.color + '80' || 'initial',
+                backgroundColor: event.categories?.color || 'initial',
                 borderRadius: '5px',
                 height: `${calculateEventHeight(
                   event.startedAt,
@@ -81,7 +86,7 @@ export default function DayCal({}: Props) {
                 zIndex: '1', // z-index 설정-다른요소들보다 위에
                 width: 'calc(100% - 68px)',
               }}
-              onClick={handleClickEvent}
+              onClick={(e) => handleClickEvent(e, event)}
             >
               {event.title}
             </div>
@@ -128,7 +133,10 @@ export default function DayCal({}: Props) {
       </div>
 
       {isOpen && (
-        <div className="fixed left-0 top-0 bg-green-300">수정팝업</div>
+        <div className="fixed bg-green-300 z-20" style={{ left, top }}>
+          {/* 제목 : {event?.title} */}
+          <AddEvent event={event} />
+        </div>
       )}
     </div>
   );

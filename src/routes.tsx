@@ -5,6 +5,11 @@ import MonthCal from './components/MonthCal';
 import WeekCal from './components/WeekCal';
 import DayCal from './components/DayCal';
 import YearCal from './components/YearCal';
+import { EventItem } from './types/common';
+
+type Props = {
+  event?: EventItem;
+};
 
 export const routes: RouteObject[] = [
   {
