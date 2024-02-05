@@ -121,6 +121,7 @@ const DayView: React.FC = () => {
                     onClick={(e) => handleClickEvent(e, event)}
                   >
                     {event.title}
+                    {JSON.stringify(event.startedAt)}
                   </div>
                 );
               })}

@@ -8,20 +8,16 @@ type Props = {
   eventItem: EventItem;
 };
 
-const EditEvent = ({ onClose, onEventAdded, eventItem }: Props) => {
-  const [event, setEvent] = React.useState<EventItem>();
-  const handleClickEvent = (
-    e: React.MouseEvent<HTMLDivElement>,
-    data: EventItem
-  ) => {
-    const position = (e.target as any).getBoundingClientRect();
+const bbb = (date: Date): string => {
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(date.getUTCDate()).padStart(2, "0")}T${String(
+    date.getUTCHours()
+  ).padStart(2, "0")}:${String(date.getUTCMinutes()).padStart(2, "0")}`;
+};
 
-    console.log(position);
-    setEvent(data);
-    // setIsOpen(true);
-    // setLeft(position.left);
-    // setTop(position.top);
-  };
+const EditEvent = ({ onClose, onEventAdded, eventItem }: Props) => {
   const [eventDate, setEventDate] = useState<AddEventRequest>({
     title: eventItem.title,
     startedAt: eventItem.startedAt,
@@ -60,19 +56,7 @@ const EditEvent = ({ onClose, onEventAdded, eventItem }: Props) => {
       <input
         type="datetime-local"
         placeholder="Start Date and Time"
-        value={
-          eventDate.startedAt
-            ? `${eventDate.startedAt.getUTCFullYear()}-${String(
-                eventDate.startedAt.getUTCMonth() + 1
-              ).padStart(2, "0")}-${String(
-                eventDate.startedAt.getUTCDate()
-              ).padStart(2, "0")}T${String(
-                eventDate.startedAt.getUTCHours()
-              ).padStart(2, "0")}:${String(
-                eventDate.startedAt.getUTCMinutes()
-              ).padStart(2, "0")}`
-            : ""
-        }
+        value={bbb(new Date(eventDate.startedAt!!))}
         onChange={(e) => {
           const userSelectedDate = new Date(e.target.value);
           const utcDate = new Date(
@@ -95,19 +79,7 @@ const EditEvent = ({ onClose, onEventAdded, eventItem }: Props) => {
       <input
         type="datetime-local"
         placeholder="End Date and Time"
-        value={
-          eventDate.endedAt
-            ? `${eventDate.endedAt.getFullYear()}-${String(
-                eventDate.endedAt.getMonth() + 1
-              ).padStart(2, "0")}-${String(
-                eventDate.endedAt.getDate()
-              ).padStart(2, "0")}T${String(
-                eventDate.endedAt.getHours()
-              ).padStart(2, "0")}:${String(
-                eventDate.endedAt.getMinutes()
-              ).padStart(2, "0")}`
-            : ""
-        }
+        value={bbb(new Date(eventDate.endedAt!!))}
         onChange={(e) => {
           const userSelectedDate = new Date(e.target.value);
           const utcDate = new Date(
@@ -124,7 +96,7 @@ const EditEvent = ({ onClose, onEventAdded, eventItem }: Props) => {
       />
 
       <button onClick={handleAddEvent} className="p-2 hover:brightness-75">
-        Add
+        Edit
       </button>
 
       <button onClick={onClose} className="p-2 hover:brightness-75">

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { getEvents } from "../services/eventService";
 import { EventItem } from "../types/common";
+import EditEvent from "./EditEvent";
 
 interface DayOfWeek {
   day: string;
@@ -73,9 +74,25 @@ const WeekView: React.FC = () => {
   const handleEditEvent = (clickedEvent: EventItem) => {
     // Handle edit event logic here
   };
+  const [event, setEvent] = React.useState<EventItem>({} as EventItem);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  const [left, setLeft] = React.useState(0);
+  const [top, setTop] = React.useState(0);
+  const handleEventAdded = () => {};
+  const weekViewContainerRef = useRef<HTMLDivElement>(null);
+  const [cellWidth, setCellWidth] = useState<number>(0);
 
+  useEffect(() => {
+    if (weekViewContainerRef.current) {
+      const width = weekViewContainerRef.current.offsetWidth / 7;
+      setCellWidth(width);
+    }
+  }, []);
   return (
-    <div>
+    <div ref={weekViewContainerRef}>
       <div className="min-w-screen grid grid-cols-7 gap-1 ml-20">
         {daysOfWeek.map((dayOfWeek) => (
           <div key={dayOfWeek.day} className="text-center">
@@ -156,8 +173,12 @@ const WeekView: React.FC = () => {
                           const currentDayHeight =
                             ((currentDayEndTime * 80) / 60) * 60 -
                             ((startHour * 80 + startMinute) / 60) * 60;
-
-                          const endEventTop = -1835;
+                          const currentDayStartHour = -1520;
+                          const currentDayStartMinute = 1;
+                          const currentDayStartTime =
+                            (currentDayStartHour * 60 + currentDayStartMinute) /
+                            60;
+                          const endEventTop = currentDayStartTime;
 
                           return (
                             <>
@@ -197,7 +218,7 @@ const WeekView: React.FC = () => {
                                   top: `${endEventTop}px`,
                                   height: `${endEventHeight}px`,
                                   left: "calc(100% + 5px)",
-                                  width: "calc",
+                                  width: "110px",
                                   backgroundColor:
                                     event.categories?.color || "transparent",
                                 }}
@@ -235,17 +256,8 @@ const WeekView: React.FC = () => {
                               onClick={() => handleEventClick(event)}
                             >
                               {event.title}
-
-                              <div className="flex flex-row ">
-                                <button
-                                  onClick={() => handleDeleteEvent(event)}
-                                >
-                                  삭제
-                                </button>
-                                <button onClick={() => handleEditEvent(event)}>
-                                  편집
-                                </button>
-                              </div>
+                              {JSON.stringify(event.startedAt)}
+                              {JSON.stringify(event.endedAt)}
                             </div>
                           );
                         }
@@ -267,6 +279,16 @@ const WeekView: React.FC = () => {
           </div>
         </div>
       </div>
+      {isOpen && (
+        <div className="fixed  bg-red-300" style={{ left, top }}>
+          제목: {event?.title}
+          <EditEvent
+            onClose={closeModal}
+            onEventAdded={handleEventAdded}
+            eventItem={event}
+          />
+        </div>
+      )}
     </div>
   );
 };
