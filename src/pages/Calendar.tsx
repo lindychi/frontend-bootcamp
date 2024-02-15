@@ -147,7 +147,17 @@ export default function Calendar({}: Props): JSX.Element {
           </Routes>
 
           {/* AddEvent Modal 렌더링 */}
-          <div>{isAddEventOpen && <AddEvent />}</div>
+          <div
+            className="AddEventModal"
+            style={{
+              position: 'absolute',
+              top: '18px',
+              right: 0,
+              zIndex: 10,
+            }}
+          >
+            {isAddEventOpen && <AddEvent />}
+          </div>
         </div>
         {/* 헤더끝 */}
 

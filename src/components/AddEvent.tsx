@@ -45,11 +45,8 @@ export default function AddEvent() {
 
   return (
     <div
-      className="AddEventBox px-[40px]"
+      className="AddEventBox px-[0px],0"
       style={{
-        position: 'absolute',
-        top: '18px',
-        right: 0,
         zIndex: 2,
         display: 'block',
       }}
