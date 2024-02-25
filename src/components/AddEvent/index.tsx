@@ -53,6 +53,7 @@ export default function AddEvent({ onClose, originEvent }: Props) {
         throw error;
       }
       console.log("updated data", data);
+      onClose?.();
     } catch (e) {
       console.error(e);
     }
@@ -69,6 +70,7 @@ export default function AddEvent({ onClose, originEvent }: Props) {
         throw error;
       }
       console.log("deleted data", data);
+      onClose?.();
     } catch (e) {
       console.error(e);
     }
