@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { addEvent } from '../services/eventService';
-import { EventItem } from '../types/common';
+import React, { useEffect, useState } from "react";
+import { addEvent } from "../services/eventService";
+import { EventItem } from "../types/common";
+import { supabase } from "../libs/supabase";
 
 type Todo = {
   title: string;
@@ -9,8 +10,7 @@ type Todo = {
 };
 
 type ToDoAddProps = {
-  todoData?: EventItem
-  
+  todoData?: EventItem;
 };
 
 function toUTC(dateString: string) {
@@ -19,12 +19,10 @@ function toUTC(dateString: string) {
   return localDate;
 }
 
-const ToDoAdd: React.FC<ToDoAddProps> = ({ todoData, }) => {
-  const [title, setTitle] = useState('');
-  const [selectedStartedAt, setStartedAt] = useState('');
-  const [selectEndedAt, setEndedAt] = useState('');
-
-  
+const ToDoAdd: React.FC<ToDoAddProps> = ({ todoData }) => {
+  const [title, setTitle] = useState("");
+  const [selectedStartedAt, setStartedAt] = useState("");
+  const [selectEndedAt, setEndedAt] = useState("");
 
   const handleAddTodo = async () => {
     if (title && selectedStartedAt && selectEndedAt) {
@@ -35,48 +33,82 @@ const ToDoAdd: React.FC<ToDoAddProps> = ({ todoData, }) => {
       };
 
       try {
-      
-        await addEvent(newTodo)
+        await addEvent(newTodo);
 
-        const existingTodos = JSON.parse(localStorage.getItem('todos') || '[]');
-        const updatedTodos = [...existingTodos, newTodo]; 
-        localStorage.setItem('todos', JSON.stringify(updatedTodos));
+        const existingTodos = JSON.parse(localStorage.getItem("todos") || "[]");
+        const updatedTodos = [...existingTodos, newTodo];
+        localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
-      
-      setTitle('');
-      setStartedAt('');
-      setEndedAt('');
-    } catch (error) {
-      // API 호출 중 에러 발생 시 처리
-      console.error('Todo 추가 중 에러 발생', error);
+        setTitle("");
+        setStartedAt("");
+        setEndedAt("");
+      } catch (error) {
+        // API 호출 중 에러 발생 시 처리
+        console.error("Todo 추가 중 에러 발생", error);
+      }
     }
-  };}
+  };
 
   useEffect(() => {
-    setTitle(todoData?.title ?? '');
-    const startStr = typeof todoData?.startedAt === 'string' ? todoData.startedAt : '';
-    const endStr = typeof todoData?.endedAt === 'string' ? todoData.endedAt : '';
-  
+    setTitle(todoData?.title ?? "");
+    const startStr =
+      typeof todoData?.startedAt === "string" ? todoData.startedAt : "";
+    const endStr =
+      typeof todoData?.endedAt === "string" ? todoData.endedAt : "";
+
     setStartedAt(startStr);
     setEndedAt(endStr);
-  }, [todoData])
+  }, [todoData]);
+
+  const handleEditEvent = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("events")
+        .update({
+          title,
+          startedAt: toUTC(selectedStartedAt),
+          endedAt: toUTC(selectEndedAt),
+        })
+        .eq("id", todoData?.id)
+        .select();
+      if (error) {
+        throw error;
+      }
+      console.log("updated data", data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleDeleteEvent = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("events")
+        .delete()
+        .eq("id", todoData?.id)
+        .select();
+      if (error) {
+        throw error;
+      }
+      console.log("deleted data", data);
+    } catch (e) {}
+  };
 
   return (
-    <div className='flex flex-col'>
-      제목{''}
+    <div className="flex flex-col">
+      제목{""}
       <input
         type="text"
         value={title}
         onChange={(event) => setTitle(event.target.value)}
       />
-      
-      일정 시작{' '}
+      일정 시작{" "}
       <input
         type="datetime-local"
         value={selectedStartedAt}
         onChange={(event) => setStartedAt(event.target.value)}
       />
-      일정 끝{' '}
+      일정 끝{" "}
       <input
         type="datetime-local"
         value={selectEndedAt}
@@ -84,13 +116,14 @@ const ToDoAdd: React.FC<ToDoAddProps> = ({ todoData, }) => {
       />
       <button
         className="bg-lime-300 text-white"
-        onClick={handleAddTodo}
+        onClick={todoData ? handleEditEvent : handleAddTodo}
       >
-        추가
+        {todoData ? "변경" : "추가"}
+      </button>
+      <button className="bg-lime-300 text-white" onClick={handleDeleteEvent}>
+        삭제
       </button>
       {JSON.stringify(ToDoAdd)}
-      
-      
     </div>
   );
 };

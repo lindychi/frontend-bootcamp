@@ -8,6 +8,7 @@ type Props = {}
 
 
 
+
 export default function DayPage({}: Props) {
   const today = new Date();
   const hours = Array.from({ length: 24 }, (_, index) => index);
