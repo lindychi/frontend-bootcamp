@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { AddEventRequest, addEvent } from "../../services/eventService";
 import { useQuery } from "react-query";
-import { getCategoriesWithTodo } from "../../services/categoryService";
 import { HttpStatusCode } from "axios";
+
 import { ConflictEventItem } from "../../types/common";
-import { supabase } from "../../libs/supabase";
+
+import { AddEventRequest } from "../../services/eventService";
+import { getCategoriesWithTodo } from "../../services/categoryService";
+
+import {
+  useAddEventMutation,
+  useDeleteEventMutation,
+  useEditEventMutation,
+} from "../../pages/hooks/eventHooks";
 
 type Props = { onClose?: () => void; originEvent?: ConflictEventItem };
 
@@ -19,61 +26,23 @@ export default function AddEvent({ onClose, originEvent }: Props) {
   };
 
   const { data: categories } = useQuery(["categories"], loadCategories);
+  const { mutate: addEvent } = useAddEventMutation();
+  const { mutate: editEvent } = useEditEventMutation();
+  const { mutate: deleteEvent } = useDeleteEventMutation();
 
   const handleAddEvent = async () => {
-    try {
-      const result = await addEvent({
-        title: event.title as string,
-        startedAt: event.startedAt as Date,
-        endedAt: event.endedAt,
-        categoryId: event.categoryId,
-      });
-      if (result.status === HttpStatusCode.Ok) {
-        setEvent({});
-        onClose?.();
-      }
-    } catch (e) {
-      console.error(e);
-    }
+    addEvent(event as AddEventRequest);
+    onClose?.();
   };
 
   const handleEditEvent = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("events")
-        .update({
-          title: event.title,
-          startedAt: event.startedAt,
-          endedAt: event.endedAt,
-          categoryId: event.categoryId,
-        })
-        .eq("id", originEvent?.id)
-        .select();
-      if (error) {
-        throw error;
-      }
-      console.log("updated data", data);
-      onClose?.();
-    } catch (e) {
-      console.error(e);
-    }
+    editEvent(event as ConflictEventItem);
+    onClose?.();
   };
 
   const handleDeleteEvent = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("events")
-        .delete()
-        .eq("id", originEvent?.id)
-        .select();
-      if (error) {
-        throw error;
-      }
-      console.log("deleted data", data);
-      onClose?.();
-    } catch (e) {
-      console.error(e);
-    }
+    deleteEvent(originEvent?.id as string);
+    onClose?.();
   };
 
   useEffect(() => {

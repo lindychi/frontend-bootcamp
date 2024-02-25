@@ -47,7 +47,7 @@ export default function DayColumn({
     data: eventDataList,
     error,
     isLoading,
-  } = useQuery(["day", year, month, day], loadTodayEvents);
+  } = useQuery(["events", year, month, day], loadTodayEvents);
 
   useEffect(() => {
     const interval = setInterval(() => {

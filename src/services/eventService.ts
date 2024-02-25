@@ -1,5 +1,7 @@
-import request from "../libs/request";
 import { EventItem } from "../types/common";
+
+import request from "../libs/request";
+import { supabase } from "../libs/supabase";
 
 export type DateNumberRequest = {
   year?: number;
@@ -26,5 +28,31 @@ export type AddEventRequest = Omit<
   "id" | "createdAt" | "startedAt" | "categories"
 > & { startedAt?: Date; categoryId?: string };
 
-export const addEvent = (params: AddEventRequest) =>
-  request.post("/event", params);
+export const addEvent = async (event: AddEventRequest) => {
+  const { data, error } = await supabase
+    .from("events")
+    .insert([event])
+    .single();
+  if (error) throw new Error(error.message);
+  return data;
+};
+
+export const editEvent = async (event: EventItem) => {
+  const { data, error } = await supabase
+    .from("events")
+    .update(event)
+    .eq("id", event.id)
+    .single();
+  if (error) throw new Error(error.message);
+  return data;
+};
+
+export const deleteEvent = async (id: string) => {
+  const { data, error } = await supabase
+    .from("events")
+    .delete()
+    .eq("id", id)
+    .single();
+  if (error) throw new Error(error.message);
+  return data;
+};
