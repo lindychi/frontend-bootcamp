@@ -2,6 +2,7 @@ import React from "react";
 import TimeSlotLabel from "../TimeSlotLabel";
 import DayColumn from "./DayColumn";
 import { ConflictEventItem } from "../../types/common";
+import AddEvent from "../AddEvent";
 
 type Props = { year: number; month: number; day: number };
 
@@ -18,9 +19,15 @@ export default function DayCalendar({ year, month, day }: Props) {
     const position = (e.target as any).getBoundingClientRect();
     console.log(position, data);
     setIsOpen(true);
-    setLeft(position.left);
-    setTop(position.top);
-    setEvent(data);
+    setLeft(position.left + 5);
+    setTop(position.top + 5);
+    setEvent({
+      ...data,
+      startedAt: new Date(data.startedAt.getTime() + 1000 * 60 * 60 * 9),
+      endedAt: data.endedAt
+        ? new Date(data.endedAt?.getTime() + 1000 * 60 * 60 * 9)
+        : undefined,
+    });
   };
 
   return (
@@ -36,9 +43,11 @@ export default function DayCalendar({ year, month, day }: Props) {
         />
       </div>
       {isOpen && (
-        <div className="fixed bg-red-300 z-50" style={{ left, top }}>
-          {/* 제목: {event?.title} */}
-          수정 팝업
+        <div
+          className="fixed bg-white z-50 p-3 rounded shadow-md"
+          style={{ left, top }}
+        >
+          <AddEvent originEvent={event} onClose={() => setIsOpen(false)} />
         </div>
       )}
     </div>
