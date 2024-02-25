@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "react-query";
 
-import { EventItem } from "../../types/common";
+import { ConflictEventItem } from "../../types/common";
 
 import { addEvent, deleteEvent, editEvent } from "../../services/eventService";
 
@@ -16,7 +16,7 @@ export const useAddEventMutation = (onClose?: () => void) => {
 
 export const useEditEventMutation = (onClose?: () => void) => {
   const queryClient = useQueryClient();
-  return useMutation((params: EventItem) => editEvent(params), {
+  return useMutation((params: ConflictEventItem) => editEvent(params), {
     onSuccess: () => {
       queryClient.invalidateQueries(["events"]);
     },

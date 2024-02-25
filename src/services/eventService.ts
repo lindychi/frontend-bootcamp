@@ -1,4 +1,4 @@
-import { EventItem } from "../types/common";
+import { ConflictEventItem, EventItem } from "../types/common";
 
 import request from "../libs/request";
 import { supabase } from "../libs/supabase";
@@ -37,11 +37,13 @@ export const addEvent = async (event: AddEventRequest) => {
   return data;
 };
 
-export const editEvent = async (event: EventItem) => {
+export const editEvent = async (event: ConflictEventItem) => {
+  const { categories, conflictIndex, conflictLength, ...editEventData } = event;
+
   const { data, error } = await supabase
     .from("events")
-    .update(event)
-    .eq("id", event.id)
+    .update(editEventData)
+    .eq("id", editEventData.id)
     .single();
   if (error) throw new Error(error.message);
   return data;
