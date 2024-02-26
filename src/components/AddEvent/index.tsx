@@ -30,12 +30,20 @@ export default function AddEvent({ onClose, originEvent }: Props) {
   const { mutate: editEvent } = useEditEventMutation();
   const { mutate: deleteEvent } = useDeleteEventMutation();
 
-  const handleAddEvent = async () => {
+  const handleAddEvent = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
     addEvent(event as AddEventRequest);
     onClose?.();
   };
 
-  const handleEditEvent = async () => {
+  const handleEditEvent = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
     editEvent(event as ConflictEventItem);
     onClose?.();
   };

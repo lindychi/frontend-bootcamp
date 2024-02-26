@@ -39,7 +39,7 @@ export default function EventColumn({
   } = useMutation(stopEvent, {
     onSuccess: () => {
       // stopEvent 성공 후 쿼리 재실행
-      queryClient.invalidateQueries(["day", year, month, day]);
+      queryClient.invalidateQueries(["events", year, month, day]);
     },
   });
 
@@ -50,7 +50,7 @@ export default function EventColumn({
   } = useMutation(completeEvent, {
     onSuccess: () => {
       // completeEvent 성공 후 쿼리 재실행
-      queryClient.invalidateQueries(["day", year, month, day]);
+      queryClient.invalidateQueries(["events", year, month, day]);
       queryClient.invalidateQueries(["categories"]);
     },
   });
@@ -107,7 +107,9 @@ export default function EventColumn({
         {!event?.endedAt && (
           <div
             className="cursor-pointer"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               try {
                 stopEventMutate({ eventId: event.id });
               } catch (e) {
@@ -121,7 +123,9 @@ export default function EventColumn({
         {!event?.endedAt && event?.todoId && (
           <div
             className="cursor-pointer"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               try {
                 completeEventMutate({ eventId: event.id });
               } catch (e) {
