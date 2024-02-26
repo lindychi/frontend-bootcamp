@@ -74,25 +74,28 @@ const WeekView: React.FC = () => {
   const handleEditEvent = (clickedEvent: EventItem) => {
     // Handle edit event logic here
   };
-  const [event, setEvent] = React.useState<EventItem>({} as EventItem);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [left, setLeft] = React.useState(0);
+  const [top, setTop] = React.useState(0);
+  const [event, setEvent] = React.useState<EventItem>({} as EventItem);
+  const handleClickEvent = (
+    e: React.MouseEvent<HTMLDivElement>,
+    data: EventItem
+  ) => {
+    const position = (e.target as any).getBoundingClientRect();
+
+    console.log(position);
+    setEvent(data);
+    setIsOpen(true);
+    setLeft(position.left);
+    setTop(position.top);
+  };
   const closeModal = () => {
     setIsOpen(false);
   };
-  const [left, setLeft] = React.useState(0);
-  const [top, setTop] = React.useState(0);
   const handleEventAdded = () => {};
-  const weekViewContainerRef = useRef<HTMLDivElement>(null);
-  const [cellWidth, setCellWidth] = useState<number>(0);
-
-  useEffect(() => {
-    if (weekViewContainerRef.current) {
-      const width = weekViewContainerRef.current.offsetWidth / 7;
-      setCellWidth(width);
-    }
-  }, []);
   return (
-    <div ref={weekViewContainerRef}>
+    <div>
       <div className="min-w-screen grid grid-cols-7 gap-1 ml-20">
         {daysOfWeek.map((dayOfWeek) => (
           <div key={dayOfWeek.day} className="text-center">
@@ -253,11 +256,9 @@ const WeekView: React.FC = () => {
                                 backgroundColor:
                                   event.categories?.color || "transparent",
                               }}
-                              onClick={() => handleEventClick(event)}
+                              onClick={(e) => handleClickEvent(e, event)}
                             >
                               {event.title}
-                              {JSON.stringify(event.startedAt)}
-                              {JSON.stringify(event.endedAt)}
                             </div>
                           );
                         }
@@ -277,18 +278,14 @@ const WeekView: React.FC = () => {
               </div>
             ))}
           </div>
+          {isOpen && (
+            <div className="fixed  bg-red-300" style={{ left, top }}>
+              제목: {event?.title}
+              <EditEvent onClose={closeModal} eventItem={event} />
+            </div>
+          )}
         </div>
       </div>
-      {isOpen && (
-        <div className="fixed  bg-red-300" style={{ left, top }}>
-          제목: {event?.title}
-          <EditEvent
-            onClose={closeModal}
-            onEventAdded={handleEventAdded}
-            eventItem={event}
-          />
-        </div>
-      )}
     </div>
   );
 };

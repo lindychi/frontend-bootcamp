@@ -44,7 +44,6 @@ const DayView: React.FC = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
-  const handleEventAdded = () => {};
 
   return (
     <div className="flex flex-row">
@@ -129,11 +128,7 @@ const DayView: React.FC = () => {
           {isOpen && (
             <div className="fixed  bg-red-300" style={{ left, top }}>
               제목: {event?.title}
-              <EditEvent
-                onClose={closeModal}
-                onEventAdded={handleEventAdded}
-                eventItem={event}
-              />
+              <EditEvent onClose={closeModal} eventItem={event} />
             </div>
           )}
         </div>
