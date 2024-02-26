@@ -18,7 +18,7 @@ export default function ExecutableTodoItem({ todo, onSuccess }: Props) {
     onSuccess: () => {
       // startTodo 성공 후 쿼리 재실행
       onSuccess?.();
-      queryClient.invalidateQueries(["day"]);
+      queryClient.invalidateQueries(["events"]);
       queryClient.invalidateQueries(["categories"]);
     },
   });
@@ -27,7 +27,7 @@ export default function ExecutableTodoItem({ todo, onSuccess }: Props) {
     onSuccess: () => {
       // completeTodo 성공 후 쿼리 재실행
       onSuccess?.();
-      queryClient.invalidateQueries(["day"]);
+      queryClient.invalidateQueries(["events"]);
       queryClient.invalidateQueries(["categories"]);
     },
   });
