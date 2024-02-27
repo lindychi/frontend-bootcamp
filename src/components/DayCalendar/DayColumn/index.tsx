@@ -8,7 +8,7 @@ import { getConflictTodoList } from "../../../libs/calendar";
 import { getDayEvents } from "../../../services/eventService";
 
 import EventColumn from "../EventColumn";
-import { ConflictEventItem } from "../../../types/common";
+import { ConflictEventItem, EventItem } from "../../../types/common";
 
 type Props = {
   year: number;
@@ -32,15 +32,13 @@ export default function DayColumn({
 
   const loadTodayEvents = async () => {
     const result = await getDayEvents({ year, month: month + 1, day });
-    if (result.status === HttpStatusCode.Ok) {
-      return getConflictTodoList([
-        ...result.data.map((todo) => ({
-          ...todo,
-          startedAt: new Date(todo.startedAt),
-          endedAt: todo.endedAt ? new Date(todo.endedAt) : undefined,
-        })),
-      ]);
-    }
+    return getConflictTodoList([
+      ...result.map((todo: EventItem) => ({
+        ...todo,
+        startedAt: new Date(todo.startedAt),
+        endedAt: todo.endedAt ? new Date(todo.endedAt) : undefined,
+      })),
+    ]);
   };
 
   const {
