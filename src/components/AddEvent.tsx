@@ -1,13 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { addEvent, AddEventRequest } from '../services/eventService';
+import { EventItem } from '../types/common';
+import { supabase } from '../libs/supabase';
 
-export default function AddEvent() {
+type Props = {
+  event?: EventItem;
+};
+
+export default function AddEvent({ event }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const [eventData, setEventData] = useState<AddEventRequest>({
     title: '',
-    startedAt: new Date(),
-    endedAt: undefined,
+    ...event,
+    startedAt: event?.startedAt ? new Date(event.startedAt) : new Date(),
+    endedAt: event?.endedAt ? new Date(event.endedAt) : undefined,
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,12 +27,47 @@ export default function AddEvent() {
   };
 
   const handleAddEvent = async () => {
+    // todo 수정 로직 들어가기
     try {
       await addEvent(eventData);
       // Additional logic for successful event addition if needed
     } catch (error) {
       console.error('이벤트 추가 오류:', error);
       // Additional logic for failed event addition if needed
+    }
+  };
+
+  const handleEditEvent = async () => {
+    try {
+      const { data: error } = await supabase
+        .from('events')
+        .update({
+          title: eventData.title,
+          startedAt:
+            eventData.startedAt instanceof Date
+              ? new Date(eventData.startedAt.getTime() + 9 * 60 * 60 * 1000)
+              : undefined,
+          endedAt: eventData.endedAt,
+        })
+        .eq('id', event?.id) //대문자로 시작하면 타입
+        .select();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const handleDeleteEvent = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('events')
+        .delete()
+        .eq('id', event?.id)
+        .select();
+      if (error) {
+        throw error;
+      }
+      console.log('deleted data', data);
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -98,7 +140,9 @@ export default function AddEvent() {
               name="endedAt"
               value={
                 eventData.endedAt
-                  ? eventData.endedAt?.toISOString().slice(0, 8) + 9
+                  ? new Date(eventData.endedAt.getTime() + 9 * 60 * 60 * 1000)
+                      ?.toISOString()
+                      .slice(0, 16)
                   : ''
               }
               onChange={handleInputChange}
@@ -128,10 +172,18 @@ export default function AddEvent() {
           <div className="py-1 px-2">
             <button
               className="bg-blue-500 text-white rounded-lg hover:brightness-75 py-[5px] px-[40px] rounded-ml w-full"
-              onClick={handleAddEvent}
+              onClick={event ? handleEditEvent : handleAddEvent}
             >
-              추가
+              {event ? '수정' : '추가'}
             </button>
+            {event && (
+              <button
+                className="bg-red-500 text-white rounded-lg hover:brightness-75 py-[5px] px-[40px] rounded-ml w-full"
+                onClick={handleDeleteEvent}
+              >
+                삭제
+              </button>
+            )}
           </div>
         </div>
       </div>
